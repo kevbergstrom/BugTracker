@@ -13,6 +13,10 @@ mongoose.connect(MONGO_URI,
 )
 console.log('Connected to database')
 
+//middlewares
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
 // routes
 const apiRouter = express.Router()
 app.use('/api', apiRouter)
