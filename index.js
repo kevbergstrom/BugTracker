@@ -3,7 +3,15 @@ const app = express()
 const { userRoute } = require('./routes')
 
 //configs
-const { PORT } = require('./config')
+const { PORT, MONGO_URI } = require('./config')
+
+// mongoose
+const mongoose = require('mongoose')
+mongoose.connect(MONGO_URI, 
+    {useNewUrlParser: true, 
+    useUnifiedTopology: true}
+)
+console.log('Connected to database')
 
 // routes
 const apiRouter = express.Router()
