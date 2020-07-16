@@ -1,10 +1,10 @@
 const express = require('express')
-
 const router = express.Router()
+const { SESSION_NAME } = require('../config')
 
 const User = require('../models/User')
 
-router.post('', async (req,res) => {
+router.post('', async (req, res) => {
     try {
         const { email, username, password } = req.body
         const newUser = new User({ email, username, password })
@@ -39,11 +39,36 @@ router.delete('', async (req, res) => {
     }
 })
 
+router.post('/login', async (req, res) => {
+    try {
+        const user = req.session.user
+        if(user){
+            throw new Error('Already logged in')
+        }
+
+        const { email, password } = req.body
+        const foundUser = await User.findOne({email})
+
+        if(foundUser && foundUser.comparePasswords(password)){
+            const sessionUser = { 
+                userId: foundUser.id, 
+                username: foundUser.username 
+            }
+            req.session.user = sessionUser
+            res.send(sessionUser)
+        } else {
+            throw new Error('Wrong email or password')
+        }
+    } catch (err) {
+        res.status(401).send(err.message) 
+    }
+})
+
 router.get('', (req, res) => {
     if(req.session.user){
         return res.send(req.session.user)
     }
-    res.send(null)
+    res.send("No session")
 })
 
 module.exports = router
