@@ -10,14 +10,22 @@ router.post('', async (req,res) => {
         const newUser = new User({ email, username, password })
         await newUser.save()
 
-        res.send(username)
+        const sessionUser = { 
+            userId: newUser.id, 
+            username: newUser.username 
+        }
+        req.session.user = sessionUser
+        res.send(sessionUser)
     } catch (err) {
         res.status(400).send(err.message)
     }
 })
 
 router.get('', (req, res) => {
-    res.send('Hello World')
+    if(req.session.user){
+        return res.send(req.session.user)
+    }
+    res.send(null)
 })
 
 module.exports = router
