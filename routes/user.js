@@ -21,6 +21,24 @@ router.post('', async (req,res) => {
     }
 })
 
+router.delete('', async (req, res) => {
+    try {
+        const user = req.session.user
+        if (user) {
+            req.session.destroy(err => {
+                if (err) throw (err)
+
+                res.clearCookie(SESSION_NAME)
+                res.send(user)
+            })
+        } else {
+            throw new Error('You are already logged out')
+        }
+    } catch (err) {
+        res.status(400).send(err.message) 
+    }
+})
+
 router.get('', (req, res) => {
     if(req.session.user){
         return res.send(req.session.user)
