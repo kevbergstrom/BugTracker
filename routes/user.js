@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const checkAuth = require('../middleware/auth')
+const { checkAuth, noAuth } = require('../middleware/auth')
 const { setSession, destroySession } = require('../session')
 
 const { SESSION_NAME } = require('../config')
 
 const User = require('../models/User')
 
-router.post('', async (req, res) => {
+router.post('', noAuth , async (req, res) => {
     try {
         const { email, username, password } = req.body
         const newUser = new User({ email, username, password })
@@ -20,28 +20,19 @@ router.post('', async (req, res) => {
     }
 })
 
-router.delete('', async (req, res) => {
+router.delete('', checkAuth , (req, res) => {
     try {
         const user = req.session.user
-        if (user) {
-            destroySession(req)
-            res.clearCookie(SESSION_NAME)
-            res.send(user)
-        } else {
-            throw new Error('You are already logged out')
-        }
+        destroySession(req)
+        res.clearCookie(SESSION_NAME)
+        res.send(user)
     } catch (err) {
         res.status(400).send(err.message) 
     }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', noAuth , async (req, res) => {
     try {
-        const user = req.session.user
-        if(user){
-            throw new Error('Already logged in')
-        }
-
         const { email, password } = req.body
         const foundUser = await User.findOne({email})
 
