@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { SESSION_NAME } = require('../config')
+const checkAuth = require('../middleware/auth')
 
 const User = require('../models/User')
 
@@ -69,6 +70,10 @@ router.get('', (req, res) => {
         return res.send(req.session.user)
     }
     res.send("No session")
+})
+
+router.get('/checkAuth', checkAuth, (req, res) => {
+    res.send('Authorized')
 })
 
 module.exports = router
