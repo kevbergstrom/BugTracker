@@ -3,6 +3,7 @@ const router = express.Router()
 const { checkAuth } = require('../middleware/auth')
 
 const Project = require('../models/Project')
+const User = require('../models/User')
 
 // Create project
 router.post('', checkAuth , async (req, res) => {
@@ -70,6 +71,28 @@ router.post('/:id', checkAuth, async (req, res) => {
         await foundProject.save()
 
         res.send(newBug)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get bug from project
+router.get('/:projectId/bug/:bugId', async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await Project.findById(req.params.projectId)
+        if(!foundProject) {
+            throw new Error('Cannot find project')
+        }
+        // Find the bug
+        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
+        if(!foundBug) {
+            throw new Error('Cannot find bug')
+        }
+        // Remove comments
+        foundBug.comments = []
+
+        res.send(foundBug)
     } catch (err) {
         res.status(400).send(err.message)
     }
