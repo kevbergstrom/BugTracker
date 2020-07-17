@@ -17,7 +17,14 @@ const getBugById = async function(projectId, bugId){
     return { foundBug, foundProject }
 }
 
+const checkUserPermission = function(project, userId){
+    if(project.private && project.members.indexOf(`${userId}`)<0){
+        throw new Error('You do not have permission for this project')
+    }
+}
+
 module.exports = {
     getProjectById,
-    getBugById
+    getBugById,
+    checkUserPermission
 }

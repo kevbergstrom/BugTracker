@@ -1,7 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const { checkAuth } = require('../middleware/auth')
-const { getProjectById, getBugById } = require('../database/utils')
+const { 
+    getProjectById, 
+    getBugById,
+    checkUserPermission } = require('../database/utils')
 
 const Project = require('../models/Project')
 const User = require('../models/User')
@@ -35,6 +38,7 @@ router.get('/:id', async (req, res) => {
     try {
         // Find the project
         let foundProject = await getProjectById(req.params.id)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // remove arrays
         foundProject.bugs = []
         foundProject.members = []
@@ -50,6 +54,7 @@ router.post('/:id', checkAuth, async (req, res) => {
     try {
         // Find the project
         let foundProject = await getProjectById(req.params.id)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // Get varibles
         const { title, desc, severity} = req.body
         const author = req.session.user.userId
@@ -80,7 +85,8 @@ router.post('/:id', checkAuth, async (req, res) => {
 router.get('/:projectId/bug/:bugId', async (req, res) => {
     try {
         // Find the Bug
-        let { foundBug } = await getBugById(req.params.projectId, req.params.bugId)
+        let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // Remove comments
         foundBug.comments = []
 
@@ -95,6 +101,7 @@ router.get('/:id/bugs/:page', async (req, res) => {
     try {
         // Find the project
         let foundProject = await getProjectById(req.params.id)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // get variables
         const page = req.params.page
         // remove comments
@@ -115,6 +122,7 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
     try {
         // Find the Bug and Project
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // Get variables
         const { desc } = req.body
         const author = req.session.user.userId
@@ -139,7 +147,8 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
 router.get('/:projectId/bug/:bugId/comments/:page', async (req, res) => {
     try {
         // Find the Bug
-        let { foundBug } = await getBugById(req.params.projectId, req.params.bugId)
+        let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.userId)
         // get variables
         const page = req.params.page
         // get comments
