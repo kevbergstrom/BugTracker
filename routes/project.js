@@ -5,6 +5,8 @@ const { checkAuth } = require('../middleware/auth')
 const Project = require('../models/Project')
 const User = require('../models/User')
 
+const BUGS_PER_PAGE = 5
+
 // Create project
 router.post('', checkAuth , async (req, res) => {
     try {
@@ -95,6 +97,29 @@ router.get('/:projectId/bug/:bugId', async (req, res) => {
         foundBug.comments = []
 
         res.send(foundBug)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get paginated bug previews from project
+router.get('/:id/bugs/:page', async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await Project.findById(req.params.id)
+        if(!foundProject) {
+            throw new Error('Cannot find project')
+        }
+        // get variables
+        const page = req.params.page
+        // remove comments
+        let bugPreviews = foundProject.bugs.slice((page-1)*BUGS_PER_PAGE, page*BUGS_PER_PAGE)
+            .map(prev => {
+                prev.comments = []
+                return prev
+            })
+
+        res.send(bugPreviews)
     } catch (err) {
         res.status(400).send(err.message)
     }
