@@ -3,7 +3,7 @@ const app = express()
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 
-const { userRoute } = require('./routes')
+const { userRoute, projectRoute } = require('./routes')
 
 // configs
 const { 
@@ -49,6 +49,7 @@ app.use(session({
 const apiRouter = express.Router()
 app.use('/api', apiRouter)
 apiRouter.use('/user', userRoute )
+apiRouter.use('/project', projectRoute)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
