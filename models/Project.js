@@ -8,6 +8,7 @@ let projectSchema = new Schema({
     },
     title: String,
     desc: String,
+    bugCount: { type: Number, default: 0 },
     bugs: [
         {
             author: {
