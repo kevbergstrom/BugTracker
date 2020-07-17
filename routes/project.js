@@ -6,6 +6,7 @@ const Project = require('../models/Project')
 const User = require('../models/User')
 
 const BUGS_PER_PAGE = 5
+const COMMENTS_PER_PAGE = 5
 
 // Create project
 router.post('', checkAuth , async (req, res) => {
@@ -153,6 +154,30 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
         await foundProject.save()
         
         res.send(newComment)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get paginated comments on a bug
+router.get('/:projectId/bug/:bugId/comments/:page', async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await Project.findById(req.params.projectId)
+        if(!foundProject) {
+            throw new Error('Cannot find project')
+        }
+        // Find the bug
+        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
+        if(!foundBug) {
+            throw new Error('Cannot find bug')
+        }
+        // get variables
+        const page = req.params.page
+        // get comments
+        let comments = foundBug.comments.slice((page-1)*COMMENTS_PER_PAGE, page*COMMENTS_PER_PAGE)
+
+        res.send(comments)
     } catch (err) {
         res.status(400).send(err.message)
     }
