@@ -25,6 +25,24 @@ router.post('', checkAuth , async (req, res) => {
     }
 })
 
+// Get project without the bugs or members array
+router.get('/:id', async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await Project.findById(req.params.id)
+        if(!foundProject) {
+            throw new Error('Cannot find project')
+        }
+        //remove arrays
+        foundProject.bugs = []
+        foundProject.members = []
+
+        res.send(foundProject)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 // Post bug to project with :id
 router.post('/:id', checkAuth, async (req, res) => {
     try {
