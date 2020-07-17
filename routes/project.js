@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { checkAuth } = require('../middleware/auth')
+const { getProjectById, getBugById } = require('../database/utils')
 
 const Project = require('../models/Project')
 const User = require('../models/User')
@@ -33,10 +34,7 @@ router.post('', checkAuth , async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         // Find the project
-        let foundProject = await Project.findById(req.params.id).populate('owner', ['username'])
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
+        let foundProject = await getProjectById(req.params.id)
         // remove arrays
         foundProject.bugs = []
         foundProject.members = []
@@ -51,10 +49,7 @@ router.get('/:id', async (req, res) => {
 router.post('/:id', checkAuth, async (req, res) => {
     try {
         // Find the project
-        let foundProject = await Project.findById(req.params.id)
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
+        let foundProject = await getProjectById(req.params.id)
         // Get varibles
         const { title, desc, severity} = req.body
         const author = req.session.user.userId
@@ -84,16 +79,8 @@ router.post('/:id', checkAuth, async (req, res) => {
 // Get bug from project
 router.get('/:projectId/bug/:bugId', async (req, res) => {
     try {
-        // Find the project
-        let foundProject = await Project.findById(req.params.projectId)
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
-        // Find the bug
-        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
-        if(!foundBug) {
-            throw new Error('Cannot find bug')
-        }
+        // Find the Bug
+        let { foundBug } = await getBugById(req.params.projectId, req.params.bugId)
         // Remove comments
         foundBug.comments = []
 
@@ -107,10 +94,7 @@ router.get('/:projectId/bug/:bugId', async (req, res) => {
 router.get('/:id/bugs/:page', async (req, res) => {
     try {
         // Find the project
-        let foundProject = await Project.findById(req.params.id)
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
+        let foundProject = await getProjectById(req.params.id)
         // get variables
         const page = req.params.page
         // remove comments
@@ -129,16 +113,8 @@ router.get('/:id/bugs/:page', async (req, res) => {
 // Post a comment on a bug 
 router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
     try {
-        // Find the project
-        let foundProject = await Project.findById(req.params.projectId)
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
-        // Find the bug
-        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
-        if(!foundBug) {
-            throw new Error('Cannot find bug')
-        }
+        // Find the Bug and Project
+        let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
         // Get variables
         const { desc } = req.body
         const author = req.session.user.userId
@@ -162,16 +138,8 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
 // Get paginated comments on a bug
 router.get('/:projectId/bug/:bugId/comments/:page', async (req, res) => {
     try {
-        // Find the project
-        let foundProject = await Project.findById(req.params.projectId)
-        if(!foundProject) {
-            throw new Error('Cannot find project')
-        }
-        // Find the bug
-        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
-        if(!foundBug) {
-            throw new Error('Cannot find bug')
-        }
+        // Find the Bug
+        let { foundBug } = await getBugById(req.params.projectId, req.params.bugId)
         // get variables
         const page = req.params.page
         // get comments
