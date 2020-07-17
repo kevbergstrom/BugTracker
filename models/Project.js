@@ -3,24 +3,27 @@ let Schema = mongoose.Schema
 
 let projectSchema = new Schema({
     owner: {
-        type: 'ObjectID',
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    title: String,
+    desc: String,
     bugs: [
         {
             author: {
-                type: 'ObjectID',
+                type: Schema.Types.ObjectId,
                 ref: 'User'
             },
             title: String,
             desc: String,
+            number: Number,
             created: { type: Date, default: Date.now },
             completedOn: { type: Date, default: null },
             severity: Number,
             comments: [
                 {
                     author: {
-                        type: 'ObjectID',
+                        type: Schema.Types.ObjectId,
                         ref: 'User'
                     },
                     desc: String,
@@ -31,12 +34,11 @@ let projectSchema = new Schema({
     ],
     members: [
         {
-            type: 'ObjectID',
+            type: Schema.Types.ObjectId,
             ref: 'User'
         }
     ],
     created: { type: Date, default: Date.now },
-    desc: String,
     private: { type: Boolean, default: true },
     languages: [String]
 })
