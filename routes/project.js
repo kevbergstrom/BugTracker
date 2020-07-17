@@ -57,4 +57,35 @@ router.post('/:id', checkAuth, async (req, res) => {
     }
 })
 
+// Post a comment on a bug 
+router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await Project.findById(req.params.projectId)
+        if(!foundProject) {
+            throw new Error('Cannot find project')
+        }
+        // Find the bug
+        let foundBug = await foundProject.bugs.find(bug => bug.id === req.params.bugId)
+        if(!foundBug) {
+            throw new Error('Cannot find bug')
+        }
+        // Get variables
+        const { desc } = req.body
+        const author = req.session.user.userId
+        // Create comment
+        const newComment = {
+            author,
+            desc
+        }
+        // Add comment to bug
+        foundBug.comments.push(newComment)
+        await foundProject.save()
+        
+        res.send(newComment)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 module.exports = router
