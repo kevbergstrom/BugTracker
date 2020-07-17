@@ -15,6 +15,7 @@ let projectSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'User'
             },
+            name: String,
             title: String,
             desc: String,
             number: Number,
@@ -27,6 +28,7 @@ let projectSchema = new Schema({
                         type: Schema.Types.ObjectId,
                         ref: 'User'
                     },
+                    name: String,
                     desc: String,
                     created: { type: Date, default: Date.now }
                 }

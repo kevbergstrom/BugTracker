@@ -30,11 +30,11 @@ router.post('', checkAuth , async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         // Find the project
-        let foundProject = await Project.findById(req.params.id)
+        let foundProject = await Project.findById(req.params.id).populate('owner', ['username'])
         if(!foundProject) {
             throw new Error('Cannot find project')
         }
-        //remove arrays
+        // remove arrays
         foundProject.bugs = []
         foundProject.members = []
 
@@ -55,6 +55,7 @@ router.post('/:id', checkAuth, async (req, res) => {
         // Get varibles
         const { title, desc, severity} = req.body
         const author = req.session.user.userId
+        const name = req.session.user.username
         const bugCount = foundProject.bugCount += 1
         // Create bug
         const newBug = {
@@ -62,7 +63,8 @@ router.post('/:id', checkAuth, async (req, res) => {
             title: title,
             desc: desc,
             number: bugCount,
-            severity: severity ? severity : 1
+            severity: severity ? severity : 1,
+            name
         }
         // Add bug to project
         foundProject.bugs.unshift(newBug)
@@ -114,10 +116,12 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
         // Get variables
         const { desc } = req.body
         const author = req.session.user.userId
+        const name = req.session.user.username
         // Create comment
         const newComment = {
             author,
-            desc
+            desc,
+            name
         }
         // Add comment to bug
         foundBug.comments.push(newComment)
