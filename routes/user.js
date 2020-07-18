@@ -20,9 +20,28 @@ router.post('', noAuth , async (req, res) => {
     }
 })
 
+// Logout user
 router.delete('', checkAuth , (req, res) => {
     try {
         const user = req.session.user
+        destroySession(req)
+        res.clearCookie(SESSION_NAME)
+        res.send(user)
+    } catch (err) {
+        res.status(400).send(err.message) 
+    }
+})
+
+router.delete('/:id', checkAuth, async (req, res) => {
+    try {
+        const user = req.session.user
+        if(user.userId != req.params.id){
+            throw new Error('You dont have permission to delete that user')
+        }
+        // delete user
+        const foundUser = await User.findById(req.params.id)
+        foundUser.remove()
+        // delete session
         destroySession(req)
         res.clearCookie(SESSION_NAME)
         res.send(user)
