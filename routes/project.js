@@ -153,6 +153,23 @@ router.put('/:projectId/bug/:bugId', checkAuth , async (req, res) => {
     }
 })
 
+// Remove bug from project
+router.delete('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
+    try {
+        let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        // check user permission
+        if(foundBug.author != req.session.user.userId){
+            throw new Error('You dont have permission to edit this post')
+        }
+        foundProject.bugs = foundProject.bugs.filter(bug => bug.id != req.params.bugId)
+        await foundProject.save()
+        res.status(200).send('OK')
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 // Get paginated bug previews from project
 router.get('/:id/bugs/:page', async (req, res) => {
     try {
