@@ -11,6 +11,7 @@ const {
 const Project = require('../models/Project')
 const User = require('../models/User')
 
+const PROJECTS_PER_PAGE = 5
 const BUGS_PER_PAGE = 5
 const COMMENTS_PER_PAGE = 5
 
@@ -46,6 +47,19 @@ router.get('/:id', async (req, res) => {
         foundProject.members = []
 
         res.send(foundProject)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get paginated project previews
+router.get('/projects/:page', async (req, res) => {
+    try {
+        const indexStart = (req.params.page-1)*PROJECTS_PER_PAGE
+        // get projects
+        let projects = await Project.find({private: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).select('-bugs -members')
+        
+        res.send(projects)
     } catch (err) {
         res.status(400).send(err.message)
     }
