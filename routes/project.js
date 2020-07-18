@@ -68,6 +68,19 @@ router.put('/:id', checkAuth , async (req, res) => {
     }
 })
 
+// Delete project
+router.delete('/:id', checkAuth, async(req, res) => {
+    try {
+         // Find the project
+         let foundProject = await getProjectById(req.params.id)
+         checkOwner(foundProject, req.session.user && req.session.user.userId)
+         foundProject.remove()
+         res.status(200).send('Removed project')
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 // Post bug to project with :id
 router.post('/:id', checkAuth, async (req, res) => {
     try {
