@@ -4,6 +4,7 @@ const { checkAuth } = require('../middleware/auth')
 const { 
     getProjectById, 
     getBugById,
+    getCommentById,
     checkUserPermission,
     checkOwner } = require('../database/utils')
 
@@ -229,6 +230,23 @@ router.get('/:projectId/bug/:bugId/comments/:page', async (req, res) => {
         let comments = foundBug.comments.slice((page-1)*COMMENTS_PER_PAGE, page*COMMENTS_PER_PAGE)
 
         res.send(comments)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Remove comment from a bug
+router.delete('/:projectId/bug/:bugId/comment/:commentId', checkAuth, async (req, res) => {
+    try {
+        let { foundComment, foundBug, foundProject } = await getCommentById(req.params.projectId, req.params.bugId, req.params.commentId)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        // check user permission
+        if(foundComment.author != req.session.user.userId){
+            throw new Error('You dont have permission to delete this comment')
+        }
+        foundBug.comments = foundBug.comments.filter(com => com.id != req.params.commentId)
+        await foundProject.save()
+        res.status(200).send('OK')
     } catch (err) {
         res.status(400).send(err.message)
     }

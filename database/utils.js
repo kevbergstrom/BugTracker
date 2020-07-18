@@ -17,6 +17,15 @@ const getBugById = async function(projectId, bugId){
     return { foundBug, foundProject }
 }
 
+const getCommentById = async function(projectId, bugId, commentId){
+    const { foundBug, foundProject } = await getBugById(projectId, bugId)
+    let foundComment = await foundBug.comments.find(com => com.id === commentId)
+    if(!foundComment) {
+        throw new Error('Cannot find comment')
+    }
+    return { foundComment, foundBug, foundProject }
+}
+
 const checkUserPermission = function(project, userId){
     if(project.private && project.members.indexOf(`${userId}`)<0){
         throw new Error('You do not have permission for this project')
@@ -32,6 +41,7 @@ const checkOwner = function(project, userId){
 module.exports = {
     getProjectById,
     getBugById,
+    getCommentById,
     checkUserPermission,
     checkOwner
 }
