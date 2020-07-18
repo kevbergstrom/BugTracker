@@ -4,7 +4,8 @@ const { checkAuth } = require('../middleware/auth')
 const { 
     getProjectById, 
     getBugById,
-    checkUserPermission } = require('../database/utils')
+    checkUserPermission,
+    checkOwner } = require('../database/utils')
 
 const Project = require('../models/Project')
 const User = require('../models/User')
@@ -44,6 +45,24 @@ router.get('/:id', async (req, res) => {
         foundProject.members = []
 
         res.send(foundProject)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Update project
+router.put('/:id', checkAuth , async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await getProjectById(req.params.id)
+        checkOwner(foundProject, req.session.user && req.session.user.userId)
+        // Get variables
+        const { title, desc, private, languages } = req.body
+        // Update the project
+        const update = { title, desc, private, languages }
+        await Project.findByIdAndUpdate(req.params.id, update)
+
+        res.send(update)
     } catch (err) {
         res.status(400).send(err.message)
     }

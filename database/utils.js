@@ -23,8 +23,15 @@ const checkUserPermission = function(project, userId){
     }
 }
 
+const checkOwner = function(project, userId){
+    if(project.owner.id != userId){
+        throw new Error('You do not have permission to edit this project')
+    }
+}
+
 module.exports = {
     getProjectById,
     getBugById,
-    checkUserPermission
+    checkUserPermission,
+    checkOwner
 }
