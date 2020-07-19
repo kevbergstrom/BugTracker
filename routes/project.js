@@ -82,6 +82,26 @@ router.get('/:id/members/:page', async (req, res) => {
     }
 })
 
+// Add member to project
+router.post('/:id/member', checkAuth, async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await getProjectById(req.params.id)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        const { id } = req.body
+        //check if user is already in the members list
+        if(foundProject.members.indexOf(id)>=0){
+            throw new Error('User is already a member')
+        }
+        // Add user to the members list
+        foundProject.members.push(`${id}`)
+        await foundProject.save()
+        res.send(id)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 // Update project
 router.put('/:id', checkAuth , async (req, res) => {
     try {
