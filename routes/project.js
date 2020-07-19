@@ -14,6 +14,7 @@ const User = require('../models/User')
 const PROJECTS_PER_PAGE = 5
 const BUGS_PER_PAGE = 5
 const COMMENTS_PER_PAGE = 5
+const MEMBERS_PER_PAGE = 20
 
 // Create project
 router.post('', checkAuth , async (req, res) => {
@@ -58,8 +59,24 @@ router.get('/projects/:page', async (req, res) => {
         const indexStart = (req.params.page-1)*PROJECTS_PER_PAGE
         // get projects
         let projects = await Project.find({private: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).select('-bugs -members')
-        
+
         res.send(projects)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get paginated member previews
+router.get('/:id/members/:page', async (req, res) => {
+    try {
+        // Find the project
+        let foundProject = await getProjectById(req.params.id)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        
+        const indexStart = (req.params.page-1)*MEMBERS_PER_PAGE
+        let project = await Project.findById(req.params.id).slice('members',[indexStart,indexStart+MEMBERS_PER_PAGE]).populate('members','username')
+
+        res.send(project.members)
     } catch (err) {
         res.status(400).send(err.message)
     }
