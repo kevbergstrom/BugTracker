@@ -102,6 +102,28 @@ router.post('/:id/member', checkAuth, async (req, res) => {
     }
 })
 
+// Remove member from the project
+router.delete('/:projectId/member/:userId', checkAuth, async (req, res) => {
+    try {
+         // Find the project
+         let foundProject = await getProjectById(req.params.projectId)
+         // Check permissions
+        if(req.session.user.userId != req.params.userId){
+            checkOwner(foundProject, req.session.user.userId)
+        }
+        // Remove member
+        const userIndex = foundProject.members.indexOf(`${req.params.userId}`)
+        if(userIndex<0){
+            throw new Error('User is not a member')
+        }
+        foundProject.members.splice(userIndex, 1)
+        await foundProject.save()
+        res.send(req.params.userId)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
 // Update project
 router.put('/:id', checkAuth , async (req, res) => {
     try {
