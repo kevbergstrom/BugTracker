@@ -1,6 +1,7 @@
 import {
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT
 } from '../actions/types'
 
 const initialState = {
@@ -22,6 +23,7 @@ export default function(state = initialState, action) {
                 loading: false
             }
         case LOGIN_FAIL:
+        case LOGOUT:
             return {
                 ...state,
                 isAuthenticated: false,

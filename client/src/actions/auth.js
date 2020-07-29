@@ -2,7 +2,8 @@ import axios from 'axios'
 import store from '../store'
 import {
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT
 } from './types'
 
 export const checkAuth = () => async dispatch => {
@@ -48,4 +49,15 @@ export const login = (email, password) => async dispatch => {
         })
         console.log(err)
     }
+}
+
+export const logout = () => async dispatch => {
+    try {
+        const res = await axios.delete('/api/user')
+    } catch (err) {
+        console.log(err)
+    }
+    dispatch({
+        type: LOGOUT
+    })
 }
