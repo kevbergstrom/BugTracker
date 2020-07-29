@@ -91,3 +91,12 @@ hr.light {
 .tall {
     min-height:100vh;
 }
+
+.sidebar {
+    bottom:0px;padding:0;
+}
+
+.bottom {
+    position:absolute;
+    bottom:0;
+}
