@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import logo from '../../logoFinalWhite.png'
 import Navbar from '../navigation/navbar'
@@ -21,7 +22,7 @@ const Landing = props => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet sequi reprehenderit earum, ipsum voluptas reiciendis iusto dolorem quaerat consequuntur perferendis!
                     </p>
                     <p>
-                        <a className="btn btn-primary shadow" href="#">Sign up</a>
+                        <Link className="btn btn-primary shadow" to="/signup">Sign up</Link>
                     </p>
                 </div>
                 <footer className="mastfoot mt-auto">
