@@ -2,6 +2,7 @@ import React from 'react'
 
 import logo from '../../logoFinalWhite.png'
 import Navbar from '../navigation/navbar'
+import Footer from '../navigation/footer'
 
 const Landing = props => {
     return (
@@ -97,14 +98,7 @@ const Landing = props => {
                 </p>
             </div>
         </div>
-
-        {/* <footer className="footer bg-light border-top">
-            <nav className="navbar navbar-light">
-                <span className="text-muted">Made by <a href="https://www.linkedin.com/in/kevbergstrom/">Kevin Bergstrom</a></span>
-                <span className="text-muted float-right">View this project on <a href="#">Github</a></span>
-            </nav>
-        </footer> */}
-
+        <Footer/>
     </div>
     )
 }
