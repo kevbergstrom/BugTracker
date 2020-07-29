@@ -70,7 +70,7 @@ router.get('', (req, res) => {
     if(req.session.user){
         return res.send(req.session.user)
     }
-    res.send("No session")
+    res.status(401).send("No session")
 })
 
 router.get('/checkAuth', checkAuth, (req, res) => {

@@ -1,28 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { login } from '../../actions/auth'
 
 import BasicPage from '../layout/basicPage'
 
-const Login = props => {
+const Login = ({ login }) => {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const onSubmit = async e => {
+        e.preventDefault()
+        login(email, password)
+    }
+
     return (
         <BasicPage>
             <div className="container">
                 <div className="row">
-                    <div className="col-0 col-md-3">
-                        
-                    </div>
+                    <div className="col-0 col-md-3"></div>
                     <div className="col-12 col-md-6">
                         <div className="container border shadow bg-white rounded">
                             <div className="text-center">
                                 <h3>Login to BugTracker</h3>
                             </div>
-                            <form>
+                            <form onSubmit={e => onSubmit(e)}>
                                 <div className="form-group">
-                                <label>Email</label>
-                                <input type="email" className="form-control" placeholder="Enter email" required/>
+                                    <label>Email</label>
+                                    <input value={email} onChange={e => setEmail(e.target.value)} type="email" className="form-control" placeholder="Enter email" required/>
                                 </div>
                                 <div className="form-group">
-                                <label>Password</label>
-                                <input type="password" className="form-control" placeholder="Enter password" required/>
+                                    <label>Password</label>
+                                    <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control" placeholder="Enter password" required/>
                                 </div>
                                 <div className="text-center">
                                     <button type="submit" className="btn btn-primary">Login</button>
@@ -36,4 +45,8 @@ const Login = props => {
     )
 }
 
-export default Login
+Login.propTypes = {
+    login: PropTypes.func.isRequired
+}
+
+export default connect(null, { login })(Login)
