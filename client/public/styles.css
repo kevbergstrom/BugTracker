@@ -1,0 +1,89 @@
+.container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.container-fluid {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.lightText {
+    color: rgb(223, 223, 223);
+}
+
+.darkText {
+    color: rgb(77, 77, 77);
+}
+
+.nav-link.lightText:hover {
+    color: white;
+}
+
+.nav-link.darkText:hover {
+    color: rgb(0, 0, 0);
+}
+
+hr.light {
+    border-top: 1px solid lightgray; 
+}
+
+.shadow {
+    box-shadow: 0 0.25rem 0.3rem rgba(0,0,0,.15);
+}
+
+.gradient-danger {
+    background-image: linear-gradient(135deg, #F5515F 0%,#A1051D 100%);
+}
+
+.gradient-warning {
+    background-image: linear-gradient(135deg, #fad961 0%,#f76b1c 100%);
+}
+
+.gradient-success {
+    background-image: linear-gradient(135deg, #33bb53 0%,#076938 100%);
+}
+
+.gradient-dash {
+    background-image: linear-gradient( 135deg, #52E5E7 10%, #130CB7 100%);
+}
+
+.gradient-profile {
+    background-image: linear-gradient( 135deg, #79F1A4 10%, #0E5CAD 100%);
+}
+
+.gradient-landing {
+    background-image: linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%);
+}
+
+.bgGray {
+    background-color: #d4d4d4;
+}
+
+.bgColor {
+    background-color: #ebf4fc;
+}
+
+.contentColor {
+    background-color: rgb(255, 255, 255);
+}
+
+.sidebarColor {
+    background-color: #273244;
+}
+
+.sidebarAlt {
+    background-color: #313d50;
+}
+
+.nav-link.sidebarColor:hover {
+    background-color: #313d50;
+}
+
+.inputColor {
+    background-color: #E9ECEF;
+}
+
+.navbarColor {
+    background-color: #ffffff;
+}
