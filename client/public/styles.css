@@ -87,3 +87,7 @@ hr.light {
 .navbarColor {
     background-color: #ffffff;
 }
+
+.tall {
+    min-height:100vh;
+}
