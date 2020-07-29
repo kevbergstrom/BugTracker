@@ -1,14 +1,10 @@
 import React from 'react'
 
-import Navbar from '../navigation/navbar'
-import Footer from '../navigation/footer'
+import BasicPage from './basicPage'
 
 const About = props => {
     return(
-        <div className="container-fluid px-0 py-0 tall bgColor">
-
-            <Navbar/>
-
+        <BasicPage>
             <div className="container">
                 <div className="container-fluid">
                     <div className="container-fluid contentColor shadow rounded border">
@@ -48,9 +44,7 @@ const About = props => {
                     </div>
                 </div>
             </div>
-
-            <Footer/>
-        </div>
+        </BasicPage>
     )
 }
 

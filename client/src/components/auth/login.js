@@ -1,14 +1,10 @@
 import React from 'react'
 
-import Navbar from '../navigation/navbar'
-import Footer from '../navigation/footer'
+import BasicPage from '../layout/basicPage'
 
 const Login = props => {
     return (
-        <div className="container-fluid px-0 py-0 tall bgColor">
-
-            <Navbar/>
-
+        <BasicPage>
             <div className="container">
                 <div className="row">
                     <div className="col-0 col-md-3">
@@ -36,9 +32,7 @@ const Login = props => {
                     </div>
                 </div>
             </div>
-
-            <Footer/>
-        </div>
+        </BasicPage>
     )
 }
 

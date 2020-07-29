@@ -1,19 +1,13 @@
 import React from 'react'
 
-import Navbar from '../navigation/navbar'
-import Footer from '../navigation/footer'
+import BasicPage from '../layout/basicPage'
 
 const Signup = props => {
     return (
-        <div className="container-fluid px-0 py-0 tall bgColor">
-
-            <Navbar/>
-
+        <BasicPage>
             <div className="container">
                 <div className="row">
-                    <div className="col-0 col-md-3">
-                        
-                    </div>
+                    <div className="col-0 col-md-3"></div>
                     <div className="col-12 col-md-6">
                         <div className="container border shadow bg-white">
                             <div className="text-center">
@@ -41,9 +35,7 @@ const Signup = props => {
                     </div>
                 </div>
             </div>
-
-            <Footer/>
-        </div>
+        </BasicPage>
     )
 }
 
