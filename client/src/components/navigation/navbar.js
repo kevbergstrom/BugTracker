@@ -8,7 +8,7 @@ const Navbar = props => {
               <ul className="navbar-nav mr-auto">
               </ul>
               {/* not logged in */}
-              <a className="nav-link darkText"><h6>Login</h6></a>
+              <Link className="nav-link darkText" to="/login"><h6>Login</h6></Link>
               {/* logged in */}
               <a className="nav-link darkText"><h6>Dashboard</h6></a>
 
