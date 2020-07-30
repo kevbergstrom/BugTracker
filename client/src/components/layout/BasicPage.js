@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Navbar from '../navigation/navbar'
-import Footer from '../navigation/footer'
+import Navbar from '../navigation/Navbar'
+import Footer from '../navigation/Footer'
 
 const BasicPage = props => {
     return(

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import PrivateRoute from './components/auth/privateRoute'
+import PrivateRoute from './components/auth/PrivateRoute'
 
-import Landing from './components/layout/landing'
-import About from './components/layout/about'
-import Login from './components/auth/login'
-import Signup from './components/auth/signup'
-import Dashboard from './components/dashboard/dashboard'
+import Landing from './components/layout/Landing'
+import About from './components/layout/About'
+import Login from './components/auth/Login'
+import Signup from './components/auth/Signup'
+import Dashboard from './components/dashboard/Dashboard'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'

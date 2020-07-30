@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BasicPage from './basicPage'
+import BasicPage from './BasicPage'
 
 const About = props => {
     return(

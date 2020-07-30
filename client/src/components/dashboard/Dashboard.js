@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import SidebarPage from '../layout/sidebarPage'
-import Header from './header'
+import SidebarPage from '../layout/SidebarPage'
+import Header from './Header'
 
 const Dashboard = ({ user }) => {
     return(

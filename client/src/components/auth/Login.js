@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { connect } from'react-redux'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { login } from '../../actions/auth'
 import { Redirect } from 'react-router-dom'
-import { signup } from '../../actions/auth'
 
-import BasicPage from '../layout/basicPage'
+import BasicPage from '../layout/BasicPage'
 
-const Signup = ({ isAuthenticated, signup }) => {
-    const [username, setUsername] = useState("")
+const Login = ({ login, isAuthenticated }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const onSubmit = async e =>{
+    const onSubmit = async e => {
         e.preventDefault()
-        signup(username, email, password)
+        login(email, password)
     }
 
     if(isAuthenticated){
@@ -25,15 +25,11 @@ const Signup = ({ isAuthenticated, signup }) => {
                 <div className="row">
                     <div className="col-0 col-md-3"></div>
                     <div className="col-12 col-md-6">
-                        <div className="container border shadow bg-white">
+                        <div className="container border shadow bg-white rounded">
                             <div className="text-center">
-                                <h3>SignUp to BugTracker</h3>
+                                <h3>Login to BugTracker</h3>
                             </div>
-                            <form onSubmit={onSubmit}>
-                                <div className="form-group">
-                                    <label>Username</label>
-                                    <input value={username} onChange={e => setUsername(e.target.value)} type="text" className="form-control" placeholder="Enter username" required/>
-                                </div>
+                            <form onSubmit={e => onSubmit(e)}>
                                 <div className="form-group">
                                     <label>Email</label>
                                     <input value={email} onChange={e => setEmail(e.target.value)} type="email" className="form-control" placeholder="Enter email" required/>
@@ -41,10 +37,9 @@ const Signup = ({ isAuthenticated, signup }) => {
                                 <div className="form-group">
                                     <label>Password</label>
                                     <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control" placeholder="Enter password" required/>
-                                    <small className="form-text text-muted">must be atleast 8 characters long</small>
                                 </div>
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-primary">Sign up</button>
+                                    <button type="submit" className="btn btn-primary">Login</button>
                                 </div>
                             </form>
                         </div>
@@ -55,8 +50,13 @@ const Signup = ({ isAuthenticated, signup }) => {
     )
 }
 
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+}
+
 const mapStateToProps = state => ({
     isAuthenticated: state.authReducer.isAuthenticated
 })
 
-export default connect(mapStateToProps, { signup })(Signup)
+export default connect( mapStateToProps, { login })(Login)
