@@ -6,6 +6,7 @@ import Landing from './components/layout/Landing'
 import About from './components/layout/About'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
+import Project from './components/projects/Project'
 import Dashboard from './components/dashboard/Dashboard'
 
 import { Provider } from 'react-redux'
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/about" component={About}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/signup" component={Signup}/>
+          <Route exact path="/project/:id" component={Project}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
         </Switch>
       </BrowserRouter>

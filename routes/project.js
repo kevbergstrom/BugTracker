@@ -15,6 +15,8 @@ const PROJECTS_PER_PAGE = 5
 const BUGS_PER_PAGE = 5
 const COMMENTS_PER_PAGE = 5
 const MEMBERS_PER_PAGE = 20
+const PROJECT_MEMBER_PREVIEWS = 6
+const PROJECT_BUG_PREVIEWS = 3
 
 // Create project
 router.post('', checkAuth , async (req, res) => {
@@ -37,15 +39,22 @@ router.post('', checkAuth , async (req, res) => {
     }
 })
 
-// Get project without the bugs or members array
+// Get project with recent bug and members array previews
 router.get('/:id', async (req, res) => {
     try {
         // Find the project
         let foundProject = await getProjectById(req.params.id)
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
-        // remove arrays
-        foundProject.bugs = []
-        foundProject.members = []
+
+        query = await Project.findById(req.params.id)
+            .slice('members', [0, PROJECT_MEMBER_PREVIEWS])
+            .slice('bugs', [0, PROJECT_BUG_PREVIEWS])
+            .populate('members','username')
+            .select('-bugs.comments')
+
+        foundProject.memberCount = foundProject.members.length
+        foundProject.bugs = query.bugs
+        foundProject.members = query.members
 
         res.send(foundProject)
     } catch (err) {
