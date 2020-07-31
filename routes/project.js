@@ -258,17 +258,27 @@ router.get('/:id/bugs/:page', async (req, res) => {
     try {
         // Find the project
         let foundProject = await getProjectById(req.params.id)
+        // let foundProject = await getProjectById(req.params.id).slice('bugs', [(page-1)*BUGS_PER_PAGE, page*BUGS_PER_PAGE]).select('-bugs.comments')
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
         // get variables
+        const totalPages = foundProject.bugs.length%BUGS_PER_PAGE + 1
         const page = req.params.page
+        if(page <=0 || page > totalPages){
+            throw new Error("Out of bounds")
+        }
         // remove comments
         let bugPreviews = foundProject.bugs.slice((page-1)*BUGS_PER_PAGE, page*BUGS_PER_PAGE)
             .map(prev => {
                 prev.comments = []
                 return prev
             })
+        const package = {
+            title: foundProject.title,
+            totalPages,
+            bugs: bugPreviews
+        }
 
-        res.send(bugPreviews)
+        res.send(package)
     } catch (err) {
         res.status(400).send(err.message)
     }

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Spinner = props => {
     return(
-        <div class="loader">Loading...</div>
+        <div className="loader">Loading...</div>
     )
 }
 

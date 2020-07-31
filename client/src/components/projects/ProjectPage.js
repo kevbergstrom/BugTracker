@@ -1,7 +1,22 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import RecentUsers from '../users/RecentUsers'
 import BugPreview from '../bugs/BugPreview'
+
+const options = (auth, ownerId) => {
+    if(!auth.user){
+        return
+    }
+    if(auth.user.userId != ownerId){
+        return
+    }
+    return(
+        <div className="d-flex justify-content-between">
+            <a className="btn btn-primary text-white">Edit</a>
+            <a className="btn btn-danger text-white">Delete</a>
+        </div>)
+}
 
 const ProjectPage = ({
     bugCount,
@@ -15,20 +30,6 @@ const ProjectPage = ({
     created,
     auth
 },...props) => {
-
-    const options = (auth, _id) => {
-        if(!auth.user){
-            return
-        }
-        if(auth.user._id != _id){
-            return
-        }
-        return(
-            <div className="d-flex justify-content-between">
-                <a className="btn btn-primary text-white">Edit</a>
-                <a className="btn btn-danger text-white">Delete</a>
-            </div>)
-    }
 
     return (
         <div className="container-fluid">
@@ -68,10 +69,10 @@ const ProjectPage = ({
                 </div>
                 <p></p>
                 <div className="text-center">
-                    <a className="btn btn-primary text-white">View Bugs</a>
+                    <Link className="btn btn-primary text-white" to={`/project/${_id}/bugs/1`}>View {bugCount} Bugs</Link>
                 </div>
                 <hr/>
-                {options(auth, _id)}
+                {options(auth, owner._id)}
             </div>
         </div>
     )

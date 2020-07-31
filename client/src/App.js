@@ -8,12 +8,13 @@ import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Project from './components/projects/Project'
 import Dashboard from './components/dashboard/Dashboard'
+import BugResults from './components/bugs/BugResults'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
 import store from './store'
 
-function App() {
+const App = () => {
   // Check for ongoing session
   useEffect(() => {
     store.dispatch(checkAuth())
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/signup" component={Signup}/>
           <Route exact path="/project/:id" component={Project}/>
+          <Route exact path="/project/:id/bugs/:page" component={BugResults}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
         </Switch>
       </BrowserRouter>
