@@ -1,9 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const DESC_LENGTH = 20
+const options = (auth, ownerId) => {
+    if(!auth.user){
+        return
+    }
+    if(auth.user.userId !== ownerId){
+        return
+    }
+    return(
+        <div className="d-flex justify-content-between">
+            <a className="btn btn-primary text-white" href="#!">Edit</a>
+            <a className="btn btn-danger text-white" href="#!">Delete</a>
+        </div>)
+}
 
-const BugPreview = ({
+const BugPage = ({    
     completedOn,
     _id,
     created,
@@ -13,12 +25,14 @@ const BugPreview = ({
     number,
     severity,
     name,
-    projectId
+    projectId,
+    commentPage,
+    auth
 }) => {
-    return(
+    return (
         <div className="container-fluid">
             <div className="card shadow">
-                <div className="card-header gradient-danger">
+            <div className="card-header gradient-danger">
                     <h4 className="text-white"><span>#{number}&nbsp;</span>
                         {title}
                         <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-exclamation-circle float-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -32,22 +46,40 @@ const BugPreview = ({
                     <p>
                         Author:
                         <Link to={`/user/${author}`}>&nbsp;{name}</Link>
-                    <span className="float-right">{created}</span>
+                        <span className="float-right">{created}</span>
                     </p>
-                    <p>{desc.slice(0,DESC_LENGTH)}</p>
-        
+                    <p>
+                        Project:
+                        <Link to={`/project/${projectId}`}>&nbsp;Project Name</Link>
+                    </p>
+                    <p>{desc}</p>
+
                     <div className="d-flex justify-content-between">
-                        <Link className="btn btn-danger text-white" to={`/project/${projectId}/bug/${_id}`}>View</Link>
+                        <p></p>
                         <a className="text-danger" href="#!">
                             <svg width="2em" height="2em" viewBox="0 0 16 16" className="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                             </svg>
                         </a>
                     </div>
+
+                    <h4>Add Comment</h4>
+                    <form>
+                        <div className="form-group">
+                            <textarea className="form-control inputColor" rows="3"></textarea>
+                        </div>
+                        <div className="text-center">
+                            <a className="btn btn-success text-white" href="#!">Submit</a>
+                        </div>
+                    </form>
+                    <h4>Comments</h4>
+                    {commentPage}
+                    {options(auth, author)}
                 </div>
             </div>
         </div>
+        
     )
 }
 
-export default BugPreview
+export default BugPage

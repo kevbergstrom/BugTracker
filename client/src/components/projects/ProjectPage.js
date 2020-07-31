@@ -8,13 +8,13 @@ const options = (auth, ownerId) => {
     if(!auth.user){
         return
     }
-    if(auth.user.userId != ownerId){
+    if(auth.user.userId !== ownerId){
         return
     }
     return(
         <div className="d-flex justify-content-between">
-            <a className="btn btn-primary text-white">Edit</a>
-            <a className="btn btn-danger text-white">Delete</a>
+            <Link className="btn btn-primary text-white">Edit</Link>
+            <Link className="btn btn-danger text-white">Delete</Link>
         </div>)
 }
 
@@ -39,17 +39,17 @@ const ProjectPage = ({
                         {props.private ? <span className="badge badge-warning">Private</span>
                         : <span className="badge badge-primary">Public</span>}
                     </h4>
-                    <a className="btn btn-primary text-white">Join</a>
+                    <a className="btn btn-primary text-white" href="#!">Join</a>
                 </div>
                 <hr/>
                 <p>
                     Owner:
-                    <a href="#">{owner.username}</a>
-                    <span className="float-right">Date</span>
+                    <Link to={`/user/${owner._id}`}>&nbsp;{owner.username}</Link>
+                    <span className="float-right">{created}</span>
                 </p>
                 <p>
                     Project Link:
-                    <a href="#">github.com</a>
+                    <a href="#!">&nbsp;github.com</a>
                 </p>
                 <p>
                     {languages.map((lang, i) => <span key={i} className="badge badge-primary">{lang}</span>)}
@@ -60,7 +60,7 @@ const ProjectPage = ({
                 <RecentUsers users={members}/>
                 <p></p>
                 <div className="text-center">
-                    <a className="btn btn-primary text-white">View Members</a>
+                    <a className="btn btn-primary text-white" href="#!">View Members</a>
                 </div>
 
                 <h4>Recent Bugs</h4>

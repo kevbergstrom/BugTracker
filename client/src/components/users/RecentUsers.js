@@ -7,11 +7,11 @@ const RecentUsers = ({ users }) => {
         <div className="container-fluid rounded border">     
             <p></p>
             <div className="d-flex justify-content-around">
-                {users.slice(0,Math.ceil(users.length/2)).map(user => <UserButton key={user._id} {...user}/>)}
+                {users.slice(0,Math.ceil(users.length/2)).map((user, i) => <UserButton key={i} {...user}/>)}
             </div>
             <p></p>
             <div className="d-flex justify-content-around">
-                {users.slice(Math.ceil(users.length/2),users.length).map(user => <UserButton key={user._id} {...user}/>)}
+                {users.slice(Math.ceil(users.length/2),users.length).map((user, i) => <UserButton key={users.length + i} {...user}/>)}
             </div>
         </div>
     )

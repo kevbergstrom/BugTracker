@@ -9,6 +9,7 @@ import Signup from './components/auth/Signup'
 import Project from './components/projects/Project'
 import Dashboard from './components/dashboard/Dashboard'
 import BugResults from './components/bugs/BugResults'
+import Bug from './components/bugs/Bug'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -30,6 +31,8 @@ const App = () => {
           <Route exact path="/signup" component={Signup}/>
           <Route exact path="/project/:id" component={Project}/>
           <Route exact path="/project/:id/bugs/:page" component={BugResults}/>
+          <Route exact path="/project/:projectId/bug/:bugId" component={Bug}/>
+          <Route exact path="/project/:projectId/bug/:bugId/comments/:page" component={Bug}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
         </Switch>
       </BrowserRouter>

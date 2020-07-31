@@ -14,7 +14,7 @@ const Landing = props => {
                     <Navbar/>
                 </header>
                 <div className="container text-white">
-                    <img src={logo} className="img-fluid p-5"/>
+                    <img src={logo} className="img-fluid p-5" alt="bug logo"/>
                     <h1 className="jumbotron-heading">
                         BugTracker
                     </h1>
@@ -80,7 +80,7 @@ const Landing = props => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet sequi reprehenderit earum, ipsum voluptas reiciendis iusto dolorem quaerat consequuntur perferendis!
                     </p>
                     <p>
-                        <a className="btn btn-primary" href="#">Search projects</a>
+                        <a className="btn btn-primary" href="#!">Search projects</a>
                     </p>
                 </div>
             </div>
@@ -95,7 +95,7 @@ const Landing = props => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet sequi reprehenderit earum, ipsum voluptas reiciendis iusto dolorem quaerat consequuntur perferendis!
                     </p>
                     <p>
-                        <a className="btn btn-primary" href="#">Take a tour</a>
+                        <a className="btn btn-primary" href="#!">Take a tour</a>
                     </p>
                 </div>
             </div>

@@ -33,7 +33,7 @@ const BugResults = ({ match }) => {
             }
             setLoading(false)
         })()
-    },[match.params.page, match.params.page])
+    },[match.params.id, match.params.page])
 
     return (
         <SidebarPage>

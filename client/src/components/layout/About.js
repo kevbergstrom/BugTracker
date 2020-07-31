@@ -18,7 +18,7 @@ const About = props => {
                         </p>
                         <p>
                             Project Link:
-                            <a href="#">github.com</a>
+                            <a href="#!">github.com</a>
                         </p>
                         <p>
                             Technologies:

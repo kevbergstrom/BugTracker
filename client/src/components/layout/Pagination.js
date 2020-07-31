@@ -1,11 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Pagination = ({ currentPage, pages, totalPages, generateURL }) => {
-    const prevLink = (currentPage, onClick) =>{
+const generatePageOptions = (currentPage, totalPages, pageOptions) => {
+    // find the start
+    let start = parseInt(currentPage) - Math.floor(pageOptions/2)
+    let offset = pageOptions
+    // correct the range
+    if(start <= 0){
+        start = 1
+    }
+    if(start+offset>totalPages){
+        offset-=(start+pageOptions-totalPages-1)
+    }
+    // generate pages
+    let pages = []
+    for(let i = 0;i < offset; i++){
+        pages.push(i+start)
+    }
+    return pages
+}
+
+const Pagination = ({ currentPage, pageOptions, totalPages, generateURL }) => {
+    const prevLink = (currentPage) =>{
         let linkClass = "page-item"
-        let linkClick
-        if(currentPage==1){
+        let linkClick = ""
+        if(parseInt(currentPage) === 1){
             linkClass += " disabled"
         } else {
             linkClick = generateURL(parseInt(currentPage)-1)
@@ -23,10 +42,10 @@ const Pagination = ({ currentPage, pages, totalPages, generateURL }) => {
         )
     }
 
-    const nextLink = (currentPage, totalPages, onClick) =>{
+    const nextLink = (currentPage, totalPages) =>{
         let linkClass = "page-item"
-        let linkClick
-        if(currentPage==totalPages){
+        let linkClick = ""
+        if(parseInt(currentPage) === parseInt(totalPages)){
             linkClass += " disabled"
         } else {
             linkClick = generateURL(parseInt(currentPage)+1)
@@ -43,6 +62,8 @@ const Pagination = ({ currentPage, pages, totalPages, generateURL }) => {
             </li>
         )
     }
+
+    const pages = generatePageOptions(currentPage, totalPages, pageOptions)
 
     return(
         totalPages ? <nav>
