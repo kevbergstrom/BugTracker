@@ -11,6 +11,7 @@ import Dashboard from './components/dashboard/Dashboard'
 import BugResults from './components/bugs/BugResults'
 import Bug from './components/bugs/Bug'
 import ProjectResults from './components/projects/ProjectResults'
+import UserResults from './components/users/UserResults'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -35,6 +36,7 @@ const App = () => {
           <Route exact path="/project/:projectId/bug/:bugId" component={Bug}/>
           <Route exact path="/project/:projectId/bug/:bugId/comments/:page" component={Bug}/>
           <Route exact path="/projects/:page" component={ProjectResults}/>
+          <Route exact path="/users/:page" component={UserResults}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
         </Switch>
       </BrowserRouter>

@@ -7,6 +7,8 @@ const { SESSION_NAME } = require('../config')
 
 const User = require('../models/User')
 
+const USERS_PER_PAGE = 20
+
 router.post('', noAuth , async (req, res) => {
     try {
         const { email, username, password } = req.body
@@ -75,6 +77,22 @@ router.get('', (req, res) => {
 
 router.get('/checkAuth', checkAuth, (req, res) => {
     res.send('Authorized')
+})
+
+router.get('/users/:page', async (req, res) => {
+    try {
+        const indexStart = (req.params.page-1)*USERS_PER_PAGE
+        const totalUsers = await User.find().countDocuments()
+        const totalPages = Math.ceil(totalUsers/USERS_PER_PAGE)
+        const users = await User.find().skip(indexStart).limit(USERS_PER_PAGE).select('username _id')
+        const package = {
+            totalPages: totalPages,
+            users
+        }
+        res.send(package)
+    } catch (err) {
+        res.status(404).send("No users here")
+    }
 })
 
 module.exports = router
