@@ -67,9 +67,16 @@ router.get('/projects/:page', async (req, res) => {
     try {
         const indexStart = (req.params.page-1)*PROJECTS_PER_PAGE
         // get projects
-        let projects = await Project.find({private: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).select('-bugs -members')
+        const totalProjects = await Project.find({private: false}).countDocuments()//estimatedDocumentCount()?
+        const totalPages = Math.ceil(totalProjects/PROJECTS_PER_PAGE)
+        let projects = await Project.find({private: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).populate('owner','username _id').select('-bugs -members')
+        
+        const package={
+            totalPages,
+            projects: projects
+        }
 
-        res.send(projects)
+        res.send(package)
     } catch (err) {
         res.status(400).send(err.message)
     }

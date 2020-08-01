@@ -20,7 +20,7 @@ const Bug = ({ match, auth }) => {
         const bugId = match.params.bugId
         return `/project/${projectId}/bug/${bugId}/comments/${pageNumber}`
     }
-
+    // Bug loading
     useEffect(()=>{
         (async () => {
             try {
@@ -29,6 +29,18 @@ const Bug = ({ match, auth }) => {
                 // get bug data
                 const res = await axios.get(`/api/project/${projectId}/bug/${bugId}`)
                 setBug(res.data)
+            } catch (err) {
+                console.log(err)
+            }
+            setLoading(false)
+        })()
+    },[match.params.projectId, match.params.bugId])
+    // Comments loading
+    useEffect(()=>{
+        (async () => {
+            try {
+                const projectId = match.params.projectId
+                const bugId = match.params.bugId
                 //get comment data
                 const commentPage = match.params.page || 1
                 const cres = await axios.get(`/api/project/${projectId}/bug/${bugId}/comments/${commentPage}`)
@@ -37,9 +49,10 @@ const Bug = ({ match, auth }) => {
             } catch (err) {
                 console.log(err)
             }
-            setLoading(false)
         })()
     },[match.params.projectId, match.params.bugId, match.params.page])
+
+    
 
     return(
         <SidebarPage>

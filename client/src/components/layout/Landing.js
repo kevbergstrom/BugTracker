@@ -80,7 +80,7 @@ const Landing = props => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet sequi reprehenderit earum, ipsum voluptas reiciendis iusto dolorem quaerat consequuntur perferendis!
                     </p>
                     <p>
-                        <a className="btn btn-primary" href="#!">Search projects</a>
+                        <Link className="btn btn-primary" to="/projects/1">View projects</Link>
                     </p>
                 </div>
             </div>

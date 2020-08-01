@@ -63,15 +63,20 @@ const ProjectPage = ({
                     <a className="btn btn-primary text-white" href="#!">View Members</a>
                 </div>
 
-                <h4>Recent Bugs</h4>
-                <div className="container-fluid">
-                {bugs.map(bug => <BugPreview key={bug._id} projectId={_id} {...bug}/>)}
-                </div>
-                <p></p>
-                <div className="text-center">
-                    <Link className="btn btn-primary text-white" to={`/project/${_id}/bugs/1`}>View {bugCount} Bugs</Link>
-                </div>
-                <hr/>
+                { bugCount > 0 ?
+                    <>
+                        <h4>Recent Bugs</h4>
+                        <div className="container-fluid">
+                        {bugs.map(bug => <BugPreview key={bug._id} projectId={_id} {...bug}/>)}
+                        </div>
+                        <p></p>
+                        <div className="text-center">
+                            <Link className="btn btn-primary text-white" to={`/project/${_id}/bugs/1`}>View {bugCount} Bugs</Link>
+                        </div>
+                        <hr/>
+                    </>
+                    : null
+                }
                 {options(auth, owner._id)}
             </div>
         </div>
