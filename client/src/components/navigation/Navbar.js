@@ -21,7 +21,7 @@ const Navbar = ({ isAuthenticated, logout }) => {
             }
             <Link className="nav-link darkText" to="/projects/1"><h6>Projects</h6></Link>
             <Link className="nav-link darkText" to="/about"><h6>About</h6></Link>
-            <a className="nav-link darkText" href="https://github.com"><h6>Github</h6></a>
+            <a className="nav-link darkText" href="https://github.com/kevbergstrom/BugTracker"><h6>Github</h6></a>
           </nav>
     )
 }

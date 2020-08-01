@@ -17,8 +17,8 @@ const About = props => {
                             <a href="https://www.linkedin.com/in/kevbergstrom/">&nbsp;Kevin Bergstrom</a>
                         </p>
                         <p>
-                            Project Link:
-                            <a href="#!">&nbsp;github.com</a>
+                            Project link:
+                            <a href="https://github.com/kevbergstrom/BugTracker">&nbsp;https://github.com/kevbergstrom/BugTracker</a>
                         </p>
                         <p>
                             <span className="badge badge-primary">MongoDB</span>
