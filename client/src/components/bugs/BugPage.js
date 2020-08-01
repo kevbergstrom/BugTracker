@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Moment from 'react-moment'
 
 const options = (auth, ownerId) => {
     if(!auth.user){
@@ -46,7 +47,7 @@ const BugPage = ({
                     <p>
                         Author:
                         <Link to={`/user/${author}`}>&nbsp;{name}</Link>
-                        <span className="float-right">{created}</span>
+                        <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
                     <p>
                         Project:

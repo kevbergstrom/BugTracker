@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Moment from 'react-moment'
 
 const DESC_LENGTH = 20
 
@@ -32,7 +33,7 @@ const BugPreview = ({
                     <p>
                         Author:
                         <Link to={`/user/${author}`}>&nbsp;{name}</Link>
-                    <span className="float-right">{created}</span>
+                    <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
                     <p>{desc.slice(0,DESC_LENGTH)}</p>
         

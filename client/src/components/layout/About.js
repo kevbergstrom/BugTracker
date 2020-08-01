@@ -14,14 +14,13 @@ const About = props => {
                         <hr/>
                         <p>
                             Made by:
-                            <a href="https://www.linkedin.com/in/kevbergstrom/">Kevin Bergstrom</a>
+                            <a href="https://www.linkedin.com/in/kevbergstrom/">&nbsp;Kevin Bergstrom</a>
                         </p>
                         <p>
                             Project Link:
-                            <a href="#!">github.com</a>
+                            <a href="#!">&nbsp;github.com</a>
                         </p>
                         <p>
-                            Technologies:
                             <span className="badge badge-primary">MongoDB</span>
                             <span className="badge badge-primary">Express</span>
                             <span className="badge badge-primary">React</span>

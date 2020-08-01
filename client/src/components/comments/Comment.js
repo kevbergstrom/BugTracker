@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Moment from 'react-moment'
 
 const options = (auth, ownerId) => {
     if(!auth.user){
@@ -26,7 +27,7 @@ const Comment = ({
     return(
         <div className="container-fluid contentColor rounded shadow border mb-4">
             <Link to={`/user/${author}`}>{name}</Link>
-            <span className="float-right">{created}</span>
+            <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
             <p>{desc}</p>
             {options(auth, author)}
         </div>
