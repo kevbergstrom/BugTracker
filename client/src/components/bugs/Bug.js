@@ -9,7 +9,7 @@ import CommentPage from '../comments/CommentPage'
 
 const PAGE_OPTIONS = 5
 
-const Bug = ({ match, auth }) => {
+const Bug = ({ match, history, auth }) => {
     const [loading, setLoading] = useState(false)
     const [bug, setBug] = useState()
     const [comments, setComments] = useState()
@@ -20,6 +20,24 @@ const Bug = ({ match, auth }) => {
         const bugId = match.params.bugId
         return `/project/${projectId}/bug/${bugId}/comments/${pageNumber}`
     }
+
+    const submitComment = async comment => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const body = JSON.stringify({desc: comment})
+            const projectId = match.params.projectId
+            const bugId = match.params.bugId
+            await axios.post(`/api/project/${projectId}/bug/${bugId}`, body, config)
+            window.location.reload(false)// not the best option
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     // Bug loading
     useEffect(()=>{
         (async () => {
@@ -69,6 +87,8 @@ const Bug = ({ match, auth }) => {
                             pageOptions={PAGE_OPTIONS}
                             totalPages={totalPages}
                             generateURL={selectPage}
+                            submitComment={submitComment}
+                            auth={auth}
                         />
                     }
                     />

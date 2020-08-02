@@ -64,16 +64,6 @@ const BugPage = ({
                         </a>
                     </div>
 
-                    <h4>Add Comment</h4>
-                    <form>
-                        <div className="form-group">
-                            <textarea className="form-control inputColor" rows="3"></textarea>
-                        </div>
-                        <div className="text-center">
-                            <a className="btn btn-success text-white" href="#!">Submit</a>
-                        </div>
-                    </form>
-                    <h4>Comments</h4>
                     {commentPage}
                     {options(auth, author)}
                 </div>
