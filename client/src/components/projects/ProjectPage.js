@@ -61,7 +61,7 @@ const ProjectPage = ({
                 <RecentUsers users={members}/>
                 <p></p>
                 <div className="text-center">
-                    <a className="btn btn-primary text-white" href="#!">View Members</a>
+                    <Link className="btn btn-primary text-white" to={`/project/${_id}/members/1`}>View Members</Link>
                 </div>
 
                 { bugCount > 0 ?

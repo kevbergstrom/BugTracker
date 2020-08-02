@@ -89,10 +89,17 @@ router.get('/:id/members/:page', async (req, res) => {
         let foundProject = await getProjectById(req.params.id)
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
         
+        const totalPages = Math.ceil(foundProject.members.length/MEMBERS_PER_PAGE)
         const indexStart = (req.params.page-1)*MEMBERS_PER_PAGE
         let project = await Project.findById(req.params.id).slice('members',[indexStart,indexStart+MEMBERS_PER_PAGE]).populate('members','username')
 
-        res.send(project.members)
+        const package={
+            totalPages,
+            title: foundProject.title,
+            users: project.members
+        }
+
+        res.send(package)
     } catch (err) {
         res.status(400).send(err.message)
     }

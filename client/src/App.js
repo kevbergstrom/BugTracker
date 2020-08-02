@@ -13,6 +13,7 @@ import Bug from './components/bugs/Bug'
 import ProjectResults from './components/projects/ProjectResults'
 import UserResults from './components/users/UserResults'
 import CreateProject from './components/projects/CreateProject'
+import MemberResults from './components/projects/MemberResults'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -33,6 +34,7 @@ const App = () => {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/signup" component={Signup}/>
           <Route exact path="/project/:id" component={Project}/>
+          <Route exact path="/project/:id/members/:page" component={MemberResults}/>
           <Route exact path="/project/:id/bugs/:page" component={BugResults}/>
           <Route exact path="/project/:projectId/bug/:bugId" component={Bug}/>
           <Route exact path="/project/:projectId/bug/:bugId/comments/:page" component={Bug}/>
