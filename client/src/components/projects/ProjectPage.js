@@ -5,7 +5,7 @@ import Moment from 'react-moment'
 import RecentUsers from '../users/RecentUsers'
 import BugPreview from '../bugs/BugPreview'
 
-const options = (auth, ownerId) => {
+const options = (auth, ownerId, projectId) => {
     if(!auth.user){
         return
     }
@@ -14,7 +14,7 @@ const options = (auth, ownerId) => {
     }
     return(
         <div className="d-flex justify-content-between">
-            <Link className="btn btn-primary text-white">Edit</Link>
+            <Link className="btn btn-primary text-white" to={`/project/${projectId}/edit`}>Edit</Link>
             <Link className="btn btn-danger text-white">Delete</Link>
         </div>)
 }
@@ -83,7 +83,7 @@ const ProjectPage = ({
                     </>
                     : null
                 }
-                {options(auth, owner._id)}
+                {options(auth, owner._id, _id)}
             </div>
         </div>
     )
