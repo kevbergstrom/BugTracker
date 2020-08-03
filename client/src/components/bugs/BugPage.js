@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
-const options = (auth, ownerId) => {
+const options = (auth, ownerId, projectId, bugId) => {
     if(!auth.user){
         return
     }
@@ -11,7 +11,7 @@ const options = (auth, ownerId) => {
     }
     return(
         <div className="d-flex justify-content-between">
-            <a className="btn btn-primary text-white" href="#!">Edit</a>
+            <Link className="btn btn-primary text-white" to={`/project/${projectId}/bug/${bugId}/edit`}>Edit</Link>
             <a className="btn btn-danger text-white" href="#!">Delete</a>
         </div>)
 }
@@ -64,7 +64,7 @@ const BugPage = ({
                         </a>
                     </div>
                     {commentPage}
-                    {options(auth, author)}
+                    {options(auth, author, projectId, _id)}
                 </div>
             </div>
         </div>

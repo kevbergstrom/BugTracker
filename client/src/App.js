@@ -16,6 +16,7 @@ import CreateProject from './components/projects/CreateProject'
 import MemberResults from './components/projects/MemberResults'
 import CreateBug from './components/bugs/CreateBug'
 import EditProject from './components/projects/EditProject'
+import EditBug from './components/bugs/EditBug'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -46,6 +47,7 @@ const App = () => {
           <PrivateRoute exact path="/create-project" component={CreateProject}/>
           <PrivateRoute exact path="/project/:id/create-bug" component={CreateBug}/>
           <PrivateRoute exact path="/project/:id/edit" component={EditProject}/>
+          <PrivateRoute exact path="/project/:projectId/bug/:bugId/edit" component={EditBug}/>
         </Switch>
       </BrowserRouter>
     </Provider>

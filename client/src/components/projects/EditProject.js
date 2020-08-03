@@ -60,7 +60,7 @@ const EditProject = ({ match, history }) => {
             }
             setLoading(false)
         })()
-    },[])
+    },[match.params.id])
 
     return(
         <SidebarPage>

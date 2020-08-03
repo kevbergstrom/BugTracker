@@ -237,14 +237,14 @@ router.put('/:projectId/bug/:bugId', checkAuth , async (req, res) => {
             throw new Error('You dont have permission to edit this post')
         }
         // get variables
-        const { title, desc, severity, complete } = req.body
+        const { title, desc } = req.body
         // Update the bug
         foundBug.title = title
         foundBug.desc = desc
-        foundBug.severity = severity
-        if(!foundBug.complete){
-            foundBug.completedOn = Date.now()
-        }
+        // foundBug.severity = severity
+        // if(!foundBug.complete){
+        //     foundBug.completedOn = Date.now()
+        // }
         await foundProject.save()
         res.send(foundBug)
     } catch (err) {
