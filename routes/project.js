@@ -203,8 +203,10 @@ router.post('/:id', checkAuth, async (req, res) => {
         foundProject.bugCount = bugCount
         // Update project in database
         await foundProject.save()
+        // Get the newly created bug
+        const bug = foundProject.bugs[0]
 
-        res.send(newBug)
+        res.send(bug)
     } catch (err) {
         res.status(400).send(err.message)
     }

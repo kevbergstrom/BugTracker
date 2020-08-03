@@ -57,6 +57,11 @@ const ProjectPage = ({
                 </p>
                 <p>{desc}</p>
 
+                <div className="text-center">
+                    {auth.user ? <Link className="btn btn-primary text-white" to={`/project/${_id}/create-bug`}>Add Bug</Link>
+                    : null }
+                </div>
+
                 <h4>Recent Members</h4>
                 <RecentUsers users={members}/>
                 <p></p>

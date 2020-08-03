@@ -63,7 +63,6 @@ const BugPage = ({
                             </svg>
                         </a>
                     </div>
-
                     {commentPage}
                     {options(auth, author)}
                 </div>

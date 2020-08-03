@@ -14,6 +14,7 @@ import ProjectResults from './components/projects/ProjectResults'
 import UserResults from './components/users/UserResults'
 import CreateProject from './components/projects/CreateProject'
 import MemberResults from './components/projects/MemberResults'
+import CreateBug from './components/bugs/CreateBug'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -42,6 +43,7 @@ const App = () => {
           <Route exact path="/users/:page" component={UserResults}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
           <PrivateRoute exact path="/create-project" component={CreateProject}/>
+          <PrivateRoute exact path="/project/:id/create-bug" component={CreateBug}/>
         </Switch>
       </BrowserRouter>
     </Provider>
