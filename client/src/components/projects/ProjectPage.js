@@ -5,20 +5,6 @@ import Moment from 'react-moment'
 import RecentUsers from '../users/RecentUsers'
 import BugPreview from '../bugs/BugPreview'
 
-const options = (auth, ownerId, projectId) => {
-    if(!auth.user){
-        return
-    }
-    if(auth.user.userId !== ownerId){
-        return
-    }
-    return(
-        <div className="d-flex justify-content-between">
-            <Link className="btn btn-primary text-white" to={`/project/${projectId}/edit`}>Edit</Link>
-            <Link className="btn btn-danger text-white">Delete</Link>
-        </div>)
-}
-
 const ProjectPage = ({
     bugCount,
     members,
@@ -29,9 +15,9 @@ const ProjectPage = ({
     owner,
     bugs,
     created,
-    auth
+    auth,
+    options
 },...props) => {
-
     return (
         <div className="container-fluid">
             <div className="container-fluid  contentColor shadow rounded border">
@@ -83,7 +69,7 @@ const ProjectPage = ({
                     </>
                     : null
                 }
-                {options(auth, owner._id, _id)}
+                {options}
             </div>
         </div>
     )
