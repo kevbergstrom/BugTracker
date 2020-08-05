@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
 import BugPage from './BugPage'
 import CommentPage from '../comments/CommentPage'
+import DeleteModal from '../modals/DeleteBug'
 
 const PAGE_OPTIONS = 5
+
+const options = (auth, ownerId, projectId, bugId, setModal) => {
+    if(!auth.user){
+        return
+    }
+    if(auth.user.userId !== ownerId){
+        return
+    }
+    return(
+        <div className="d-flex justify-content-between">
+            <Link className="btn btn-primary text-white" to={`/project/${projectId}/bug/${bugId}/edit`}>Edit</Link>
+            <button className="btn btn-danger text-white" onClick={() => setModal(true)}>Delete</button>
+        </div>)
+}
 
 const Bug = ({ match, history, auth }) => {
     const [loading, setLoading] = useState(false)
     const [bug, setBug] = useState()
     const [comments, setComments] = useState()
     const [totalPages, setTotalPages] = useState()
+    const [modal, setModal] = useState(false)
 
     const selectPage = (pageNumber) => {
         const projectId = match.params.projectId
@@ -73,29 +90,41 @@ const Bug = ({ match, history, auth }) => {
     
 
     return(
-        <SidebarPage>
-            <Loader loading={loading}>
-                {bug ? 
-                    <BugPage 
+        <>
+            {modal ? 
+                <DeleteModal 
                     projectId={match.params.projectId} 
-                    auth={auth}
-                    {...bug} 
-                    commentPage={
-                        <CommentPage 
-                            comments={comments}
-                            currentPage={match.params.page || 1}
-                            pageOptions={PAGE_OPTIONS}
-                            totalPages={totalPages}
-                            generateURL={selectPage}
-                            submitComment={submitComment}
-                            auth={auth}
+                    bugId={match.params.bugId}
+                    closeModal={() => setModal(false)}
+                    history={history}
+                />
+                : null
+            }
+            <SidebarPage>
+                <Loader loading={loading}>
+                    {bug ? 
+                        <BugPage 
+                        projectId={match.params.projectId} 
+                        auth={auth}
+                        options={options(auth, bug.author, match.params.projectId, bug._id, setModal)}
+                        {...bug} 
+                        commentPage={
+                            <CommentPage 
+                                comments={comments}
+                                currentPage={match.params.page || 1}
+                                pageOptions={PAGE_OPTIONS}
+                                totalPages={totalPages}
+                                generateURL={selectPage}
+                                submitComment={submitComment}
+                                auth={auth}
+                            />
+                        }
                         />
+                        : <p>couldnt load bug</p>
                     }
-                    />
-                    : <p>couldnt load bug</p>
-                }
-            </Loader>
-        </SidebarPage>
+                </Loader>
+            </SidebarPage>
+        </>
     )
 }
 
