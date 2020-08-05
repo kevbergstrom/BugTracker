@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
@@ -52,7 +53,7 @@ const EditBug = ({ match, history }) => {
             <Loader loading={loading}>
                 <div className="container-fluid">
                     <div className="container-fluid  contentColor shadow rounded border">
-                        <h4><a href="#">Project Name</a> - Create Bug</h4>
+                        <h4><Link to={`/project/${match.params.projectId}`}>Project Name</Link> - Create Bug</h4>
                         <hr/>
                         <form onSubmit={e => submitBug(e)}>
                             <div className="form-group">

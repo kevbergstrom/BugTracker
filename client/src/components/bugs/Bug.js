@@ -21,7 +21,7 @@ const options = (auth, ownerId, projectId, bugId, setModal) => {
     return(
         <div className="d-flex justify-content-between">
             <Link className="btn btn-primary text-white" to={`/project/${projectId}/bug/${bugId}/edit`}>Edit</Link>
-            <button className="btn btn-danger text-white" onClick={() => setModal(true)}>Delete</button>
+            <button tabIndex='-1' className="btn btn-danger text-white" onClick={() => setModal(true)}>Delete</button>
         </div>)
 }
 
@@ -116,6 +116,7 @@ const Bug = ({ match, history, auth }) => {
                                 totalPages={totalPages}
                                 generateURL={selectPage}
                                 submitComment={submitComment}
+                                match={match}
                                 auth={auth}
                             />
                         }
