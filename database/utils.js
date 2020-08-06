@@ -1,4 +1,5 @@
 const Project = require('../models/Project')
+const Bug = require('../models/Bug')
 
 const getProjectById = async function(projectId){
     let foundProject = await Project.findById(projectId).populate('owner', ['username'])
@@ -10,7 +11,7 @@ const getProjectById = async function(projectId){
 
 const getBugById = async function(projectId, bugId){
     const foundProject = await getProjectById(projectId)
-    let foundBug = await foundProject.bugs.find(bug => bug.id === bugId)
+    let foundBug = await Bug.findById(bugId).populate('author', ['username']).populate('project', ['title'])
     if(!foundBug) {
         throw new Error('Cannot find bug')
     }
@@ -27,7 +28,7 @@ const getCommentById = async function(projectId, bugId, commentId){
 }
 
 const checkUserPermission = function(project, userId){
-    if(project.private && project.members.indexOf(`${userId}`)<0){
+    if(project.isPrivate && project.members.indexOf(`${userId}`)<0){
         throw new Error('You do not have permission for this project')
     }
 }

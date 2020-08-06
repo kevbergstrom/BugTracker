@@ -6,7 +6,7 @@ import SidebarPage from '../layout/SidebarPage'
 const CreateProject = ({ history }) => {
     const [title, setTitle] = useState('')
     const [link, setLink] = useState('')
-    const [privateProject, setPrivateProject] = useState(false)
+    const [isPrivate, setIsPrivate] = useState(false)
     const [tech, setTech] = useState('')
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
@@ -34,7 +34,7 @@ const CreateProject = ({ history }) => {
             const body = JSON.stringify({
                 title,
                 link,
-                private: privateProject,
+                isPrivate,
                 desc,
                 languages: technologies
             })
@@ -63,7 +63,7 @@ const CreateProject = ({ history }) => {
                             <input value={link} onChange={e => setLink(e.target.value)} name="link" type="text" className="form-control inputColor" placeholder="github.com"/>
                         </div>
                         <div className="form-check">
-                            <input value={privateProject} onChange={e => setPrivateProject(e.target.value)} name="private" type="checkbox" className="form-check-input"/>
+                            <input onChange={e => setIsPrivate(e.target.checked)} name="private" type="checkbox" className="form-check-input"/>
                             <label className="form-check-label">Private</label>
                         </div>
                         <p></p>

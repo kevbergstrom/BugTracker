@@ -3,16 +3,13 @@ import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
 const BugPage = ({    
-    completedOn,
     _id,
     created,
     author,
     title,
     desc,
     number,
-    severity,
-    name,
-    projectId,
+    project,
     commentPage,
     options,
     auth
@@ -33,12 +30,12 @@ const BugPage = ({
                 <div className="card-body">
                     <p>
                         Author:
-                        <Link to={`/user/${author}`}>&nbsp;{name}</Link>
+                        <Link to={`/user/${author._id}`}>&nbsp;{author.username}</Link>
                         <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
                     <p>
                         Project:
-                        <Link to={`/project/${projectId}`}>&nbsp;Project Name</Link>
+                        <Link to={`/project/${project._id}`}>&nbsp;{project.title}</Link>
                     </p>
                     <p>{desc}</p>
 

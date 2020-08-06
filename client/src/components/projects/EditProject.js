@@ -8,7 +8,7 @@ const EditProject = ({ match, history }) => {
     const [loading, setLoading] = useState(true)
     const [title, setTitle] = useState('')
     const [link, setLink] = useState('')
-    const [privateProject, setPrivateProject] = useState(false)
+    const [isPrivate, setIsPrivate] = useState(false)
     const [tech, setTech] = useState('')
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
@@ -36,7 +36,7 @@ const EditProject = ({ match, history }) => {
             const body = JSON.stringify({
                 title,
                 link,
-                private: privateProject,
+                isPrivate,
                 desc,
                 languages: technologies
             })
@@ -53,7 +53,8 @@ const EditProject = ({ match, history }) => {
                 const res = await axios.get(`/api/project/${match.params.id}`)
                 setTitle(res.data.title)
                 setDesc(res.data.desc)
-                setPrivateProject(res.data.private)
+                setLink(res.data.link)
+                setIsPrivate(res.data.isPrivate)
                 setTechnologies([...res.data.languages])
             } catch (err) {
                 console.log(err)
@@ -79,7 +80,7 @@ const EditProject = ({ match, history }) => {
                                 <input value={link} onChange={e => setLink(e.target.value)} name="link" type="text" className="form-control inputColor" placeholder="github.com"/>
                             </div>
                             <div className="form-check">
-                                <input value={privateProject} onChange={e => setPrivateProject(e.target.value)} name="private" type="checkbox" className="form-check-input"/>
+                            <input onChange={e => setIsPrivate(e.target.checked)} name="private" type="checkbox" className="form-check-input"/>
                                 <label className="form-check-label">Private</label>
                             </div>
                             <p></p>

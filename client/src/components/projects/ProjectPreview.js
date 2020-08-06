@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
+import { confirmLink } from './utility'
 
 const DESC_LENGTH = 20
 
@@ -11,14 +12,16 @@ const ProjectPreview = ({
     title,
     desc,
     owner,
-    created
-}, ...props) => {
+    link,
+    created,
+    isPrivate
+}) => {
     return(
         <div className="container-fluid">
             <div className="container-fluid contentColor shadow rounded border">
                 <div className="d-flex justify-content-between">
                     <h4>{title}&nbsp;
-                    {props.private ? <span className="badge badge-warning">Private</span>
+                    {isPrivate ? <span className="badge badge-warning">Private</span>
                         : <span className="badge badge-primary">Public</span>}
                     </h4>
                 </div>
@@ -30,7 +33,7 @@ const ProjectPreview = ({
                 </p>
                 <p>
                     Project Link:
-                    <a href="#!">&nbsp;github.com</a>
+                    <a href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
                 </p>
                 <p>
                 {languages.map((lang, i) => <span key={i} className="badge badge-primary">{lang}</span>)}

@@ -106,7 +106,7 @@ const Bug = ({ match, history, auth }) => {
                         <BugPage 
                         projectId={match.params.projectId} 
                         auth={auth}
-                        options={options(auth, bug.author, match.params.projectId, bug._id, setModal)}
+                        options={options(auth, bug.author._id, match.params.projectId, bug._id, setModal)}
                         {...bug} 
                         commentPage={
                             <CommentPage 

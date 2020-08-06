@@ -8,31 +8,12 @@ let projectSchema = new Schema({
     },
     title: String,
     desc: String,
+    link: String,
     bugCount: { type: Number, default: 0 },
     bugs: [
         {
-            author: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            name: String,
-            title: String,
-            desc: String,
-            number: Number,
-            created: { type: Date, default: Date.now },
-            completedOn: { type: Date, default: null },
-            severity: Number,
-            comments: [
-                {
-                    author: {
-                        type: Schema.Types.ObjectId,
-                        ref: 'User'
-                    },
-                    name: String,
-                    desc: String,
-                    created: { type: Date, default: Date.now }
-                }
-            ]
+            type: Schema.Types.ObjectId,
+            ref: 'Bug'
         }
     ],
     members: [
@@ -42,7 +23,7 @@ let projectSchema = new Schema({
         }
     ],
     created: { type: Date, default: Date.now },
-    private: { type: Boolean, default: true },
+    isPrivate: { type: Boolean, default: true },
     languages: [String]
 })
 

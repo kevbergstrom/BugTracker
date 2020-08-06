@@ -18,6 +18,28 @@ let userSchema = new Schema({
         }
     },
     password: String,
+    projects: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Project'
+        }
+    ],
+    favorites: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Bug'
+        }
+    ],
+    invites: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Project'
+        }
+    ],
+    profile: {
+        type: Schema.Types.ObjectId,
+        ref: 'Profile'
+    },
     created: { type: Date, default: Date.now }
 })
 

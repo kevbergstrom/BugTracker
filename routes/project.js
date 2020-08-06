@@ -10,6 +10,7 @@ const {
 
 const Project = require('../models/Project')
 const User = require('../models/User')
+const Bug = require('../models/Bug')
 
 const PROJECTS_PER_PAGE = 5
 const BUGS_PER_PAGE = 5
@@ -21,17 +22,29 @@ const PROJECT_BUG_PREVIEWS = 3
 // Create project
 router.post('', checkAuth , async (req, res) => {
     try {
-        const { title, desc, private, languages } = req.body
+        // Get variables
+        const { title, desc, link , isPrivate, languages} = req.body
         const owner = req.session.user.userId
+
+        // Construct the model
         const newProject = new Project({
             title, 
             desc, 
-            private,
+            isPrivate,
             owner,
+            link,
             members: [owner],
             languages: languages && [...languages]
         })
+        // Add project to user
+        let foundUser = await User.findById(owner)
+        foundUser.projects.push(`${newProject.id}`)
+        // Save changes to the database
         await newProject.save()
+        await User.updateOne(
+            {_id: owner}, 
+            { projects: foundUser.projects}
+        )
 
         res.send(newProject)
     } catch (err) {
@@ -50,7 +63,14 @@ router.get('/:id', async (req, res) => {
             .slice('members', [0, PROJECT_MEMBER_PREVIEWS])
             .slice('bugs', [0, PROJECT_BUG_PREVIEWS])
             .populate('members','username')
-            .select('-bugs.comments')
+            .populate({
+                path : 'bugs',
+                select: '-comments',
+                populate : {
+                  path : 'author',
+                  select: 'username'
+                }
+              })
 
         foundProject.memberCount = foundProject.members.length
         foundProject.bugs = query.bugs
@@ -67,9 +87,9 @@ router.get('/projects/:page', async (req, res) => {
     try {
         const indexStart = (req.params.page-1)*PROJECTS_PER_PAGE
         // get projects
-        const totalProjects = await Project.find({private: false}).countDocuments()//estimatedDocumentCount()?
+        const totalProjects = await Project.find({isPrivate: false}).countDocuments()//estimatedDocumentCount()?
         const totalPages = Math.ceil(totalProjects/PROJECTS_PER_PAGE)
-        let projects = await Project.find({private: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).populate('owner','username _id').select('-bugs -members')
+        let projects = await Project.find({isPrivate: false}).skip(indexStart).limit(PROJECTS_PER_PAGE).populate('owner','username _id').select('-bugs -members')
         
         const package={
             totalPages,
@@ -118,7 +138,15 @@ router.post('/:id/member', checkAuth, async (req, res) => {
         }
         // Add user to the members list
         foundProject.members.push(`${id}`)
+        // Add project to member
+        let foundUser = await User.findById(id)
+        foundUser.projects.push(`${foundProject.id}`)
+        // Save changes to the database
         await foundProject.save()
+        await User.updateOne(
+            {_id: owner}, 
+            { projects: foundUser.projects}
+        )
         res.send(id)
     } catch (err) {
         res.status(400).send(err.message)
@@ -140,7 +168,17 @@ router.delete('/:projectId/member/:userId', checkAuth, async (req, res) => {
             throw new Error('User is not a member')
         }
         foundProject.members.splice(userIndex, 1)
+        // Remove project from member
+        let foundUser = await User.findById(id)
+        const projIndex = foundUser.projects.indexOf(`${req.params.projectId}`)
+        foundUser.projects.splice(projIndex,1)
+        // Save changes to the database
         await foundProject.save()
+        await User.updateOne(
+            {_id: owner}, 
+            { projects: foundUser.projects}
+        )
+
         res.send(req.params.userId)
     } catch (err) {
         res.status(400).send(err.message)
@@ -154,9 +192,9 @@ router.put('/:id', checkAuth , async (req, res) => {
         let foundProject = await getProjectById(req.params.id)
         checkOwner(foundProject, req.session.user && req.session.user.userId)
         // Get variables
-        const { title, desc, private, languages } = req.body
+        const { title, desc, isPrivate, link, languages } = req.body
         // Update the project
-        const update = { title, desc, private, languages }
+        const update = { title, desc, isPrivate, link, languages }
         await Project.findByIdAndUpdate(req.params.id, update)
 
         res.send(update)
@@ -172,6 +210,7 @@ router.delete('/:id', checkAuth, async(req, res) => {
          let foundProject = await getProjectById(req.params.id)
          checkOwner(foundProject, req.session.user && req.session.user.userId)
          foundProject.remove()
+
          res.status(200).send('Removed project')
     } catch (err) {
         res.status(400).send(err.message)
@@ -185,28 +224,33 @@ router.post('/:id', checkAuth, async (req, res) => {
         let foundProject = await getProjectById(req.params.id)
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
         // Get varibles
-        const { title, desc, severity} = req.body
+        const { title, desc} = req.body
         const author = req.session.user.userId
         const name = req.session.user.username
         const bugCount = foundProject.bugCount += 1
         // Create bug
-        const newBug = {
-            author: req.session.user.userId,
+        const newBug = new Bug({
+            author,
             title: title,
             desc: desc,
             number: bugCount,
-            severity: severity ? severity : 1,
-            name
-        }
+            project: req.params.id
+        })
         // Add bug to project
-        foundProject.bugs.unshift(newBug)
+        foundProject.bugs.unshift(newBug.id)
         foundProject.bugCount = bugCount
-        // Update project in database
+        // Add bug to user's favorites
+        let foundUser = await User.findById(author)
+        foundUser.favorites.push(`${newBug.id}`)
+        // Save changes to the database
+        await newBug.save()
         await foundProject.save()
-        // Get the newly created bug
-        const bug = foundProject.bugs[0]
+        await User.updateOne(
+            {_id: author}, 
+            { favorites: foundUser.favorites}
+        )
 
-        res.send(bug)
+        res.send(newBug)
     } catch (err) {
         res.status(400).send(err.message)
     }
@@ -233,7 +277,7 @@ router.put('/:projectId/bug/:bugId', checkAuth , async (req, res) => {
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
         // check user permission
-        if(foundBug.author != req.session.user.userId){
+        if(foundBug.author.id != req.session.user.userId){
             throw new Error('You dont have permission to edit this post')
         }
         // get variables
@@ -241,11 +285,8 @@ router.put('/:projectId/bug/:bugId', checkAuth , async (req, res) => {
         // Update the bug
         foundBug.title = title
         foundBug.desc = desc
-        // foundBug.severity = severity
-        // if(!foundBug.complete){
-        //     foundBug.completedOn = Date.now()
-        // }
-        await foundProject.save()
+
+        await foundBug.save()
         res.send(foundBug)
     } catch (err) {
         res.status(400).send(err.message)
@@ -258,11 +299,14 @@ router.delete('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
         checkUserPermission(foundProject, req.session.user && req.session.user.userId)
         // check user permission
-        if(foundBug.author != req.session.user.userId){
+        if(foundBug.author.id != req.session.user.userId){
             throw new Error('You dont have permission to edit this post')
         }
-        foundProject.bugs = foundProject.bugs.filter(bug => bug.id != req.params.bugId)
+        foundProject.bugs = foundProject.bugs.filter(bug => bug != req.params.bugId)
+        // Update thr database
+        foundBug.remove()
         await foundProject.save()
+
         res.status(200).send('OK')
     } catch (err) {
         res.status(400).send(err.message)
@@ -282,18 +326,24 @@ router.get('/:id/bugs/:page', async (req, res) => {
         if(page <=0 || page > totalPages){
             throw new Error("Out of bounds")
         }
-        // remove comments
-        let bugPreviews = foundProject.bugs.slice((page-1)*BUGS_PER_PAGE, page*BUGS_PER_PAGE)
-            .map(prev => {
-                prev.comments = []
-                return prev
+        const indexStart = (page-1)*BUGS_PER_PAGE
+
+        let query = await Project.findById(req.params.id, {"bugs":{$slice:[indexStart, BUGS_PER_PAGE]}})
+            .populate({
+                path: 'bugs',
+                select: '-comments',
+                populate: {
+                    path: 'author',
+                    select: 'username'
+                }
             })
+
         const package = {
             title: foundProject.title,
             totalPages,
-            bugs: bugPreviews
+            bugs: query.bugs
         }
-
+ 
         res.send(package)
     } catch (err) {
         res.status(400).send(err.message)
@@ -318,7 +368,7 @@ router.post('/:projectId/bug/:bugId', checkAuth, async (req, res) => {
         }
         // Add comment to bug
         foundBug.comments.push(newComment)
-        await foundProject.save()
+        await foundBug.save()
         
         res.send(newComment)
     } catch (err) {
@@ -362,7 +412,7 @@ router.delete('/:projectId/bug/:bugId/comment/:commentId', checkAuth, async (req
             throw new Error('You dont have permission to delete this comment')
         }
         foundBug.comments = foundBug.comments.filter(com => com.id != req.params.commentId)
-        await foundProject.save()
+        await foundBug.save()
         res.status(200).send('OK')
     } catch (err) {
         res.status(400).send(err.message)
