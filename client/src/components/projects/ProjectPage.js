@@ -62,7 +62,7 @@ const ProjectPage = ({
                     <>
                         <h4>Recent Bugs</h4>
                         <div className="container-fluid">
-                        {bugs.map(bug => <BugPreview key={bug._id} projectId={_id} {...bug}/>)}
+                        {bugs.map(bug => <BugPreview key={bug._id} {...bug}/>)}
                         </div>
                         <p></p>
                         <div className="text-center">

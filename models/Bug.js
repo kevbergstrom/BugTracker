@@ -11,6 +11,7 @@ let bugSchema = new Schema({
     number: Number,
     created: { type: Date, default: Date.now },
     stage: { type: Number, default: 0 },
+    favorited: { type: Boolean, default: false },
     progress: [
         {
             user: {

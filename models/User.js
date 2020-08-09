@@ -57,5 +57,9 @@ userSchema.methods.comparePasswords = function (password) {
     return compareSync(password, this.password)
 }
 
+userSchema.methods.hasFavorite = function (favorite) {
+    return this.favorites.indexOf(favorite) >= 0
+}
+
 const User = mongoose.model('User', userSchema)
 module.exports = User

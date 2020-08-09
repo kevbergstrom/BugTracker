@@ -37,6 +37,13 @@ router.get('/results/:page', async (req, res) => {
                 }
             })
 
+        // Check if favorited by the user
+        let foundUser = await User.findById(req.session.user.userId)
+        query.bugs = query.bugs.map(bug => {
+            bug.favorited = foundUser.hasFavorite(bug._id)
+            return bug
+        })
+
         const package = {
             title: foundProject.title,
             totalPages,
@@ -96,7 +103,55 @@ router.get('/:bugId', async (req, res) => {
         // Remove comments
         foundBug.comments = []
 
+        //check if the bug is favorited
+        let foundUser = await User.findById(req.session.user.userId)
+        foundBug.favorited = foundUser.hasFavorite(req.params.bugId)
+
         res.send(foundBug)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Favorite a bug
+router.post('/:bugId/favorite', async (req, res) => {
+    try {
+        // Find the Bug
+        let { foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        // Find the user
+        let foundUser = await User.findById(req.session.user.userId)
+        // Check if favorite exists
+        if(foundUser.hasFavorite(req.params.bugId)){
+            throw new Error('You already favorited this bug')
+        }
+        // Add favorite to user
+        foundUser.favorites.push(`${req.params.bugId}`)
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { favorites: foundUser.favorites}
+        )
+
+        res.send(true)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Unfavorite a bug
+router.delete('/:bugId/favorite', async (req, res) => {
+    try {
+        // Find the user
+        let foundUser = await User.findById(req.session.user.userId)
+        // Remove the favorite
+        let updatedFavorites = foundUser.favorites.filter(fav => fav != req.params.bugId)
+        // Save to database
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { favorites: updatedFavorites}
+        )
+
+        res.send(false)
     } catch (err) {
         res.status(400).send(err.message)
     }

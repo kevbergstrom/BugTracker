@@ -67,12 +67,21 @@ router.get('/:id', async (req, res) => {
                 }
               })
 
+        // Check if favorited by the user
+        let foundUser = await User.findById(req.session.user.userId)
+        query.bugs = query.bugs.map(bug => {
+            bug.favorited = foundUser.hasFavorite(bug._id)
+            return bug
+        })
+
         foundProject.memberCount = foundProject.members.length
         foundProject.bugs = query.bugs
         foundProject.members = query.members
 
+        //console.log(foundProject)
         res.send(foundProject)
     } catch (err) {
+        console.log(err.message)
         res.status(400).send(err.message)
     }
 })
