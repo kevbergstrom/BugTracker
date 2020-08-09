@@ -24,7 +24,7 @@ const BugResults = ({ match }) => {
             try {
                 const projectId = match.params.id
                 const page = match.params.page
-                const res = await axios.get(`/api/project/${projectId}/bugs/${page}`)
+                const res = await axios.get(`/api/project/${projectId}/bug/results/${page}`)
                 setBugs(res.data.bugs)
                 setTotalPages(res.data.totalPages)
                 setTitle(res.data.title)

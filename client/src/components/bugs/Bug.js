@@ -48,7 +48,7 @@ const Bug = ({ match, history, auth }) => {
             const body = JSON.stringify({desc: comment})
             const projectId = match.params.projectId
             const bugId = match.params.bugId
-            await axios.post(`/api/project/${projectId}/bug/${bugId}`, body, config)
+            await axios.post(`/api/project/${projectId}/bug/${bugId}/comment`, body, config)
             window.location.reload(false)// not the best option
         } catch (err) {
             console.log(err)
@@ -78,7 +78,7 @@ const Bug = ({ match, history, auth }) => {
                 const bugId = match.params.bugId
                 //get comment data
                 const commentPage = match.params.page || 1
-                const cres = await axios.get(`/api/project/${projectId}/bug/${bugId}/comments/${commentPage}`)
+                const cres = await axios.get(`/api/project/${projectId}/bug/${bugId}/comment/results/${commentPage}`)
                 setComments(cres.data.comments)
                 setTotalPages(cres.data.totalPages)
             } catch (err) {

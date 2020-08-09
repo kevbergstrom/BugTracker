@@ -20,7 +20,7 @@ const CreateBug = ({ match, history }) => {
                 desc
             })
             const id = match.params.id
-            const res = await axios.post(`/api/project/${id}`, body, config)
+            const res = await axios.post(`/api/project/${id}/bug`, body, config)
             // Visit the newly created bug
             const newBugId = res.data._id
             history.push(`/project/${id}/bug/${newBugId}`)

@@ -3,7 +3,7 @@ const app = express()
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 
-const { userRoute, projectRoute } = require('./routes')
+const { userRoute, projectRoute, bugRoute, commentRoute } = require('./routes')
 
 // configs
 const { 
@@ -51,6 +51,8 @@ const apiRouter = express.Router()
 app.use('/api', apiRouter)
 apiRouter.use('/user', userRoute )
 apiRouter.use('/project', projectRoute)
+apiRouter.use('/project/:projectId/bug', bugRoute)
+apiRouter.use('/project/:projectId/bug/:bugId/comment', commentRoute)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
