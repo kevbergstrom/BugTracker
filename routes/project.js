@@ -8,6 +8,7 @@ const {
 
 const Project = require('../models/Project')
 const User = require('../models/User')
+const Bug = require('../models/Bug')
 
 const PROJECTS_PER_PAGE = 5
 const MEMBERS_PER_PAGE = 20
@@ -213,6 +214,15 @@ router.delete('/:id', checkAuth, async(req, res) => {
          // Find the project
          let foundProject = await getProjectById(req.params.id)
          checkOwner(foundProject, req.session.user && req.session.user.userId)
+
+        // Remove the associated bugs
+        foundProject.bugs.map(async (ref) => {
+            let foundBug = await Bug.findById(ref)
+            if(foundBug){
+                foundBug.remove()
+            }
+        })
+
          foundProject.remove()
 
          res.status(200).send('Removed project')
