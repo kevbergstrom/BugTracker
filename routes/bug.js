@@ -179,6 +179,22 @@ router.put('/:bugId', checkAuth , async (req, res) => {
     }
 })
 
+// Update bug stage
+router.put('/:bugId/stage', checkAuth, async (req, res) => {
+    try {
+        let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        foundBug.stage = req.body.stage
+        foundBug.progress[req.body.stage] = {user: req.session.user.userId}
+        await foundBug.save()
+
+        res.send(foundBug)
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).send(err.message)
+    }
+})
+
 // Remove bug from project
 router.delete('/:bugId', checkAuth, async (req, res) => {
     try {

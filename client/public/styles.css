@@ -22,6 +22,21 @@
     max-width: 800px;
 }
 
+.favBtn-0 {
+    color: #dc3545;
+    background-color: #dc3545;
+}
+
+.favBtn-1 {
+    color: #ffc107;
+    background-color: #ffc107;
+}
+
+.favBtn-2 {
+    color: #28a745;
+    background-color: #28a745;
+}
+
 .lightText {
     color: rgb(223, 223, 223);
 }

@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import Favorite from '../buttons/Favorite'
 
-const FavoriteBug = ({ favorited, projectId, bugId }) => {
+const FavoriteBug = ({ favorited, projectId, bugId, stage }) => {
     const [favorite, setFavorite] = useState(false)
     const [ready, setReady] = useState(true)
 
@@ -30,7 +30,7 @@ const FavoriteBug = ({ favorited, projectId, bugId }) => {
         setReady(true)
     }
 
-    return <Favorite favorited={favorite} onClick={updateFavorite}/>
+    return <Favorite favorited={favorite} onClick={updateFavorite} stage={stage}/>
 }
 
 export default FavoriteBug

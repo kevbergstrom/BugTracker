@@ -30,11 +30,26 @@ const Bug = ({ match, history, auth }) => {
     const [bug, setBug] = useState()
     const [comments, setComments] = useState()
     const [totalPages, setTotalPages] = useState()
+    const [stage, setStage] = useState(0)
+    const [ready, setReady] = useState(true)
     const [modal, setModal] = useState(false)
+    const projectId = match.params.projectId
+    const bugId = match.params.bugId
+
+    const controls = () => {
+        switch(stage){
+            case 0:
+                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to testing</a>
+            case 1:
+                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to fixed</a>
+            case 2:
+                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(0)}>Reopen</a>
+            default:
+                return <p></p>
+        }
+    }
 
     const selectPage = (pageNumber) => {
-        const projectId = match.params.projectId
-        const bugId = match.params.bugId
         return `/project/${projectId}/bug/${bugId}/comments/${pageNumber}`
     }
 
@@ -46,13 +61,31 @@ const Bug = ({ match, history, auth }) => {
                 }
             }
             const body = JSON.stringify({desc: comment})
-            const projectId = match.params.projectId
-            const bugId = match.params.bugId
             await axios.post(`/api/project/${projectId}/bug/${bugId}/comment`, body, config)
             window.location.reload(false)// not the best option
         } catch (err) {
             console.log(err)
         }
+    }
+
+    const upgradeStage = async (stage) => {
+        if(!ready){
+            return
+        }
+        setReady(false)
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const body = JSON.stringify({stage: stage})
+            await axios.put(`/api/project/${projectId}/bug/${bugId}/stage`, body, config)
+            setStage(stage)
+        } catch (err) {
+            console.log(err)
+        }
+        setReady(true)
     }
 
     // Bug loading
@@ -64,6 +97,7 @@ const Bug = ({ match, history, auth }) => {
                 // get bug data
                 const res = await axios.get(`/api/project/${projectId}/bug/${bugId}`)
                 setBug(res.data)
+                setStage(res.data.stage)
             } catch (err) {
                 console.log(err)
             }
@@ -107,18 +141,23 @@ const Bug = ({ match, history, auth }) => {
                         projectId={match.params.projectId} 
                         auth={auth}
                         options={options(auth, bug.author._id, match.params.projectId, bug._id, setModal)}
+                        controls={controls()}
                         {...bug} 
+                        stage={stage}
                         commentPage={
-                            <CommentPage 
-                                comments={comments}
-                                currentPage={match.params.page || 1}
-                                pageOptions={PAGE_OPTIONS}
-                                totalPages={totalPages}
-                                generateURL={selectPage}
-                                submitComment={submitComment}
-                                match={match}
-                                auth={auth}
-                            />
+                            <>
+                                <p></p>
+                                <CommentPage 
+                                    comments={comments}
+                                    currentPage={match.params.page || 1}
+                                    pageOptions={PAGE_OPTIONS}
+                                    totalPages={totalPages}
+                                    generateURL={selectPage}
+                                    submitComment={submitComment}
+                                    match={match}
+                                    auth={auth}
+                                />
+                            </>
                         }
                         />
                         : <p>couldnt load bug</p>
