@@ -79,7 +79,7 @@ router.post('', checkAuth, async (req, res) => {
         foundProject.bugCount = bugCount
         // Add bug to user's favorites
         let foundUser = await User.findById(author)
-        foundUser.favorites.push(`${newBug.id}`)
+        foundUser.favorites.unshift(`${newBug.id}`)
         // Save changes to the database
         await newBug.save()
         await foundProject.save()
@@ -126,7 +126,7 @@ router.post('/:bugId/favorite', async (req, res) => {
             throw new Error('You already favorited this bug')
         }
         // Add favorite to user
-        foundUser.favorites.push(`${req.params.bugId}`)
+        foundUser.favorites.unshift(`${req.params.bugId}`)
         await User.updateOne(
             {_id: req.session.user.userId}, 
             { favorites: foundUser.favorites}
@@ -189,12 +189,13 @@ router.delete('/:bugId', checkAuth, async (req, res) => {
             throw new Error('You dont have permission to edit this post')
         }
         foundProject.bugs = foundProject.bugs.filter(bug => bug != req.params.bugId)
-        // Update thr database
         foundBug.remove()
+        // Update the database
         await foundProject.save()
 
         res.status(200).send('OK')
     } catch (err) {
+        console.log(err.message)
         res.status(400).send(err.message)
     }
 })

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
+const User = require('./User')
+
 let bugSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
@@ -36,6 +38,13 @@ let bugSchema = new Schema({
             created: { type: Date, default: Date.now }
         }
     ]
+})
+
+bugSchema.post('remove', async function(){
+    const bugId = this.id
+    // Delete all of the favorites referencing this bug
+    await User.updateMany({'favorites': bugId}, { $pull: {'favorites': bugId} } )
+
 })
 
 const Bug = mongoose.model('Bug', bugSchema)

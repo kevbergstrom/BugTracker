@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect} from 'react'
 import axios from 'axios'
 
 import SidebarPage from '../layout/SidebarPage'
@@ -9,33 +8,30 @@ import Loader from '../layout/Loader'
 
 const PAGE_OPTIONS = 5
 
-const BugResults = ({ match }) => {
+const FavoriteResults = ({ match }) => {
     const [loading, setLoading] = useState(true)
     const [bugs, setBugs] = useState()
     const [totalPages, setTotalPages] = useState(0)
-    const [title, setTitle] = useState("")
 
     const selectPage = (pageNumber) => {
-        return `/project/${match.params.id}/bugs/${pageNumber}`
+        return `/favorites/${pageNumber}`
     } 
 
     useEffect(()=>{
         (async () => {
             try {
-                const projectId = match.params.id
                 const page = match.params.page
-                const res = await axios.get(`/api/project/${projectId}/bug/results/${page}`)
+                const res = await axios.get(`/api/user/favorites/${page}`)
                 setBugs(res.data.bugs)
                 setTotalPages(res.data.totalPages)
-                setTitle(res.data.title)
             } catch (err) {
                 console.log(err)
             }
             setLoading(false)
         })()
-    },[match.params.id, match.params.page])
+    },[match.params.page])
 
-    return (
+    return (    
         <SidebarPage>
             <Results 
                 generateURL={selectPage}
@@ -44,7 +40,7 @@ const BugResults = ({ match }) => {
                 totalPages={totalPages}
                 header={                
                 <div className="d-flex justify-content-between">
-                    <h4><Link to={`/project/${match.params.id}`}>{title}</Link> - Bugs</h4>
+                    <h4>Favorited Bugs</h4>
                     <form className="form-inline">
                         <input className="form-control mr-sm-2 inputColor" type="search" placeholder="Search"/>
                         <button className="btn btn-primary my-2 text-white" type="submit">Search</button>
@@ -64,4 +60,4 @@ const BugResults = ({ match }) => {
     )
 }
 
-export default BugResults
+export default FavoriteResults

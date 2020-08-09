@@ -6,8 +6,10 @@ const { setSession, destroySession } = require('../session')
 const { SESSION_NAME } = require('../config')
 
 const User = require('../models/User')
+const Bug = require('../models/Bug')
 
 const USERS_PER_PAGE = 20
+const BUGS_PER_PAGE = 5
 
 router.post('', noAuth , async (req, res) => {
     try {
@@ -92,6 +94,50 @@ router.get('/users/:page', async (req, res) => {
         res.send(package)
     } catch (err) {
         res.status(404).send("No users here")
+    }
+})
+
+// Get paginated user favorites
+router.get('/favorites/:page', async (req, res) => {
+    try {
+        if(!req.session.user){
+            throw new Error('You aren\'t logged in')
+        }
+
+        const foundUser = await User.findById(req.session.user.userId)
+
+
+        const totalPages = Math.ceil(foundUser.favorites.length/BUGS_PER_PAGE)
+        const page = req.params.page
+        if(page <=0 || page > totalPages){
+            throw new Error("Out of bounds")
+        }
+        const indexStart = (page-1)*BUGS_PER_PAGE
+
+        let query = await User.findById(req.session.user.userId, {"favorites":{$slice:[indexStart, BUGS_PER_PAGE]}})
+            .populate({
+                path: 'favorites',
+                populate: {
+                    path: 'author',
+                    select: 'username'
+                },
+            })
+
+        // Set favorited
+        query.favorites = query.favorites.map(bug => {
+            bug.favorited = true
+            return bug
+        })
+
+        const package = {
+            totalPages,
+            bugs: query.favorites
+        }
+
+        res.send(package)
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).send(err.message)
     }
 })
 

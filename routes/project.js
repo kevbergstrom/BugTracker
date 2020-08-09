@@ -214,15 +214,7 @@ router.delete('/:id', checkAuth, async(req, res) => {
          // Find the project
          let foundProject = await getProjectById(req.params.id)
          checkOwner(foundProject, req.session.user && req.session.user.userId)
-
-        // Remove the associated bugs
-        foundProject.bugs.map(async (ref) => {
-            let foundBug = await Bug.findById(ref)
-            if(foundBug){
-                foundBug.remove()
-            }
-        })
-
+        // Update the database
          foundProject.remove()
 
          res.status(200).send('Removed project')
