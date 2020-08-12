@@ -23,9 +23,42 @@ const options = (auth, ownerId, projectId, setModal) => {
         </div>)
 }
 
+const joinProject = async (projectId, setJoined) => {
+    try {
+        await axios.post(`/api/project/${projectId}/join`)
+        setJoined(true)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const leaveProject = async (projectId, setJoined) => {
+    try {
+        await axios.delete(`/api/project/${projectId}/leave`)
+        setJoined(false)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const membershipOptions = (auth, ownerId, projectId, joined, setJoined) => {
+    if(!auth.user){
+        return
+    }
+    if(auth.user.userId === ownerId){
+        return
+    }
+    if(joined){
+        return <a className="btn btn-danger text-white" onClick={() => leaveProject(projectId, setJoined)}>Leave</a>
+    }else{
+        return <a className="btn btn-primary text-white" onClick={() => joinProject(projectId, setJoined)}>Join</a>
+    }
+}
+
 const Project = ({ match, auth, history }) => {
     const [loading, setLoading] = useState(true)
     const [project, setProject] = useState()
+    const [joined, setJoined] = useState(false)
     const [modal, setModal] = useState(false)
 
     useEffect(()=>{
@@ -33,6 +66,7 @@ const Project = ({ match, auth, history }) => {
             try {
                 const res = await axios.get(`/api/project/${match.params.id}`)
                 setProject(res.data)
+                setJoined(res.data.joined)
             } catch (err) {
                 console.log(err)
             }
@@ -55,7 +89,9 @@ const Project = ({ match, auth, history }) => {
                     <ProjectPage 
                         auth={auth} 
                         options={options(auth, project.owner._id, project._id, setModal)}
-                        {...project} /> 
+                        membershipOptions={membershipOptions(auth, project.owner._id, project._id, joined, setJoined)}
+                        {...project} 
+                        joined={joined}/> 
                     : <p>couldnt load project</p>
                 }
             </SidebarPage>

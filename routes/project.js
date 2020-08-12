@@ -34,7 +34,7 @@ router.post('', checkAuth , async (req, res) => {
         })
         // Add project to user
         let foundUser = await User.findById(owner)
-        foundUser.projects.push(`${newProject.id}`)
+        foundUser.projects.unshift(`${newProject.id}`)
         // Save changes to the database
         await newProject.save()
         await User.updateOne(
@@ -68,12 +68,19 @@ router.get('/:id', async (req, res) => {
                 }
               })
 
-        // Check if favorited by the user
-        let foundUser = await User.findById(req.session.user.userId)
-        query.bugs = query.bugs.map(bug => {
-            bug.favorited = foundUser.hasFavorite(bug._id)
-            return bug
-        })
+        if(req.session.user){
+            // Check if favorited by the user
+            let foundUser = await User.findById(req.session.user.userId)
+            query.bugs = query.bugs.map(bug => {
+                bug.favorited = foundUser.hasFavorite(bug._id)
+                return bug
+            })
+
+            if(foundUser.hasProject(req.params.id)){
+                foundProject.joined = true
+            }
+        }
+
 
         foundProject.memberCount = foundProject.members.length
         foundProject.bugs = query.bugs
@@ -82,7 +89,6 @@ router.get('/:id', async (req, res) => {
         //console.log(foundProject)
         res.send(foundProject)
     } catch (err) {
-        console.log(err.message)
         res.status(400).send(err.message)
     }
 })
@@ -125,6 +131,50 @@ router.get('/:id/members/:page', async (req, res) => {
         }
 
         res.send(package)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Join project
+router.post('/:id/join', checkAuth, async (req, res) => {
+    try {
+        // Find the project
+        await getProjectById(req.params.id)
+
+        let foundUser = await User.findById(req.session.user.userId)
+        // Check if favorite exists
+        if(foundUser.hasProject(req.params.id)){
+            throw new Error('You already joined this project')
+        }
+        // Add favorite to user
+        foundUser.projects.unshift(`${req.params.id}`)
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { projects: foundUser.projects}
+        )
+
+        res.send(true)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Leave project
+router.delete('/:id/leave', checkAuth, async (req, res) => {
+    try {
+        // Find the user
+        let foundUser = await User.findById(req.session.user.userId)
+
+        let updatedProjects = foundUser.projects.filter(proj => proj != req.params.id)
+
+        // Save to database
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { projects: updatedProjects}
+        )
+
+        res.send(false)
     } catch (err) {
         res.status(400).send(err.message)
     }

@@ -1,28 +1,27 @@
-import React, { useState, useEffect} from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 
 import SidebarPage from '../layout/SidebarPage'
 import Results from '../layout/Results'
-import BugPreview from './BugPreview'
+import ProjectPreview from './ProjectPreview'
 import Loader from '../layout/Loader'
+import axios from 'axios'
 
 const PAGE_OPTIONS = 5
 
 const selectPage = (pageNumber) => {
-    return `/favorites/${pageNumber}`
+    return `/projects/${pageNumber}`
 } 
 
-const FavoriteResults = ({ match }) => {
+const JoinedResults = ({ match }) => {
     const [loading, setLoading] = useState(true)
-    const [bugs, setBugs] = useState()
+    const [projects, setProjects] = useState()
     const [totalPages, setTotalPages] = useState(0)
 
-    useEffect(()=>{
-        (async () => {
+    useEffect(() => {
+        (async ()=>{
             try {
-                const page = match.params.page
-                const res = await axios.get(`/api/user/favorites/${page}`)
-                setBugs(res.data.bugs)
+                const res = await axios.get(`/api/user/projects/${match.params.page}`)
+                setProjects(res.data.projects)
                 setTotalPages(res.data.totalPages)
             } catch (err) {
                 console.log(err)
@@ -30,17 +29,16 @@ const FavoriteResults = ({ match }) => {
             setLoading(false)
         })()
     },[match.params.page])
-
-    return (    
+    return(
         <SidebarPage>
-            <Results 
+            <Results                
                 generateURL={selectPage}
                 currentPage={match.params.page}
                 pageOptions={PAGE_OPTIONS}
                 totalPages={totalPages}
                 header={                
                 <div className="d-flex justify-content-between">
-                    <h4>Favorited Bugs</h4>
+                    <h4>Joined Projects</h4>
                     <form className="form-inline">
                         <input className="form-control mr-sm-2 inputColor" type="search" placeholder="Search"/>
                         <button className="btn btn-primary my-2 text-white" type="submit">Search</button>
@@ -48,11 +46,11 @@ const FavoriteResults = ({ match }) => {
                 </div>
                 } >
                 <Loader loading={loading}>
-                    {bugs ? 
-                        bugs.map(bug => 
-                            <BugPreview key={bug._id} {...bug}/>
+                    {projects ? 
+                        projects.map(proj => 
+                            <ProjectPreview key={proj._id} {...proj}/>
                         )
-                        : <p>couldnt load bugs</p>
+                        : <p>couldnt load projects</p>
                     }
                 </Loader>
             </Results>
@@ -60,4 +58,4 @@ const FavoriteResults = ({ match }) => {
     )
 }
 
-export default FavoriteResults
+export default JoinedResults

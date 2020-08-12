@@ -61,5 +61,9 @@ userSchema.methods.hasFavorite = function (favorite) {
     return this.favorites.indexOf(favorite) >= 0
 }
 
+userSchema.methods.hasProject = function (project) {
+    return this.projects.indexOf(project) >= 0
+}
+
 const User = mongoose.model('User', userSchema)
 module.exports = User

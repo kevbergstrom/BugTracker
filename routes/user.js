@@ -10,6 +10,7 @@ const Bug = require('../models/Bug')
 
 const USERS_PER_PAGE = 20
 const BUGS_PER_PAGE = 5
+const PROJECTS_PER_PAGE = 5
 
 router.post('', noAuth , async (req, res) => {
     try {
@@ -138,6 +139,41 @@ router.get('/favorites/:page', async (req, res) => {
     } catch (err) {
         console.log(err.message)
         res.status(400).send(err.message)
+    }
+})
+
+router.get('/projects/:page', async (req, res) => {
+    try {
+        if(!req.session.user){
+            throw new Error('You aren\'t logged in')
+        }
+
+        const foundUser = await User.findById(req.session.user.userId)
+
+
+        const totalPages = Math.ceil(foundUser.projects.length/PROJECTS_PER_PAGE)
+        const page = req.params.page
+        if(page <=0 || page > totalPages){
+            throw new Error("Out of bounds")
+        }
+        const indexStart = (page-1)*PROJECTS_PER_PAGE
+        let query = await User.findById(req.session.user.userId, {"projects":{$slice:[indexStart, PROJECTS_PER_PAGE]}})
+            .populate({
+                path: 'projects',
+                populate: {
+                    path: 'owner',
+                    select: 'username'
+                },
+                select: '-bugs -members'
+            })
+        const package = {
+            totalPages,
+            projects: query.projects
+        }
+
+        res.send(package)
+    } catch (err) {
+        res.status(400)
     }
 })
 

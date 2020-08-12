@@ -19,6 +19,8 @@ const ProjectPage = ({
     created,
     auth,
     options,
+    membershipOptions,
+    joined,
     isPrivate
 }) => {
     return (
@@ -29,7 +31,7 @@ const ProjectPage = ({
                         {isPrivate ? <span className="badge badge-warning">Private</span>
                         : <span className="badge badge-primary">Public</span>}
                     </h4>
-                    <a className="btn btn-primary text-white" href="#!">Join</a>
+                    <div>{membershipOptions}</div>
                 </div>
                 <hr/>
                 <p>
@@ -47,7 +49,7 @@ const ProjectPage = ({
                 <p>{desc}</p>
 
                 <div className="text-center">
-                    {auth.user ? <Link className="btn btn-primary text-white" to={`/project/${_id}/create-bug`}>Add Bug</Link>
+                    {auth.user && joined ? <Link className="btn btn-primary text-white" to={`/project/${_id}/create-bug`}>Add Bug</Link>
                     : null }
                 </div>
 
