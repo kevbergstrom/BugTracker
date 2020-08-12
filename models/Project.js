@@ -42,7 +42,13 @@ projectSchema.post('remove', async function(){
     const projId = this.id
     // Delete everything referencing this project
     await User.updateMany({'projects': projId}, { $pull: {'projects': projId} } )
+    // Delete all of the invites referencing this project
+    await User.updateMany({'invites': projId}, { $pull: {'invites': projId} } )
 })
+
+projectSchema.methods.hasMember = function (user) {
+    return this.members.indexOf(user) >= 0
+}
 
 const Project = mongoose.model('Project', projectSchema)
 module.exports = Project

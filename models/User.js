@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const { hashSync, compareSync } = require('bcryptjs')
 let Schema = mongoose.Schema
 
+const Profile = require('./Profile')
+
 let userSchema = new Schema({
     email: {
         type: String,
@@ -49,6 +51,13 @@ userSchema.pre('save', function(){
     }
 })
 
+userSchema.pre('remove', async function(){
+    const foundProfile = await Profile.findById(this.Profile)
+    if(foundProfile){
+        foundProfile.remove()
+    }
+})
+
 userSchema.statics.doesNotExist = async function(field) {
     return await this.where(field).countDocuments() === 0
 }
@@ -63,6 +72,10 @@ userSchema.methods.hasFavorite = function (favorite) {
 
 userSchema.methods.hasProject = function (project) {
     return this.projects.indexOf(project) >= 0
+}
+
+userSchema.methods.hasInvite = function (invite) {
+    return this.invites.indexOf(invite) >= 0
 }
 
 const User = mongoose.model('User', userSchema)

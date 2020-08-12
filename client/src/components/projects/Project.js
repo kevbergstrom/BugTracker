@@ -7,6 +7,7 @@ import Spinner from '../spinner/Spinner'
 import SidebarPage from '../layout/SidebarPage'
 import ProjectPage from './ProjectPage'
 import DeleteModal from '../modals/DeleteProject'
+import auth from '../../reducers/auth'
 
 
 const options = (auth, ownerId, projectId, setModal) => {
@@ -32,16 +33,20 @@ const joinProject = async (projectId, setJoined) => {
     }
 }
 
-const leaveProject = async (projectId, setJoined) => {
+const leaveProject = async (auth, projectId, setJoined, project, setProject) => {
     try {
         await axios.delete(`/api/project/${projectId}/leave`)
         setJoined(false)
+        setProject({
+            ...project,
+            members: project.members.filter(user => user._id != auth.user.userId)
+            })
     } catch (err) {
         console.log(err)
     }
 }
 
-const membershipOptions = (auth, ownerId, projectId, joined, setJoined) => {
+const membershipOptions = (auth, ownerId, projectId, joined, setJoined, project, setProject) => {
     if(!auth.user){
         return
     }
@@ -49,7 +54,7 @@ const membershipOptions = (auth, ownerId, projectId, joined, setJoined) => {
         return
     }
     if(joined){
-        return <a className="btn btn-danger text-white" onClick={() => leaveProject(projectId, setJoined)}>Leave</a>
+        return <a className="btn btn-danger text-white" onClick={() => leaveProject(auth, projectId, setJoined, project, setProject)}>Leave</a>
     }else{
         return <a className="btn btn-primary text-white" onClick={() => joinProject(projectId, setJoined)}>Join</a>
     }
@@ -89,7 +94,7 @@ const Project = ({ match, auth, history }) => {
                     <ProjectPage 
                         auth={auth} 
                         options={options(auth, project.owner._id, project._id, setModal)}
-                        membershipOptions={membershipOptions(auth, project.owner._id, project._id, joined, setJoined)}
+                        membershipOptions={membershipOptions(auth, project.owner._id, project._id, joined, setJoined, project, setProject)}
                         {...project} 
                         joined={joined}/> 
                     : <p>couldnt load project</p>

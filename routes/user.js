@@ -9,6 +9,7 @@ const User = require('../models/User')
 const Bug = require('../models/Bug')
 
 const USERS_PER_PAGE = 20
+const INVITES_PER_PAGE = 20
 const BUGS_PER_PAGE = 5
 const PROJECTS_PER_PAGE = 5
 
@@ -82,6 +83,35 @@ router.get('/checkAuth', checkAuth, (req, res) => {
     res.send('Authorized')
 })
 
+// Get all projects user owns
+router.get('/projects', checkAuth, async (req, res) => {
+    try {
+        const query = await User.findById(req.session.user.userId)
+            .populate({
+                path: 'projects',
+                select: 'title owner'
+            })
+        let ownedProjects = query.projects.filter(proj => proj.owner == req.session.user.userId)
+
+        res.send(ownedProjects)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get user profile
+router.get('/:id', async (req, res) => {
+    try {
+        const foundUser = await User.findById(req.params.id)
+            .populate('profile')
+            .select('profile username created')
+            
+        res.send(foundUser)
+    } catch (err) {
+        res.status(400)
+    }
+})
+
 router.get('/users/:page', async (req, res) => {
     try {
         const indexStart = (req.params.page-1)*USERS_PER_PAGE
@@ -98,15 +128,61 @@ router.get('/users/:page', async (req, res) => {
     }
 })
 
-// Get paginated user favorites
-router.get('/favorites/:page', async (req, res) => {
+// Get paginated user invites
+router.get('/invites/:page', checkAuth, async (req, res) => {
     try {
-        if(!req.session.user){
-            throw new Error('You aren\'t logged in')
-        }
-
         const foundUser = await User.findById(req.session.user.userId)
 
+        const totalPages = Math.ceil(foundUser.invites.length/INVITES_PER_PAGE)
+        const page = req.params.page
+        if(page <=0 || page > totalPages){
+            throw new Error("Out of bounds")
+        }
+        const indexStart = (page-1)*INVITES_PER_PAGE
+
+        let query = await User.findById(req.session.user.userId, {"invites":{$slice:[indexStart, INVITES_PER_PAGE]}})
+        .populate({
+            path: 'invites',
+            populate: {
+                path: 'owner',
+                select: 'username'
+            },
+            select: 'title created'
+        })
+
+        const package = {
+            totalPages,
+            invites: query.invites
+        }
+
+        res.send(package)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Remove invite
+router.delete('/invites/:projectId', checkAuth, async (req, res) => {
+    try {
+        const foundUser = await User.findById(req.session.user.userId)
+
+        let updatedInvites = foundUser.invites.filter(inv => inv._id != req.params.projectId)
+
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { invites: updatedInvites}
+        )
+
+        res.send(false)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+// Get paginated user favorites
+router.get('/favorites/:page', checkAuth, async (req, res) => {
+    try {
+        const foundUser = await User.findById(req.session.user.userId)
 
         const totalPages = Math.ceil(foundUser.favorites.length/BUGS_PER_PAGE)
         const page = req.params.page
@@ -173,7 +249,7 @@ router.get('/projects/:page', async (req, res) => {
 
         res.send(package)
     } catch (err) {
-        res.status(400)
+        res.status(400).send(err.message)
     }
 })
 

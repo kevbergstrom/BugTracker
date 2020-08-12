@@ -22,6 +22,11 @@
     max-width: 800px;
 }
 
+.modalScrollBox {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
 .favBtn-0 {
     color: #dc3545;
     background-color: #dc3545;

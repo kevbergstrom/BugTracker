@@ -140,19 +140,38 @@ router.get('/:id/members/:page', async (req, res) => {
 router.post('/:id/join', checkAuth, async (req, res) => {
     try {
         // Find the project
-        await getProjectById(req.params.id)
+        let foundProject = await getProjectById(req.params.id)
 
         let foundUser = await User.findById(req.session.user.userId)
         // Check if favorite exists
-        if(foundUser.hasProject(req.params.id)){
+        
+        // Check if project is private
+        if(foundProject.isPrivate){
+            if(!foundUser.hasInvite(req.params.id)){
+                throw new Error('This project is private')
+            }
+        }
+
+        if(foundUser.hasProject(req.params.id) || foundProject.hasMember(req.session.user.userId)){
             throw new Error('You already joined this project')
         }
+
+        foundUser.invites = foundUser.invites.filter(inv => inv._id != req.params.id)
+
         // Add favorite to user
         foundUser.projects.unshift(`${req.params.id}`)
         await User.updateOne(
             {_id: req.session.user.userId}, 
             { projects: foundUser.projects}
         )
+        await User.updateOne(
+            {_id: req.session.user.userId}, 
+            { invites: foundUser.invites}
+        )
+
+        // Add to the project member list
+        foundProject.members.unshift(`${req.session.user.userId}`)
+        await foundProject.save()
 
         res.send(true)
     } catch (err) {
@@ -163,6 +182,9 @@ router.post('/:id/join', checkAuth, async (req, res) => {
 // Leave project
 router.delete('/:id/leave', checkAuth, async (req, res) => {
     try {
+        // Find the project
+        let foundProject = await getProjectById(req.params.id)
+
         // Find the user
         let foundUser = await User.findById(req.session.user.userId)
 
@@ -174,11 +196,39 @@ router.delete('/:id/leave', checkAuth, async (req, res) => {
             { projects: updatedProjects}
         )
 
+        // Remove user from members
+        foundProject.members = foundProject.members.filter(user => user._id != req.session.user.userId)
+        await foundProject.save()
+
         res.send(false)
     } catch (err) {
         res.status(400).send(err.message)
     }
 })
+
+// Invite user to project
+router.post('/:projectId/invite/:userId', checkAuth, async (req, res) =>{
+    try {
+        let foundProject = await getProjectById(req.params.projectId)
+        checkOwner(foundProject, req.session.user && req.session.user.userId)
+
+        let foundUser = await User.findById(req.params.userId)
+        // Check if favorite exists
+        if(foundUser.hasInvite(req.params.projectId) || foundUser.hasProject(req.params.projectId)){
+            throw new Error('User is already invited')
+        }
+        // Add favorite to user
+        foundUser.invites.unshift(`${req.params.projectId}`)
+        await User.updateOne(
+            {_id: req.params.userId}, 
+            { invites: foundUser.invites}
+        )
+
+        res.send(true)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+} )
 
 // Add member to project
 router.post('/:id/member', checkAuth, async (req, res) => {
