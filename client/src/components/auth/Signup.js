@@ -4,8 +4,9 @@ import { Redirect } from 'react-router-dom'
 import { signup } from '../../actions/auth'
 
 import BasicPage from '../layout/BasicPage'
+import ErrorBar from '../errors/ErrorBar'
 
-const Signup = ({ isAuthenticated, signup }) => {
+const Signup = ({ isAuthenticated, signup, error }) => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -43,6 +44,7 @@ const Signup = ({ isAuthenticated, signup }) => {
                                     <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control" placeholder="Enter password" required/>
                                     <small className="form-text text-muted">must be atleast 8 characters long</small>
                                 </div>
+                                {error ? <ErrorBar>{error}</ErrorBar> : null}
                                 <div className="text-center">
                                     <button type="submit" className="btn btn-primary">Sign up</button>
                                 </div>
@@ -56,7 +58,8 @@ const Signup = ({ isAuthenticated, signup }) => {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.authReducer.isAuthenticated
+    isAuthenticated: state.authReducer.isAuthenticated,
+    error: state.authReducer.error
 })
 
 export default connect(mapStateToProps, { signup })(Signup)

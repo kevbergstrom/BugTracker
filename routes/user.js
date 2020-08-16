@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { checkAuth, noAuth } = require('../middleware/auth')
 const { setSession, destroySession } = require('../session')
+const { validateUser } = require('../validation/account')
 
 const { SESSION_NAME } = require('../config')
 
@@ -13,15 +14,31 @@ const INVITES_PER_PAGE = 20
 const BUGS_PER_PAGE = 5
 const PROJECTS_PER_PAGE = 5
 
+// Signup User
 router.post('', noAuth , async (req, res) => {
     try {
+        // Validate user input
         const { email, username, password } = req.body
+        validateUser(email, username, password)
+        // Validate user model
         const newUser = new User({ email, username, password })
+        // Save user to db
         await newUser.save()
-
+        // Create and send session info
         const sessionUser = setSession(req, newUser)
         res.send(sessionUser)
     } catch (err) {
+        if(err.errors){
+            // Mongoose validation errors
+            if(err.errors.username){
+                res.status(400).send(err.errors.username.message)
+                return
+            }
+            if(err.errors.email){
+                res.status(400).send(err.errors.email.message)
+                return
+            }
+        }
         res.status(400).send(err.message)
     }
 })
@@ -38,6 +55,7 @@ router.delete('', checkAuth , (req, res) => {
     }
 })
 
+// Delete user
 router.delete('/:id', checkAuth, async (req, res) => {
     try {
         const user = req.session.user
@@ -56,6 +74,7 @@ router.delete('/:id', checkAuth, async (req, res) => {
     }
 })
 
+// Login User
 router.post('/login', noAuth , async (req, res) => {
     try {
         const { email, password } = req.body

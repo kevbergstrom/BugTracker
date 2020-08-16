@@ -2,13 +2,15 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
-    SIGNUP_SUCCESS
+    SIGNUP_SUCCESS,
+    SIGNUP_FAIL
 } from '../actions/types'
 
 const initialState = {
     loading: true,
     isAuthenticated: false,
-    user: null
+    user: null,
+    error: null
 }
 
 export default function(state = initialState, action) {
@@ -22,15 +24,25 @@ export default function(state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 user: payload,
-                loading: false
+                loading: false,
+                error: null
             }
         case LOGIN_FAIL:
+        case SIGNUP_FAIL:
+            return {
+                ...state,
+                isAuthenticated: false,
+                user: null,
+                loading: false,
+                error: payload
+            }
         case LOGOUT:
             return {
                 ...state,
                 isAuthenticated: false,
                 user: null,
-                loading: false
+                loading: false,
+                error: null
             }
         default:
             return state
