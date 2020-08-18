@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 import SidebarPage from '../layout/SidebarPage'
+import ErrorBar from '../errors/ErrorBar'
 
 const CreateBug = ({ match, history }) => {
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
+    const [error, setError] = useState()
 
     const submitBug = async e => {
         e.preventDefault()
@@ -25,7 +27,7 @@ const CreateBug = ({ match, history }) => {
             const newBugId = res.data._id
             history.push(`/project/${id}/bug/${newBugId}`)
         } catch (err) {
-            console.log(err)
+            setError(err.response.data)
         }
     }
 
@@ -44,6 +46,7 @@ const CreateBug = ({ match, history }) => {
                                 <label>Bug Description</label>
                                 <textarea value={desc} onChange={e => setDesc(e.target.value)} className="form-control inputColor" rows="3"></textarea>
                             </div>
+                            {error ? <ErrorBar>{error}</ErrorBar> : null}
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
                     </div>

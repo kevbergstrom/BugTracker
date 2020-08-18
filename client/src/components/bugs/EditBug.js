@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
+import ErrorBar from '../errors/ErrorBar'
 
 const EditBug = ({ match, history }) => {
     const [loading, setLoading] = useState(true)
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
+    const [error, setError] = useState()
 
     const submitBug = async e => {
         e.preventDefault()
@@ -29,7 +31,7 @@ const EditBug = ({ match, history }) => {
             await axios.put(`/api/project/${projectId}/bug/${bugId}`, body, config)
             history.push(`/project/${projectId}/bug/${bugId}`)
         } catch (err) {
-            console.log(err)
+            setError(err.response.data)
         }
     }
 
@@ -64,6 +66,7 @@ const EditBug = ({ match, history }) => {
                                 <label>Bug Description</label>
                                 <textarea value={desc} onChange={e => setDesc(e.target.value)} className="form-control inputColor" rows="3"></textarea>
                             </div>
+                            {error ? <ErrorBar>{error}</ErrorBar> : null}
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
                     </div>

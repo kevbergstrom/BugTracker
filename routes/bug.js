@@ -5,6 +5,7 @@ const {
     getProjectById, 
     getBugById,
     checkUserPermission} = require('../database/utils')
+const { validateBug } = require('../validation/bug')
 
 const Project = require('../models/Project')
 const User = require('../models/User')
@@ -66,6 +67,8 @@ router.post('', checkAuth, async (req, res) => {
         const { title, desc} = req.body
         const author = req.session.user.userId
         const bugCount = foundProject.bugCount += 1
+        // Validate input
+        validateBug(title, desc)
         // Create bug
         const newBug = new Bug({
             author,
@@ -168,6 +171,8 @@ router.put('/:bugId', checkAuth , async (req, res) => {
         }
         // get variables
         const { title, desc } = req.body
+        // Validate input
+        validateBug(title, desc)
         // Update the bug
         foundBug.title = title
         foundBug.desc = desc
