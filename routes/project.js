@@ -5,6 +5,7 @@ const {
     getProjectById, 
     checkUserPermission,
     checkOwner } = require('../database/utils')
+const { validateProject } = require('../validation/project')
 
 const Project = require('../models/Project')
 const User = require('../models/User')
@@ -21,6 +22,9 @@ router.post('', checkAuth , async (req, res) => {
         // Get variables
         const { title, desc, link , isPrivate, languages} = req.body
         const owner = req.session.user.userId
+
+        // Validate input
+        validateProject(title, desc, link, languages)
 
         // Construct the model
         const newProject = new Project({
@@ -298,6 +302,10 @@ router.put('/:id', checkAuth , async (req, res) => {
         checkOwner(foundProject, req.session.user && req.session.user.userId)
         // Get variables
         const { title, desc, isPrivate, link, languages } = req.body
+
+        // Validate
+        validateProject(title, desc, link, languages)
+
         // Update the project
         const update = { title, desc, isPrivate, link, languages }
         await Project.findByIdAndUpdate(req.params.id, update)

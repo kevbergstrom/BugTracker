@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
+import ErrorBar from '../errors/ErrorBar'
 
 const EditProject = ({ match, history }) => {
     const [loading, setLoading] = useState(true)
@@ -12,10 +13,11 @@ const EditProject = ({ match, history }) => {
     const [tech, setTech] = useState('')
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
+    const [error, setError] = useState()
 
     const addTech = e => {
         e.preventDefault()
-        if(technologies.indexOf(tech) === -1){
+        if(tech.length > 0 && technologies.indexOf(tech) === -1){
             setTechnologies([...technologies, tech])
         }
         setTech('')
@@ -43,7 +45,7 @@ const EditProject = ({ match, history }) => {
             const res = await axios.put(`/api/project/${match.params.id}`, body, config)
             history.push(`/project/${match.params.id}`)
         } catch (err) {
-            console.log(err)
+            setError(err.response.data)
         }
     }
 
@@ -99,6 +101,7 @@ const EditProject = ({ match, history }) => {
                                 <label>Project Description</label>
                                 <textarea value={desc} onChange={e => setDesc(e.target.value)} name="desc" className="form-control inputColor" rows="3"></textarea>
                             </div>
+                            {error ? <ErrorBar>{error}</ErrorBar> : null}
                             <button type="submit" className="btn btn-primary">Update Project</button>
                         </form>
                     </div>

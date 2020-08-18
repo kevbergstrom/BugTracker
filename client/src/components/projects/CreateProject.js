@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 import SidebarPage from '../layout/SidebarPage'
+import ErrorBar from '../errors/ErrorBar'
 
 const CreateProject = ({ history }) => {
     const [title, setTitle] = useState('')
@@ -10,10 +11,11 @@ const CreateProject = ({ history }) => {
     const [tech, setTech] = useState('')
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
+    const [error, setError] = useState()
 
     const addTech = e => {
         e.preventDefault()
-        if(technologies.indexOf(tech) === -1){
+        if(tech.length > 0 && technologies.indexOf(tech) === -1){
             setTechnologies([...technologies, tech])
         }
         setTech('')
@@ -43,7 +45,7 @@ const CreateProject = ({ history }) => {
             const newProjectId = res.data._id
             history.push(`/project/${newProjectId}`)
         } catch (err) {
-            console.log(err)
+            setError(err.response.data)
         }
     }
 
@@ -82,6 +84,7 @@ const CreateProject = ({ history }) => {
                             <label>Project Description</label>
                             <textarea value={desc} onChange={e => setDesc(e.target.value)} name="desc" className="form-control inputColor" rows="3"></textarea>
                         </div>
+                        {error ? <ErrorBar>{error}</ErrorBar> : null}
                         <button type="submit" className="btn btn-primary">Create Project</button>
                     </form>
                 </div>
