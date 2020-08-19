@@ -5,16 +5,25 @@ import SidebarPage from '../layout/SidebarPage'
 import Results from '../layout/Results'
 import Loader from '../layout/Loader'
 import ProjectPreview from './ProjectPreview'
+import SearchBar from '../search/SearchBar'
 
 const PAGE_OPTIONS = 5
 
-const ProjectResults = ({ match }) => {
+const ProjectResults = ({ match, history}) => {
     const [loading, setLoading] = useState(true)
     const [projects, setProjects] = useState()
     const [totalPages, setTotalPages] = useState()
 
     const selectPage = pageNumber => {
         return `/projects/${pageNumber}`
+    }
+
+    const onSearch = query => {
+        const params = new URLSearchParams({
+            q: query,
+            page: 1
+        }).toString()
+        history.push(`/projects/search?${params}`)
     }
 
     useEffect(()=>{
@@ -40,10 +49,7 @@ const ProjectResults = ({ match }) => {
                 header={                
                     <div className="d-flex justify-content-between">
                         <h4>Projects</h4>
-                        <form className="form-inline">
-                            <input className="form-control mr-sm-2 inputColor" type="search" placeholder="Search"/>
-                            <button className="btn btn-primary my-2 text-white" type="submit">Search</button>
-                        </form>
+                        <SearchBar onSearch={onSearch}/>
                     </div>
                 }>
                 <Loader loading={loading}>
