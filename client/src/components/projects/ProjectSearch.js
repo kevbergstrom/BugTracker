@@ -16,7 +16,11 @@ const ProjectSearch = ({ match, location, history }) => {
     const [query, setQuery] = useState('')
 
     const selectPage = pageNumber => {
-        return `/projects/${pageNumber}`
+        const params = new URLSearchParams({
+            q: query,
+            page: pageNumber
+        }).toString()
+        return `/projects/search?${params}`
     }
 
     const onSearch = query => {
