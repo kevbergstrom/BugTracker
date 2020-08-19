@@ -53,21 +53,6 @@ const Bug = ({ match, history, auth }) => {
         return `/project/${projectId}/bug/${bugId}/comments/${pageNumber}`
     }
 
-    const submitComment = async comment => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const body = JSON.stringify({desc: comment})
-            await axios.post(`/api/project/${projectId}/bug/${bugId}/comment`, body, config)
-            window.location.reload(false)// not the best option
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     const upgradeStage = async (stage) => {
         if(!ready){
             return
@@ -153,7 +138,8 @@ const Bug = ({ match, history, auth }) => {
                                     pageOptions={PAGE_OPTIONS}
                                     totalPages={totalPages}
                                     generateURL={selectPage}
-                                    submitComment={submitComment}
+                                    projectId={match.params.projectId}
+                                    bugId={match.params.bugId}
                                     match={match}
                                     auth={auth}
                                 />

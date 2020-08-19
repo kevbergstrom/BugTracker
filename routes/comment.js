@@ -5,6 +5,7 @@ const {
     getBugById,
     getCommentById,
     checkUserPermission} = require('../database/utils')
+const { validateComment } = require('../validation/comment')
 
 const COMMENTS_PER_PAGE = 5
 
@@ -44,6 +45,8 @@ router.post('', checkAuth, async (req, res) => {
         const { desc } = req.body
         const author = req.session.user.userId
         const name = req.session.user.username
+        // Validate inputs
+        validateComment(desc)
         // Create comment
         const newComment = {
             author,

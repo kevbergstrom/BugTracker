@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 import Comment from './Comment'
 import Pagination from '../layout/Pagination'  
 import DeleteModal from '../modals/DeleteComment'
+import ErrorBar from '../errors/ErrorBar'
 
 const options = (auth, ownerId, commentId, setModal, setCommentId) => {
     if(!auth.user){
@@ -17,14 +19,27 @@ const options = (auth, ownerId, commentId, setModal, setCommentId) => {
         </div>)
 }
 
-const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateURL, submitComment, auth, match }) => {
+const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateURL, projectId, bugId, auth, match }) => {
     const [comment, setComment] = useState('') 
     const [modal, setModal] = useState(false)
     const [commentId, setCommentId] = useState()
+    const [error, setError] = useState()
 
-    const submit = e => {
+    const submit = async e => {
         e.preventDefault()
-        submitComment(comment)
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const body = JSON.stringify({desc: comment})
+            await axios.post(`/api/project/${projectId}/bug/${bugId}/comment`, body, config)
+            window.location.reload(false)// not the best option
+            setError()
+        } catch (err) {
+            setError(err.response.data)
+        }
     } 
 
     return(
@@ -45,6 +60,7 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
                         <div className="form-group">
                             <textarea value={comment} onChange={e => setComment(e.target.value)} className="form-control inputColor" rows="3"></textarea>
                         </div>
+                        {error ? <ErrorBar>{error}</ErrorBar> : null}
                         <div className="text-center">
                             <button className="btn btn-success text-white">Submit</button>
                         </div>
