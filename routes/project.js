@@ -4,7 +4,8 @@ const { checkAuth } = require('../middleware/auth')
 const { 
     getProjectById, 
     checkUserPermission,
-    checkOwner } = require('../database/utils')
+    checkOwner,
+    paginateList } = require('../database/utils')
 const { validateProject } = require('../validation/project')
 
 const Project = require('../models/Project')
@@ -92,6 +93,36 @@ router.get('/:id', async (req, res) => {
 
         //console.log(foundProject)
         res.send(foundProject)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+router.get('/projects/search', async (req, res) => {
+    try {
+        // Get query params
+        let { q, page } = req.query
+        page = page || 1
+        q = q || ''
+        // Do the query
+        const projectSearch = await Project.find({
+            isPrivate: false, 
+            $text: {
+                $search: q
+            }
+        })
+        .populate('owner','username _id')
+        .select('-bugs -members')
+        // Paginate query results
+        const totalPages = Math.ceil(projectSearch.length/PROJECTS_PER_PAGE)
+        const indexStart = (page-1)*PROJECTS_PER_PAGE
+        const projects = paginateList(projectSearch, indexStart, indexStart+PROJECTS_PER_PAGE)
+        // Send package
+        const package={
+            totalPages,
+            projects: projects
+        }
+        res.send(package)
     } catch (err) {
         res.status(400).send(err.message)
     }

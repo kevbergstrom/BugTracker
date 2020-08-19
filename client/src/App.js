@@ -21,6 +21,7 @@ import FavoriteBugs from './components/bugs/FavoriteResults'
 import JoinedProjects from './components/projects/JoinedResults'
 import UserProfile from './components/users/Profile'
 import InviteResults from './components/projects/InviteResults'
+import ProjectSearch from './components/projects/ProjectSearch'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -45,6 +46,7 @@ const App = () => {
           <Route exact path="/project/:id/bugs/:page" component={BugResults}/>
           <Route exact path="/project/:projectId/bug/:bugId" component={Bug}/>
           <Route exact path="/project/:projectId/bug/:bugId/comments/:page" component={Bug}/>
+          <Route exact path="/projects/search" component={ProjectSearch}/>
           <Route exact path="/projects/:page" component={ProjectResults}/>
           <Route exact path="/users/:page" component={UserResults}/>
           <Route exact path="/user/:id" component={UserProfile}/>

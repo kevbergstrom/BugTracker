@@ -39,10 +39,30 @@ const checkOwner = function(project, userId){
     }
 }
 
+const paginateList = (list, start, end) => {
+    const len = list.length
+    if(end > len){
+        end = len
+    }
+    if(start < 0){
+        start = 0
+    }
+    if(start > len || start > end){
+         return []
+    }
+
+    let output = []
+    for(let i = start;i<end;i++){
+        output.push(list[i])
+    }
+    return output
+}
+
 module.exports = {
     getProjectById,
     getBugById,
     getCommentById,
     checkUserPermission,
-    checkOwner
+    checkOwner,
+    paginateList
 }

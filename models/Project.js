@@ -31,6 +31,8 @@ let projectSchema = new Schema({
     languages: [String]
 })
 
+projectSchema.index({title: 'text', desc: 'text'})
+
 projectSchema.post('remove', async function(){
     // Remove the associated bugs
     this.bugs.map(async (ref) => {
