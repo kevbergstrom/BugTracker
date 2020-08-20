@@ -3,6 +3,7 @@ const router = express.Router()
 const { checkAuth, noAuth } = require('../middleware/auth')
 const { setSession, destroySession } = require('../session')
 const { validateUser } = require('../validation/account')
+const { paginateList } = require('../database/utils')
 
 const { SESSION_NAME } = require('../config')
 
@@ -128,6 +129,35 @@ router.get('/:id', async (req, res) => {
         res.send(foundUser)
     } catch (err) {
         res.status(400)
+    }
+})
+
+// Search users
+router.get('/users/search', async (req, res) => {
+    try {
+        // Get query params
+        let { q, page } = req.query
+        page = page || 1
+        q = q || ''
+        // Do the query
+        const userSearch = await User.find({
+            $text: {
+                $search: q
+            }
+        })
+        .select('username _id')
+        // Paginate query results
+        const totalPages = Math.ceil(userSearch.length/USERS_PER_PAGE)
+        const indexStart = (page-1)*USERS_PER_PAGE
+        const users = paginateList(userSearch, indexStart, indexStart+USERS_PER_PAGE)
+        // Send package
+        const package={
+            totalPages,
+            users
+        }
+        res.send(package)
+    } catch (err) {
+        res.status(400).send(err.message)
     }
 })
 

@@ -45,6 +45,8 @@ let userSchema = new Schema({
     created: { type: Date, default: Date.now }
 })
 
+userSchema.index({username: 'text'})
+
 userSchema.pre('save', function(){
     if (this.isModified('password')){
         this.password = hashSync(this.password, 10)

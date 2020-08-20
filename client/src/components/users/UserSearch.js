@@ -9,14 +9,19 @@ import SearchBar from '../search/SearchBar'
 
 const PAGE_OPTIONS = 5
 
-const selectPage = (pageNumber) => {
-    return `/users/${pageNumber}`
-}
-
-const UserResults = ({ match, history }) => {
+const UserSearch = ({ match, location, history }) => {
     const [loading, setLoading] = useState(true)
     const [users, setUsers] = useState()
     const [totalPages, setTotalPages] = useState()
+    const [query, setQuery] = useState('')
+
+    const selectPage = pageNumber => {
+        const params = new URLSearchParams({
+            q: query,
+            page: pageNumber
+        }).toString()
+        return `/users/search?${params}`
+    }
 
     const onSearch = query => {
         const params = new URLSearchParams({
@@ -29,7 +34,9 @@ const UserResults = ({ match, history }) => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get(`/api/user/users/${match.params.page}`)
+                const params = new URLSearchParams(location.search)
+                setQuery(params.get('q'))
+                const res = await axios.get(`/api/user/users/search${location.search}`)
                 setUsers(res.data.users)
                 setTotalPages(res.data.totalPages)
             } catch (err) {
@@ -37,7 +44,7 @@ const UserResults = ({ match, history }) => {
             }
             setLoading(false)
         })()
-    },[match.params.page])
+    },[location.search])
 
     return (
         <SidebarPage>
@@ -48,7 +55,7 @@ const UserResults = ({ match, history }) => {
                 totalPages={totalPages}
                 header={                
                 <div className="d-flex justify-content-between">
-                    <h4>Users</h4>
+                    <h4>User Search - {query}</h4>
                     <SearchBar onSearch={onSearch}/>
                 </div>
                 } >
@@ -65,4 +72,4 @@ const UserResults = ({ match, history }) => {
     )
 }
 
-export default UserResults
+export default UserSearch
