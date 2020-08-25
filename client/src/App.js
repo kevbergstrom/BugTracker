@@ -23,6 +23,7 @@ import UserProfile from './components/users/Profile'
 import InviteResults from './components/projects/InviteResults'
 import ProjectSearch from './components/projects/ProjectSearch'
 import UserSearch from './components/users/UserSearch'
+import BugSearch from './components/bugs/BugSearch'
 
 import { Provider } from 'react-redux'
 import { checkAuth } from './actions/auth'
@@ -44,6 +45,7 @@ const App = () => {
           <Route exact path="/signup" component={Signup}/>
           <Route exact path="/project/:id" component={Project}/>
           <Route exact path="/project/:id/members/:page" component={MemberResults}/>
+          <Route exact path="/project/:id/bugs/search" component={BugSearch}/>
           <Route exact path="/project/:id/bugs/:page" component={BugResults}/>
           <Route exact path="/project/:projectId/bug/:bugId" component={Bug}/>
           <Route exact path="/project/:projectId/bug/:bugId/comments/:page" component={Bug}/>

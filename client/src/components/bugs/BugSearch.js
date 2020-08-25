@@ -10,14 +10,20 @@ import SearchBar from '../search/SearchBar'
 
 const PAGE_OPTIONS = 5
 
-const BugResults = ({ match, history }) => {
+const BugSearch = ({ match, history, location }) => {
     const [loading, setLoading] = useState(true)
     const [bugs, setBugs] = useState()
     const [totalPages, setTotalPages] = useState(0)
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState('')
+    const [query, setQuery] = useState('')
+    const [page, setPage] = useState(1)
 
     const selectPage = (pageNumber) => {
-        return `/project/${match.params.id}/bugs/${pageNumber}`
+        const params = new URLSearchParams({
+            q: query,
+            page: pageNumber
+        }).toString()
+        return `/project/${match.params.id}/bugs/search?${params}`
     } 
 
     const onSearch = query => {
@@ -31,9 +37,11 @@ const BugResults = ({ match, history }) => {
     useEffect(()=>{
         (async () => {
             try {
+                const params = new URLSearchParams(location.search)
+                setQuery(params.get('q'))
+                setPage(params.get('page'))
                 const projectId = match.params.id
-                const page = match.params.page
-                const res = await axios.get(`/api/project/${projectId}/bug/results/${page}`)
+                const res = await axios.get(`/api/project/${projectId}/bug/bugs/search${location.search}`)
                 setBugs(res.data.bugs)
                 setTotalPages(res.data.totalPages)
                 setTitle(res.data.title)
@@ -42,13 +50,13 @@ const BugResults = ({ match, history }) => {
             }
             setLoading(false)
         })()
-    },[match.params.id, match.params.page])
+    },[location.search])
 
     return (
         <SidebarPage>
             <Results 
                 generateURL={selectPage}
-                currentPage={match.params.page}
+                currentPage={page}
                 pageOptions={PAGE_OPTIONS}
                 totalPages={totalPages}
                 header={                
@@ -70,4 +78,4 @@ const BugResults = ({ match, history }) => {
     )
 }
 
-export default BugResults
+export default BugSearch

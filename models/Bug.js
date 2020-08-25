@@ -40,6 +40,8 @@ let bugSchema = new Schema({
     ]
 })
 
+bugSchema.index({title: 'text', desc: 'text'})
+
 bugSchema.post('remove', async function(){
     const bugId = this.id
     // Delete all of the favorites referencing this bug

@@ -4,7 +4,8 @@ const { checkAuth } = require('../middleware/auth')
 const { 
     getProjectById, 
     getBugById,
-    checkUserPermission} = require('../database/utils')
+    checkUserPermission,
+    paginateList } = require('../database/utils')
 const { validateBug } = require('../validation/bug')
 
 const Project = require('../models/Project')
@@ -12,6 +13,52 @@ const User = require('../models/User')
 const Bug = require('../models/Bug')
 
 const BUGS_PER_PAGE = 5
+
+// Search bugs in project
+router.get('/bugs/search', async (req, res) => {
+    try {
+        let foundProject = await getProjectById(req.params.projectId)
+        // let foundProject = await getProjectById(req.params.id).slice('bugs', [(page-1)*BUGS_PER_PAGE, page*BUGS_PER_PAGE]).select('-bugs.comments')
+        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+
+        // Get query params
+        let { q, page } = req.query
+        page = page || 1
+        q = q || ''
+
+        // Do the query
+        const bugSearch = await Bug.find({
+            project: req.params.projectId,
+            $text: {
+                $search: q
+            }
+        })
+        .select('-comments')
+        // Paginate query results
+        const totalPages = Math.ceil(bugSearch.length/BUGS_PER_PAGE)
+        const indexStart = (page-1)*BUGS_PER_PAGE
+        let bugs = paginateList(bugSearch, indexStart, indexStart+BUGS_PER_PAGE)
+
+                // Check if favorited by the user
+        if(req.session.user){
+            let foundUser = await User.findById(req.session.user.userId)
+            bugs = bugs.map(bug => {
+                bug.favorited = foundUser.hasFavorite(bug._id)
+                return bug
+            })
+        }
+
+        // Send package
+        const package={
+            title: foundProject.title,
+            totalPages,
+            bugs: bugs
+        }
+        res.send(package)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
 
 // Get paginated bug previews from project
 router.get('/results/:page', async (req, res) => {
@@ -39,11 +86,13 @@ router.get('/results/:page', async (req, res) => {
             })
 
         // Check if favorited by the user
-        let foundUser = await User.findById(req.session.user.userId)
-        query.bugs = query.bugs.map(bug => {
-            bug.favorited = foundUser.hasFavorite(bug._id)
-            return bug
-        })
+        if(req.session.user){
+            let foundUser = await User.findById(req.session.user.userId)
+            query.bugs = query.bugs.map(bug => {
+                bug.favorited = foundUser.hasFavorite(bug._id)
+                return bug
+            })
+        }
 
         const package = {
             title: foundProject.title,
@@ -102,13 +151,16 @@ router.get('/:bugId', async (req, res) => {
     try {
         // Find the Bug
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
-        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        // checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        
         // Remove comments
         foundBug.comments = []
 
         //check if the bug is favorited
-        let foundUser = await User.findById(req.session.user.userId)
-        foundBug.favorited = foundUser.hasFavorite(req.params.bugId)
+        if(req.session.user){
+            let foundUser = await User.findById(req.session.user.userId)
+            foundBug.favorited = foundUser.hasFavorite(req.params.bugId)
+        }
 
         res.send(foundBug)
     } catch (err) {
@@ -195,7 +247,6 @@ router.put('/:bugId/stage', checkAuth, async (req, res) => {
 
         res.send(foundBug)
     } catch (err) {
-        console.log(err.message)
         res.status(400).send(err.message)
     }
 })
@@ -216,7 +267,6 @@ router.delete('/:bugId', checkAuth, async (req, res) => {
 
         res.status(200).send('OK')
     } catch (err) {
-        console.log(err.message)
         res.status(400).send(err.message)
     }
 })

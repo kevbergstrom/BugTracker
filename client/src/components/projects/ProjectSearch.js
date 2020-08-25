@@ -14,6 +14,7 @@ const ProjectSearch = ({ match, location, history }) => {
     const [projects, setProjects] = useState()
     const [totalPages, setTotalPages] = useState()
     const [query, setQuery] = useState('')
+    const [page, setPage] = useState(1)
 
     const selectPage = pageNumber => {
         const params = new URLSearchParams({
@@ -36,6 +37,7 @@ const ProjectSearch = ({ match, location, history }) => {
             try {
                 const params = new URLSearchParams(location.search)
                 setQuery(params.get('q'))
+                setPage(params.get('page'))
                 const res = await axios.get(`/api/project/projects/search${location.search}`)
                 setProjects(res.data.projects)
                 setTotalPages(res.data.totalPages)
@@ -50,7 +52,7 @@ const ProjectSearch = ({ match, location, history }) => {
         <SidebarPage>
             <Results                
                 generateURL={selectPage}
-                currentPage={match.params.page}
+                currentPage={page}
                 pageOptions={PAGE_OPTIONS}
                 totalPages={totalPages}
                 header={                
