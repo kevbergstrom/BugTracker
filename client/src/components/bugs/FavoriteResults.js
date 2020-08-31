@@ -41,10 +41,7 @@ const FavoriteResults = ({ match }) => {
                 header={                
                 <div className="d-flex justify-content-between">
                     <h4>Favorited Bugs</h4>
-                    <form className="form-inline">
-                        <input className="form-control mr-sm-2 inputColor" type="search" placeholder="Search"/>
-                        <button className="btn btn-primary my-2 text-white" type="submit">Search</button>
-                    </form>
+                    <p></p>
                 </div>
                 } >
                 <Loader loading={loading}>

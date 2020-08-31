@@ -14,6 +14,7 @@ const USERS_PER_PAGE = 20
 const INVITES_PER_PAGE = 20
 const BUGS_PER_PAGE = 5
 const PROJECTS_PER_PAGE = 5
+const PREVIEWS_PER_PAGE = 3
 
 // Signup User
 router.post('', noAuth , async (req, res) => {
@@ -92,13 +93,6 @@ router.post('/login', noAuth , async (req, res) => {
     }
 })
 
-router.get('', (req, res) => {
-    if(req.session.user){
-        return res.send(req.session.user)
-    }
-    res.status(401).send("No session")
-})
-
 router.get('/checkAuth', checkAuth, (req, res) => {
     res.send('Authorized')
 })
@@ -117,6 +111,58 @@ router.get('/projects', checkAuth, async (req, res) => {
     } catch (err) {
         res.status(400).send(err.message)
     }
+})
+
+// Get dashboard items
+router.get('/dashboard', async (req, res) => {
+    try {
+        if(!req.session.user){
+            throw new Error('You aren\'t logged in')
+        }
+        const userId = req.session.user.userId
+        // Get bugs
+        let favQuery = await User.findById(userId, {"favorites":{$slice:[0, PREVIEWS_PER_PAGE]}})
+        .populate({
+            path: 'favorites',
+            populate: {
+                path: 'author',
+                select: 'username'
+            },
+            select: '-comments'
+        })
+
+        // Set favorited
+        favQuery.favorites = favQuery.favorites.map(bug => {
+            bug.favorited = true
+            return bug
+        })
+
+        // Get projects
+        let projQuery = await User.findById(userId, {"projects":{$slice:[0, PREVIEWS_PER_PAGE]}})
+        .populate({
+            path: 'projects',
+            populate: {
+                path: 'owner',
+                select: 'username'
+            },
+            select: '-bugs -members'
+        })
+
+        const package = {
+            bugs: favQuery.favorites,
+            projects: projQuery.projects
+        }
+        res.send(package)
+    } catch (err) {
+        res.status(400).send(err.message)
+    }
+})
+
+router.get('', (req, res) => {
+    if(req.session.user){
+        return res.send(req.session.user)
+    }
+    res.status(401).send("No session")
 })
 
 // Get user profile
@@ -247,6 +293,7 @@ router.get('/favorites/:page', checkAuth, async (req, res) => {
                     path: 'author',
                     select: 'username'
                 },
+                select: '-comments'
             })
 
         // Set favorited
