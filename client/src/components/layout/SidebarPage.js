@@ -1,21 +1,33 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { logout } from '../../actions/auth'
+import { openSidebar, closeSidebar } from '../../actions/ui'
 
 import Navbar from '../navigation/Navbar'
 import Footer from '../navigation/Footer'
 import Sidebar from '../navigation/Sidebar'
 
-const SidebarPage = ({isAuthenticated, ...props}) => {
+const SidebarPage = ({
+    isAuthenticated, 
+    user, 
+    logout, 
+    sidebarOpened,
+    openSidebar,
+    closeSidebar,
+     ...props}) => {
     return (
-        <div className="container-fluid py-0 bgColor">
-            <div className="row">
+        <div className="container-fluid py-0 px-0 bgColor">
+            <div className="px-0">
                 {isAuthenticated &&
-                    <div className="col-md-2">
-                        <Sidebar/>
-                    </div>
+                    <Sidebar 
+                        logout={logout} 
+                        open={sidebarOpened}
+                        close={closeSidebar}
+                        {...user}
+                    />
                 }
-                <div className="col ml-sm-auto px-0 tall">
-                    <Navbar/>
+                <div className="px-0 tall">
+                    <Navbar openSidebar={openSidebar}/>
                     {props.children}
                     <Footer/>
                 </div>
@@ -25,7 +37,9 @@ const SidebarPage = ({isAuthenticated, ...props}) => {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.authReducer.isAuthenticated
+    isAuthenticated: state.authReducer.isAuthenticated,
+    user: state.authReducer.user,
+    sidebarOpened: state.uiReducer.sidebarOpen
 })
 
-export default connect(mapStateToProps)(SidebarPage)
+export default connect(mapStateToProps, { logout, openSidebar, closeSidebar })(SidebarPage)

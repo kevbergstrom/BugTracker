@@ -106,6 +106,10 @@ hr.light {
     background-color: #273244;
 }
 
+.sidebarSize {
+    max-width: 250px;
+}
+
 .sidebarAlt {
     background-color: #313d50;
 }

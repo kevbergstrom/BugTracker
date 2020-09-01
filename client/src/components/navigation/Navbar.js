@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 
-const Navbar = ({ isAuthenticated, logout }) => {
+const Navbar = ({ isAuthenticated, logout, openSidebar }) => {
     return (
-        <nav className="navbar navbar-expand-lg navbarColor shadow">
+        <nav className="navbar navbar-light navbarColor shadow">
+            {isAuthenticated && openSidebar ?
+                <button className="navbar-toggler" onClick={openSidebar}>
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+            : null}
             <Link className="nav-link darkText" to="/"><h6>BugTracker</h6></Link>
             <ul className="navbar-nav mr-auto">
             </ul>
