@@ -12,6 +12,7 @@
   "author": "Kevin Bergstrom",
   "license": "ISC",
   "dependencies": {
+    "@popperjs/core": "^2.4.4",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^3.2.0",
     "express": "^4.17.1",

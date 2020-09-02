@@ -95,7 +95,7 @@ const Landing = props => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet sequi reprehenderit earum, ipsum voluptas reiciendis iusto dolorem quaerat consequuntur perferendis!
                     </p>
                     <p>
-                        <a className="btn btn-primary" href="#!">Take a tour</a>
+                        <Link className="btn btn-primary" to="/tour">Take a tour</Link>
                     </p>
                 </div>
             </div>

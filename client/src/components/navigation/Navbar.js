@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 
-const Navbar = ({ isAuthenticated, logout, openSidebar }) => {
+const Navbar = ({ isAuthenticated, logout, openSidebar, fake }) => {
     return (
         <nav className="navbar navbar-light navbarColor shadow">
-            {isAuthenticated && openSidebar ?
-                <button className="navbar-toggler" onClick={openSidebar}>
+            {(isAuthenticated && openSidebar) || fake ?
+                <button id="sidebarButton" className="navbar-toggler" onClick={openSidebar}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
             : null}
