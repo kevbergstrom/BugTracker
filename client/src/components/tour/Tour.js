@@ -8,6 +8,7 @@ import Tooltip from '../layout/Tooltip'
 import SlideButtons from './SlideButtons'
 import ScreenMessage from './ScreenMessage'
 import tourCommands, { maxPosition } from './tourScript'
+import Pages from './Pages'
 
 const Tour = ({ history, ...props }) => {
     const [page, setPage] = useState('dashboard')
@@ -42,26 +43,37 @@ const Tour = ({ history, ...props }) => {
         const icon = document.querySelector(`#${selected}`);
         const tooltip = document.querySelector('#tooltip');
         createPopper(icon, tooltip, {
-            placement: 'top',
+            placement: 'bottom',
           });
+        icon.scrollIntoView({block: 'center'})
     }
     const updateState = directions => {
         if(!directions){
             return
         }
-        if(directions.message){
-            setMessage({...directions.message})
+        // Get variables
+        const {
+            message,
+            selected,
+            tooltip,
+            sidebar,
+            page
+        } = directions
+
+        if(message){
+            setMessage({...message})
         }else{
             setMessage(null)
         }
-        setSelected(directions.selected)
-        if(directions.tooltip){
-            setTooltip({...directions.tooltip})
-            updateTooltip(directions.selected, directions.tooltip)
+        setSelected(selected)
+        if(tooltip){
+            setTooltip({...tooltip})
+            updateTooltip(selected, tooltip)
         }else{
             setTooltip(null)
         }
-        setSidebar(directions.sidebar || false)
+        setSidebar(sidebar || false)
+        setPage(page)
     }
 
     useEffect(() => {
@@ -74,12 +86,13 @@ const Tour = ({ history, ...props }) => {
                 <div className="px-0">
                     <Sidebar 
                         fake={true}
-                        open={sidebar}
+                        open={true}
+                        hidden={!sidebar}
                         username='user'
                     />
                     <div className="px-0 tall">
                         <Navbar fake={true}/>
-                        {props.children}
+                        <Pages page={page}/>
                         <Footer/>
                     </div>
                 </div>

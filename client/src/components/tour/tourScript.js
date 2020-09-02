@@ -1,40 +1,61 @@
-const maxPosition = 3
+const maxPosition = 6
 
 const tourCommands = pos => {
     switch(pos) {
         case 0:
             return {
                 message:{
-                    title:'message',
-                    text:'message text'
+                    title:'Welcome to the virtual tour',
+                    text:'Use ICON_NEXT to go forward and ICON_PREV to visit previous slides. You can exit this tour anytime by pressing ICON_EXIT'
                 }
             }
         case 1:
             return {
                 message:{
-                    title:'message2',
-                    text:'message text2'
+                    title:'BugTracker',
+                    text:'Explanation'
                 }
             }
         case 2:
             return {
-                sidebar: true
+                selected: 'navbar',
+                tooltip: {
+                    title:'The Navbar',
+                    text:'tooltip text'
+                }
             }
         case 3:
             return {
-                sidebar: true,
-                selected: 'logoutIcon',
+                selected: 'projectsNav',
                 tooltip: {
-                    title:'tooltip',
+                    title:'Projects Page',
                     text:'tooltip text'
                 }
             }
         case 4:
             return {
-                selected: null,
-                tooltip: null
+                page: 'projects',
+            }
+        case 5:
+            return {
+                page: 'projects',
+                selected: 'project0',
+                tooltip: {
+                    title:'Project Previews',
+                    text:'tooltip text'
+                }
+            }
+        case 6:
+            return {
+                page: 'projects',
+                selected: 'searchBar',
+                tooltip: {
+                    title:'Project Searching',
+                    text:'tooltip text'
+                }
             }
         default:
+            return
     }
 } 
 

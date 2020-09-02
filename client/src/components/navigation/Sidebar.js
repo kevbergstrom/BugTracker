@@ -13,11 +13,11 @@ import {
     LogoutIcon
 } from './Icons'
 
-const Sidebar = ({ username, userId , logout, open, close, fake }) => {
+const Sidebar = ({ username, userId , logout, open, close, fake, hidden }) => {
     return(
         <>
             {open ?
-                <nav className={`${fake ? 'sidebarFake' : 'sidebar'} fixed-top sidebarColor sidebarSize`}>
+                <nav className={`${fake ? 'sidebarFake' : 'sidebar'} fixed-top sidebarColor sidebarSize ${hidden ? 'invisible' : 'visible'}`}>
                     <div className="sidebar-sticky">
                         <div className="nav-link lightText container-fluid sidebarAlt">
                             <h6>
