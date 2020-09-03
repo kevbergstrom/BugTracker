@@ -20,7 +20,38 @@ const bug = {
     "progress": [],
     "__v": 1
 }
-const comments = []
+const comments = [
+    {
+        "created": "2020-08-18T23:12:46.315Z",
+        "desc": "comment desc",
+        "name": "username",
+        "_id": "0"
+    },
+    {
+        "created": "2020-08-18T23:12:46.315Z",
+        "desc": "comment desc",
+        "name": "username",
+        "_id": "1"
+    },
+    {
+        "created": "2020-08-18T23:12:46.315Z",
+        "desc": "comment desc",
+        "name": "username",
+        "_id": "2"
+    },
+    {
+        "created": "2020-08-18T23:12:46.315Z",
+        "desc": "comment desc",
+        "name": "username",
+        "_id": "3"
+    },
+    {
+        "created": "2020-08-18T23:12:46.315Z",
+        "desc": "comment desc",
+        "name": "username",
+        "_id": "4"
+    },
+]
 const totalPages = 3
 const projectId = 0
 const bugId = 0
@@ -36,7 +67,7 @@ const Bug = ({ stage }) => {
             case 2:
                 return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Reopen</a>
             default:
-                return <p></p>
+                return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to testing</a>
         }
     }
 
@@ -53,21 +84,21 @@ const Bug = ({ stage }) => {
                         fake
                         {...bug} 
                         stage={stage}
-                        commentPage={<></>
-                            // <>
-                            //     <p></p>
-                            //     <CommentPage 
-                            //         comments={comments}
-                            //         currentPage={match.params.page || 1}
-                            //         pageOptions={PAGE_OPTIONS}
-                            //         totalPages={totalPages}
-                            //         generateURL={selectPage}
-                            //         projectId={match.params.projectId}
-                            //         bugId={match.params.bugId}
-                            //         match={match}
-                            //         auth={auth}
-                            //     />
-                            // </>
+                        commentPage={
+                            <>
+                                <p></p>
+                                <CommentPage 
+                                    comments={comments}
+                                    currentPage={1}
+                                    pageOptions={PAGE_OPTIONS}
+                                    totalPages={totalPages}
+                                    generateURL={()=>{}}
+                                    projectId={0}
+                                    bugId={0}
+                                    fake
+                                    auth={{user:{username:'user'}}}
+                                />
+                            </>
                         }
                     />
     )

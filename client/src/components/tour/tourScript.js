@@ -1,4 +1,4 @@
-const maxPosition = 20
+const maxPosition = 21
 
 const tourCommands = pos => {
     switch(pos) {
@@ -164,7 +164,22 @@ const tourCommands = pos => {
         case 20:
             return {
                 page: 'bug',
-                stage: 0,
+                stage: 2,
+                selected: 'commentForm',
+                tooltip: {
+                    title:'Comment',
+                    text:'tooltip text'
+                }
+            }
+        case 21:
+            return {
+                page: 'bug',
+                stage: 2,
+                selected: 'comment0',
+                tooltip: {
+                    title:'Collaborate',
+                    text:'tooltip text'
+                }
             }
         default:
             return

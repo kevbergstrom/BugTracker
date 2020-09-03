@@ -19,7 +19,7 @@ const options = (auth, ownerId, commentId, setModal, setCommentId) => {
         </div>)
 }
 
-const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateURL, projectId, bugId, auth, match }) => {
+const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateURL, projectId, bugId, auth, match, fake }) => {
     const [comment, setComment] = useState('') 
     const [modal, setModal] = useState(false)
     const [commentId, setCommentId] = useState()
@@ -56,13 +56,14 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
             {auth.user &&
                 <>
                     <h4>Add Comment</h4>
-                    <form onSubmit={e => submit(e)}>
+                    <form id="commentForm" onSubmit={e => submit(e)}>
                         <div className="form-group">
                             <textarea value={comment} onChange={e => setComment(e.target.value)} className="form-control inputColor" rows="3"></textarea>
                         </div>
                         {error ? <ErrorBar>{error}</ErrorBar> : null}
                         <div className="text-center">
-                            <button className="btn btn-success text-white">Submit</button>
+                            {!fake ? <button className="btn btn-success text-white">Submit</button>
+                            : <a className="btn btn-success text-white">Submit</a>}
                         </div>
                     </form>
                 </>
@@ -71,7 +72,8 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
             {comments && comments.length > 0 ? 
             <>
                 <div className="container-fluid rounded">
-                    {comments.map((c, i) => <Comment key={i} options={options(auth, c.author, c._id, setModal, setCommentId)} {...c}/>) }
+                    {!fake ? comments.map((c, i) => <Comment key={i} options={options(auth, c.author, c._id, setModal, setCommentId)} {...c}/>) 
+                    : comments.map((c, i) => <Comment key={i} options={()=>{}} {...c}/>) }
                 </div>
                 <p></p>
                 <Pagination

@@ -13,8 +13,9 @@ const Comment = ({
     auth
 }) => {
     return(
-        <div className="container-fluid contentColor rounded shadow border mb-4">
-            <Link to={`/user/${author}`}>{name}</Link>
+        <div id={`comment${_id}`} className="container-fluid contentColor rounded shadow border mb-4">
+            {author ? <Link to={`/user/${author}`}>{name}</Link>
+            : <a href="#!">{name}</a>}
             <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
             <p>{desc}</p>
             {options}
