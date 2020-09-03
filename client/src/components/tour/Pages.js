@@ -5,14 +5,15 @@ import Project from './facades/Project'
 import Bugs from './facades/Bugs'
 import Bug from './facades/Bug'
 import Profile from './facades/Profile'
+import Dashboard from './facades/Dashboard'
 
 const pages = {
     'projects': <ProjectResults/>,
     'project': <Project/>,
     'bugs': <Bugs/>,
     'bug': <Bug/>,
-    'profile': <Profile/>
-    
+    'profile': <Profile/>,
+    'dashboard': <Dashboard/>
 }
 
 const generatePage = page => {

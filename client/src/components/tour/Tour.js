@@ -7,8 +7,10 @@ import Sidebar from '../navigation/Sidebar'
 import Tooltip from '../layout/Tooltip'
 import SlideButtons from './SlideButtons'
 import ScreenMessage from './ScreenMessage'
-import tourCommands, { maxPosition } from './tourScript'
+import tourCommands from './tour.json'
 import Pages from './Pages'
+
+const maxPosition = tourCommands.length-1
 
 const Tour = ({ history, ...props }) => {
     const [page, setPage] = useState('dashboard')
@@ -26,14 +28,14 @@ const Tour = ({ history, ...props }) => {
         if(pos<=0){
             return
         }
-        updateState(tourCommands(pos-1))
+        updateState(tourCommands[pos-1])
         setPos(pos-1)
     }
     const next = () => {
         if(pos>=maxPosition){
             return
         }
-        updateState(tourCommands(pos+1))
+        updateState(tourCommands[pos+1])
         setPos(pos+1)
     }
     const updateTooltip = (selected, tool) => {
@@ -84,7 +86,7 @@ const Tour = ({ history, ...props }) => {
     }
 
     useEffect(() => {
-        updateState(tourCommands(0))
+        updateState(tourCommands[0])
     },[])
 
     return (
