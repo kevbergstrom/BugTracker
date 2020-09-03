@@ -32,32 +32,32 @@ const Sidebar = ({ username, userId , logout, open, close, fake, hidden }) => {
                         </div>
 
                         <ul className="nav flex-column">
-                            <li className="nav-item">
+                            <li id='dashboardIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/dashboard">
                                     <h6 id='calenderIcon'><CalenderIcon/>&nbsp;Dashboard</h6>
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li id='projectsIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/joined/1">
                                     <h6 id='binocularsIcon'><BinocularsIcon/>&nbsp;Projects</h6>
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li id='newProjectIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/create-project">
                                     <h6 id='newIcon'><NewIcon/>&nbsp;New Project</h6>
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li id='bugsIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/favorites/1">
                                     <h6 id='bugIcon'><BugIcon/>&nbsp;Bugs</h6>
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li id='invitesIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/invites/1">
                                     <h6 id='mailIcon'><MailIcon/>&nbsp;Invites</h6>
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li id='usersIcon' className="nav-item">
                                 <Link className="nav-link lightText sidebarColor" to="/users/1">
                                     <h6 id='newUserIcon'><NewUserIcon/>&nbsp;Users</h6>
                                 </Link>

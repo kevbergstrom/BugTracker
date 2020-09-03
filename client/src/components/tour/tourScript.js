@@ -1,14 +1,14 @@
-const maxPosition = 21
+const maxPosition = 27
 
 const tourCommands = pos => {
     switch(pos) {
         case 0:
-            return {
-                message:{
-                    title:'Welcome to the virtual tour',
-                    text:'Use ICON_NEXT to go forward and ICON_PREV to visit previous slides. You can exit this tour anytime by pressing ICON_EXIT'
-                }
-            }
+            // return {
+            //     message:{
+            //         title:'Welcome to the virtual tour',
+            //         text:'Use ICON_NEXT to go forward and ICON_PREV to visit previous slides. You can exit this tour anytime by pressing ICON_EXIT'
+            //     }
+            // }
         case 1:
             return {
                 message:{
@@ -178,6 +178,56 @@ const tourCommands = pos => {
                 selected: 'comment0',
                 tooltip: {
                     title:'Collaborate',
+                    text:'tooltip text'
+                }
+            }
+        case 22:
+            return {
+                page: 'bug',
+                stage: 2,
+                selected: 'sidebarButton',
+                tooltip: {
+                    title:'Sidebar',
+                    text:'tooltip text'
+                }
+            }
+        case 23:
+            return {
+                page: 'bug',
+                stage: 2,
+                sidebar: true
+            }
+        case 24:
+            return {
+                page: 'bug',
+                stage: 2,
+                sidebar: true,
+                selected: 'userIcon',
+                tooltip: {
+                    title:'Visit Your Profile',
+                    text:'tooltip text'
+                }
+            }
+        case 25:
+            return {
+                page: 'profile'
+            }
+        case 26:
+            return {
+                page: 'profile',
+                selected: 'inviteButton',
+                tooltip: {
+                    title:'Invite to Projects',
+                    text:'tooltip text'
+                }
+            }
+        case 27:
+            return {
+                page: 'profile',
+                selected: 'dashboardIcon',
+                sidebar: true,
+                tooltip: {
+                    title:'Visit Your Dashboard',
                     text:'tooltip text'
                 }
             }
