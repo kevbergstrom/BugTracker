@@ -20,7 +20,7 @@ const BugPreview = ({
     fake
 }) => {
     return(
-        <div className="container-fluid">
+        <div id={`bug${_id}`}className="container-fluid">
             <div className="card shadow">
                 <BugHeader title={title} number={number} stage={stage}/>
                 <div className="card-body">
