@@ -17,7 +17,8 @@ const BugPage = ({
     options,
     stage,
     favorited,
-    controls
+    controls,
+    fake
 }) => {
 
     return (
@@ -27,7 +28,8 @@ const BugPage = ({
                 <div className="card-body">
                     <p>
                         Author:
-                        <Link to={`/user/${author._id}`}>&nbsp;{author.username}</Link>
+                        {!fake ? <Link to={`/user/${author._id}`}>&nbsp;{author.username}</Link>
+                        : <a href="#!">&nbsp;{author.username}</a>}
                         <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
                     <p>

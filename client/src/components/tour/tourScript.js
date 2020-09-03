@@ -1,4 +1,4 @@
-const maxPosition = 14
+const maxPosition = 20
 
 const tourCommands = pos => {
     switch(pos) {
@@ -115,6 +115,56 @@ const tourCommands = pos => {
                     title:'Search Bugs',
                     text:'tooltip text'
                 }
+            }
+        case 15:
+            return {
+                page: 'bug',
+                stage: 0,
+            }
+        case 16:
+            return {
+                page: 'bug',
+                stage: 0,
+                selected: 'favButton',
+                tooltip: {
+                    title:'Favorite Bugs',
+                    text:'tooltip text'
+                }
+            }
+        case 17:
+            return {
+                page: 'bug',
+                stage: 0,
+                selected: 'stageButton',
+                tooltip: {
+                    title:'Fix Bugs',
+                    text:'tooltip text'
+                }
+            }
+        case 18:
+            return {
+                page: 'bug',
+                stage: 1,
+                selected: 'stageButton',
+                tooltip: {
+                    title:'Review Stage',
+                    text:'tooltip text'
+                }
+            }
+        case 19:
+            return {
+                page: 'bug',
+                stage: 2,
+                selected: 'stageButton',
+                tooltip: {
+                    title:'Fixed Stage',
+                    text:'tooltip text'
+                }
+            }
+        case 20:
+            return {
+                page: 'bug',
+                stage: 0,
             }
         default:
             return

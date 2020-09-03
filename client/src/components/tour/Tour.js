@@ -17,6 +17,7 @@ const Tour = ({ history, ...props }) => {
     const [sidebar, setSidebar] = useState(false)
     const [tooltip, setTooltip] = useState()
     const [message, setMessage] = useState()
+    const [stage, setStage] = useState(0)
 
     const exit = () => {
         history.push('/')
@@ -61,7 +62,8 @@ const Tour = ({ history, ...props }) => {
             selected,
             tooltip,
             sidebar,
-            page
+            page,
+            stage
         } = directions
 
         if(message){
@@ -77,6 +79,7 @@ const Tour = ({ history, ...props }) => {
             setTooltip(null)
         }
         setSidebar(sidebar || false)
+        setStage(stage)
         setPage(page)
     }
 
@@ -96,7 +99,7 @@ const Tour = ({ history, ...props }) => {
                     />
                     <div className="px-0 tall">
                         <Navbar fake={true}/>
-                        <Pages page={page}/>
+                        <Pages page={page} stage={stage}/>
                         <div className="bottomBuffer"></div>
                         <Footer/>
                     </div>
