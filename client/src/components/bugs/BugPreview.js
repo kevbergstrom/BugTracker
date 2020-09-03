@@ -16,7 +16,8 @@ const BugPreview = ({
     number,
     project,
     stage,
-    favorited
+    favorited,
+    fake
 }) => {
     return(
         <div className="container-fluid">
@@ -25,13 +26,15 @@ const BugPreview = ({
                 <div className="card-body">
                     <p>
                         Author:
-                        <Link to={`/user/${author._id}`}>&nbsp;{author.username}</Link>
+                        {!fake ? <Link to={`/user/${author._id}`}>&nbsp;{author.username}</Link>
+                        : <a href="#!">&nbsp;{author.username}</a>}
                     <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
                     <p>{desc.slice(0,DESC_LENGTH)}</p>
         
                     <div className="d-flex justify-content-between">
-                        <Link className={`btn favBtn-${stage} text-white`} to={`/project/${project}/bug/${_id}`}>View</Link>
+                        {!fake ? <Link className={`btn favBtn-${stage} text-white`} to={`/project/${project}/bug/${_id}`}>View</Link>
+                        : <a className={`btn favBtn-${stage} text-white`} href="#!">View</a>}
                         <FavoriteBug 
                             favorited={favorited} 
                             projectId={project} 

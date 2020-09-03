@@ -42,10 +42,14 @@ const Tour = ({ history, ...props }) => {
         // Create tooltip
         const icon = document.querySelector(`#${selected}`);
         const tooltip = document.querySelector('#tooltip');
-        createPopper(icon, tooltip, {
+        if(icon && tooltip){
+            createPopper(icon, tooltip, {
             placement: 'bottom',
-          });
-        icon.scrollIntoView({block: 'center'})
+            });
+        }
+        if(icon){
+            icon.scrollIntoView({block: 'center'})
+        }
     }
     const updateState = directions => {
         if(!directions){
@@ -93,6 +97,7 @@ const Tour = ({ history, ...props }) => {
                     <div className="px-0 tall">
                         <Navbar fake={true}/>
                         <Pages page={page}/>
+                        <div className="bottomBuffer"></div>
                         <Footer/>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-const maxPosition = 6
+const maxPosition = 11
 
 const tourCommands = pos => {
     switch(pos) {
@@ -51,6 +51,46 @@ const tourCommands = pos => {
                 selected: 'searchBar',
                 tooltip: {
                     title:'Project Searching',
+                    text:'tooltip text'
+                }
+            }
+        case 7:
+            return {
+                page: 'project'
+            }
+        case 8:
+            return {
+                page: 'project',
+                selected: 'joinButton',
+                tooltip: {
+                    title:'Joining Projects',
+                    text:'tooltip text'
+                }
+            }
+        case 9:
+            return {
+                page: 'project',
+                selected: 'languageIcons',
+                tooltip: {
+                    title:'Tech Stack',
+                    text:'tooltip text'
+                }
+            }
+        case 10:
+            return {
+                page: 'project',
+                selected: 'membersButton',
+                tooltip: {
+                    title:'Members',
+                    text:'tooltip text'
+                }
+            }
+        case 11:
+            return {
+                page: 'project',
+                selected: 'bugsButton',
+                tooltip: {
+                    title:'Bugs',
                     text:'tooltip text'
                 }
             }

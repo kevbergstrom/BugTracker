@@ -21,7 +21,8 @@ const ProjectPage = ({
     options,
     membershipOptions,
     joined,
-    isPrivate
+    isPrivate,
+    fake
 }) => {
     return (
         <div className="container-fluid">
@@ -36,14 +37,15 @@ const ProjectPage = ({
                 <hr/>
                 <p>
                     Owner:
-                    <Link to={`/user/${owner._id}`}>&nbsp;{owner.username}</Link>
+                    {!fake ? <Link to={`/user/${owner._id}`}>&nbsp;{owner.username}</Link>
+                    : <a href='#!'>&nbsp;{owner.username}</a>}
                     <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                 </p>
-                <p>
+                {link && <p>
                     Project Link:
                     <a href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
-                </p>
-                <p>
+                </p>}
+                <p id="languageIcons">
                     {languages.map((lang, i) => <span key={i} className="badge badge-primary">{lang}</span>)}
                 </p>
                 <p>{desc}</p>
@@ -57,18 +59,20 @@ const ProjectPage = ({
                 <RecentUsers users={members}/>
                 <p></p>
                 <div className="text-center">
-                    <Link className="btn btn-primary text-white" to={`/project/${_id}/members/1`}>View Members</Link>
+                    {!fake ? <Link id="membersButton" className="btn btn-primary text-white" to={`/project/${_id}/members/1`}>View Members</Link>
+                    : <a id="membersButton" className="btn btn-primary text-white" href="#!">View Members</a>}
                 </div>
 
                 { bugCount > 0 ?
                     <>
                         <h4>Recent Bugs</h4>
                         <div className="container-fluid">
-                        {bugs.map(bug => <BugPreview key={bug._id} {...bug}/>)}
+                        {bugs.map(bug => <BugPreview key={bug._id} fake={fake} {...bug}/>)}
                         </div>
                         <p></p>
                         <div className="text-center">
-                            <Link className="btn btn-primary text-white" to={`/project/${_id}/bugs/1`}>View {bugCount} Bugs</Link>
+                            {!fake ? <Link id="bugsButton" className="btn btn-primary text-white" to={`/project/${_id}/bugs/1`}>View {bugCount} Bugs</Link>
+                            : <a id="bugsButton" className="btn btn-primary text-white" href="#!">View {bugCount} Bugs</a>}
                         </div>
                         <hr/>
                     </>
