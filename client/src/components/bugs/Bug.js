@@ -8,6 +8,7 @@ import Loader from '../layout/Loader'
 import BugPage from './BugPage'
 import CommentPage from '../comments/CommentPage'
 import DeleteModal from '../modals/DeleteBug'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -146,7 +147,7 @@ const Bug = ({ match, history, auth }) => {
                             </>
                         }
                         />
-                        : <p>couldnt load bug</p>
+                        : <ErrorPage>Couldn't load bug</ErrorPage>
                     }
                 </Loader>
             </SidebarPage>

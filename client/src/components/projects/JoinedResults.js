@@ -5,6 +5,7 @@ import Results from '../layout/Results'
 import ProjectPreview from './ProjectPreview'
 import Loader from '../layout/Loader'
 import axios from 'axios'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -47,7 +48,7 @@ const JoinedResults = ({ match }) => {
                         projects.map(proj => 
                             <ProjectPreview key={proj._id} {...proj}/>
                         )
-                        : <p>couldnt load projects</p>
+                        : <ErrorPage>Couldn't load projects</ErrorPage>
                     }
                 </Loader>
             </Results>

@@ -5,6 +5,7 @@ import SidebarPage from '../layout/SidebarPage'
 import Results from '../layout/Results'
 import Loader from '../layout/Loader'
 import Invite from './Invite'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -78,7 +79,7 @@ const InviteResults = ({ match, history }) => {
                                 options={generateOptions(inv._id, history, invites, setInvites)}
                             />
                         )
-                        : <p>couldnt load invites</p>
+                        : <ErrorPage>Couldn't load invites</ErrorPage>
                     }
                 </Loader>
             </Results>

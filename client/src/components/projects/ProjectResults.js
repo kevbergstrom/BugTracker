@@ -6,6 +6,7 @@ import Results from '../layout/Results'
 import Loader from '../layout/Loader'
 import ProjectPreview from './ProjectPreview'
 import SearchBar from '../search/SearchBar'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -57,7 +58,7 @@ const ProjectResults = ({ match, history}) => {
                         projects.map((proj, i) => 
                             <ProjectPreview key={i} {...proj}/>
                         )
-                        : <p>couldnt load projects</p>
+                        : <ErrorPage>Couldn't load projects</ErrorPage>
                     }
                 </Loader>
             </Results>

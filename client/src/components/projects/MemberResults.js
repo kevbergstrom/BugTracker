@@ -6,6 +6,7 @@ import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
 import Results from '../layout/Results'
 import UserPreview from '../users/UserPreview'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -53,7 +54,7 @@ const MemberResults = ({ match }) => {
                         members.map((member, i) => 
                             <UserPreview key={i} {...member}/>
                         )
-                        : <p>couldnt load members</p>
+                        : <ErrorPage>Couldn't load members</ErrorPage>
                     }
                 </Loader>
             </Results>

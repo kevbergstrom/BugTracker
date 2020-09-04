@@ -7,7 +7,7 @@ import Spinner from '../spinner/Spinner'
 import SidebarPage from '../layout/SidebarPage'
 import ProjectPage from './ProjectPage'
 import DeleteModal from '../modals/DeleteProject'
-import auth from '../../reducers/auth'
+import ErrorPage from '../errors/ErrorPage'
 
 
 const options = (auth, ownerId, projectId, setModal) => {
@@ -97,7 +97,7 @@ const Project = ({ match, auth, history }) => {
                         membershipOptions={membershipOptions(auth, project.owner._id, project._id, joined, setJoined, project, setProject)}
                         {...project} 
                         joined={joined}/> 
-                    : <p>couldnt load project</p>
+                    : <ErrorPage>Couldn't load project</ErrorPage>
                 }
             </SidebarPage>
         </>

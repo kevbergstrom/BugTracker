@@ -7,6 +7,7 @@ import Results from '../layout/Results'
 import BugPreview from './BugPreview'
 import Loader from '../layout/Loader'
 import SearchBar from '../search/SearchBar'
+import ErrorPage from '../errors/ErrorPage'
 
 const PAGE_OPTIONS = 5
 
@@ -62,7 +63,7 @@ const BugResults = ({ match, history }) => {
                         bugs.map(bug => 
                             <BugPreview key={bug._id} {...bug}/>
                         )
-                        : <p>couldnt load bugs</p>
+                        : <ErrorPage>Couldn't load bugs</ErrorPage>
                     }
                 </Loader>
             </Results>
