@@ -8,28 +8,28 @@
     {
         "message":{
             "title":"LOGO_SMALL BugTracker",
-            "text":"Explanation"
+            "text":"BugTracker is a tool to help developers keep track of bugs. It features a project based approach to bug tracking"
         }
     },
     {
         "selected": "navbar",
         "tooltip": {
             "title":"The Navbar",
-            "text":"tooltip text"
+            "text":"Most everything is accessible from some link in the navbar. It will always be at the top of the page so you'll know where to go if you get lost!"
     }
     },
     {
         "selected": "projectsNav",
         "tooltip": {
             "title":"Projects Page",
-            "text":"tooltip text"
+            "text":"This link will take you to the directory of all public projects"
         }
     },
     {
         "page": "projects",
         "message":{
-            "title":"ICON_BIN Many Projects",
-            "text":"explanation"
+            "title":"ICON_BIN Projects",
+            "text":""
         }
     },
     {
@@ -37,7 +37,7 @@
         "selected": "project0",
         "tooltip": {
             "title":"Project Previews",
-            "text":"tooltip text"
+            "text":"You can view a brief summary of a project by looking at its preview"
         }
     },
     {
@@ -45,14 +45,14 @@
         "selected": "searchBar",
         "tooltip": {
             "title":"Project Searching",
-            "text":"tooltip text"
+            "text":"BugTracker allows for keyword search of all public projects on the site"
         }
     },
     {
         "page": "project",
         "message":{
             "title":"Project Page",
-            "text":"explanation"
+            "text":"Each project has its own dedicated page sharing pertinent information"
         }
     },
     {
@@ -60,7 +60,7 @@
         "selected": "joinButton",
         "tooltip": {
             "title":"Joining Projects",
-            "text":"tooltip text"
+            "text":"You can join an public projects by pressing this button. Don't worry you can leave a project at any time"
         }
     },
     {
@@ -68,7 +68,7 @@
         "selected": "languageIcons",
         "tooltip": {
             "title":"Tech Stack",
-            "text":"tooltip text"
+            "text":"You can display any languages or tools that you use in your project. This can be helpful for finding users with skills in those languages or tools"
         }
     },
     {
@@ -76,7 +76,7 @@
         "selected": "membersButton",
         "tooltip": {
             "title":"ICON_USER Members",
-            "text":"tooltip text"
+            "text":"Projects can have any amount of members in them. Only project members can make and comment on bugs"
         }
     },
     {
@@ -84,14 +84,14 @@
         "selected": "bugsButton",
         "tooltip": {
             "title":"ICON_BUG Bugs",
-            "text":"tooltip text"
+            "text":"Projects can have also any amount of bugs in them. Each bug is given a unique number to identify it"
         }
     },
     {
         "page": "bugs",
         "message":{
-            "title":"ICON_BIN Bugs Page",
-            "text":"explanation"
+            "title":"ICON_BIN Bugs",
+            "text":""
         }
     },
     {
@@ -99,7 +99,7 @@
         "selected": "bug0",
         "tooltip": {
             "title":"Bug Previews",
-            "text":"tooltip text"
+            "text":"You can view a brief summary of a bug by looking at its preview"
         }
     },
     {
@@ -107,7 +107,7 @@
         "selected": "searchBar",
         "tooltip": {
             "title":"Search Bugs",
-            "text":"tooltip text"
+            "text":"Just like projects, bugs also allow for keyword search"
         }
     },
     {
@@ -115,7 +115,7 @@
         "stage": 0,
         "message":{
             "title":"Bug Page",
-            "text":"explanation"
+            "text":"Each bug has its own dedicated page containing a description  and status of the bug"
         }
     },
     {
@@ -124,7 +124,7 @@
         "selected": "favButton",
         "tooltip": {
             "title":"Favorite Bugs",
-            "text":"tooltip text"
+            "text":"You can favorite a bug to keep track of it easier"
         }
     },
     {
@@ -133,7 +133,7 @@
         "selected": "stageButton",
         "tooltip": {
             "title":"ICON_DANGER Fix Bugs",
-            "text":"tooltip text"
+            "text":"Once you have figured out what the problem is, you can upgrade the bug from unfixed to review stage"
         }
     },
     {
@@ -142,7 +142,7 @@
         "selected": "stageButton",
         "tooltip": {
             "title":"ICON_WARNING Review Stage",
-            "text":"tooltip text"
+            "text":"Putting a bug in review stage means that it is ready to be tested"
         }
     },
     {
@@ -151,7 +151,7 @@
         "selected": "stageButton",
         "tooltip": {
             "title":"ICON_SUCCESS Fixed Stage",
-            "text":"tooltip text"
+            "text":"When you are sure that you have fixed the bug you can upgrade it to fixed stage"
         }
     },
     {
@@ -160,7 +160,7 @@
         "selected": "commentForm",
         "tooltip": {
             "title":"Comment",
-            "text":"tooltip text"
+            "text":"If you are a member of the project then you can discuss the bug with other members through comments"
         }
     },
     {
@@ -169,7 +169,7 @@
         "selected": "comment0",
         "tooltip": {
             "title":"ICON_USER Collaborate",
-            "text":"tooltip text"
+            "text":"Talk to other members about potential causes and solutions for the bug"
         }
     },
     {
@@ -178,7 +178,7 @@
         "selected": "sidebarButton",
         "tooltip": {
             "title":"Sidebar",
-            "text":"tooltip text"
+            "text":"The sidebar has many useful links. Click the hamburger icon to open it"
         }
     },
     {
@@ -193,14 +193,14 @@
         "selected": "userIcon",
         "tooltip": {
             "title":"ICON_USER Visit Your Profile",
-            "text":"tooltip text"
+            "text":"Every user has a profile"
         }
     },
     {
         "page": "profile",
         "message":{
             "title":"Your Profile",
-            "text":"explanation"
+            "text":"This is your profile and allows you to be found by other users"
         }
     },
     {
@@ -208,7 +208,7 @@
         "selected": "inviteButton",
         "tooltip": {
             "title":"Invite to Projects",
-            "text":"tooltip text"
+            "text":"You can invite users to your projects with this button"
         }
     },
     {
@@ -217,14 +217,14 @@
         "sidebar": true,
         "tooltip": {
             "title":"ICON_CAL Visit Your Dashboard",
-            "text":"tooltip text"
+            "text":"Each user has a dashboard"
         }
     },
     {
         "page": "dashboard",
         "message":{
             "title":"Your Dashboard",
-            "text":"explanation"
+            "text":"Your dashboard gives suggestions on what pages to visit"
         }
     },
     {
@@ -232,7 +232,7 @@
         "selected": "bug0",
         "tooltip": {
             "title":"Recently Favorited",
-            "text":"tooltip text"
+            "text":"You can view your most recent favorited bugs and access them easily"
         }
     },
     {
@@ -240,7 +240,7 @@
         "selected": "project0",
         "tooltip": {
             "title":"Recently Joined",
-            "text":"tooltip text"
+            "text":"You can also view you most recently joined projects to access them easily"
         }
     },
     {
@@ -249,7 +249,7 @@
         "selected": "projectsIcon",
         "tooltip": {
             "title":"ICON_BIN Joined Projects",
-            "text":"tooltip text"
+            "text":"You can view all of your joined projects here"
         }
     },
     {
@@ -258,14 +258,14 @@
         "selected": "newProjectIcon",
         "tooltip": {
             "title":"ICON_NEW New Project",
-            "text":"tooltip text"
+            "text":"You can create a new project here"
         }
     },
     {
         "page": "createProject",
         "message": {
             "title":"Creating Projects",
-            "text":"Desc"
+            "text":"Users can create any amount of projects"
         }
     },
     {
@@ -273,7 +273,7 @@
         "selected": "privateButton",
         "tooltip": {
             "title":"Private Project Support",
-            "text":"tooltip text"
+            "text":"With private enabled, only you and members can view the project page. You will have to invite users manually for them to join"
         }
     },
     {
@@ -282,7 +282,7 @@
         "selected": "bugIcon",
         "tooltip": {
             "title":"ICON_BUG Favorited Bugs",
-            "text":"tooltip text"
+            "text":"Click to view all of your favorited bugs. You can also unfavorite any bugs here"
         }
     },
     {
@@ -291,7 +291,7 @@
         "selected": "invitesIcon",
         "tooltip": {
             "title":"ICON_MAIL Project Invites",
-            "text":"tooltip text"
+            "text":"You can view all of your project invites here. Invites dont expire"
         }
     },
     {
@@ -300,7 +300,7 @@
         "selected": "usersIcon",
         "tooltip": {
             "title":"ICON_NEW_USER View other Users",
-            "text":"tooltip text"
+            "text":"You can search other users here"
         }
     },
     {

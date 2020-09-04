@@ -10,8 +10,12 @@ const ScreenMessage = ({ title, text }) => {
                         <div className="card bg-dark text-white">
                             <div className="card-body">
                                 <h5 className="card-title">{filterText(title)}</h5>
-                                <hr className="border-white"/>
-                                <p className="card-text">{filterText(text)}</p>
+                                {text.length > 0 &&
+                                    <>
+                                        <hr className="border-white"/>
+                                        <p className="card-text">{filterText(text)}</p>
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>

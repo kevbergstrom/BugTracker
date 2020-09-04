@@ -35,7 +35,7 @@ div#tooltip {
 }
 
 .bottomBuffer {
-    height:94px;
+    height:10px;
 }
 
 .slideButtons {
@@ -44,6 +44,7 @@ div#tooltip {
     right:0;
     left:0;
     z-index: 2100;
+    max-width: 100vw;
 }
 
 .smallImage {
