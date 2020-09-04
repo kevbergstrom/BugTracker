@@ -7,7 +7,7 @@ import Footer from '../navigation/Footer'
 
 const Landing = props => {
     return (
-        <div className="container-fluid px-0 py-0 tall">
+        <div className="container-fluid px-0 py-0 tall position-relative">
 
             <div className="jumbotron text-center m-0 d-flex flex-column p-0 rounded-0 bg-dark tall">
                 <header className="masthead mb-auto">

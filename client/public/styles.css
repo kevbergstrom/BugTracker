@@ -34,6 +34,16 @@ div#tooltip {
     z-index: 2050;
 }
 
+.footerCustom {
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+
+.wordWrap {
+    word-wrap: break-word;
+}
+
 .bottomBuffer {
     height:10px;
 }

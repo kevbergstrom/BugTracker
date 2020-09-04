@@ -16,7 +16,7 @@ const SidebarPage = ({
     closeSidebar,
      ...props}) => {
     return (
-        <div className="container-fluid py-0 px-0 bgColor">
+        <div className="container-fluid py-0 px-0 bgColor position-relative">
             <div className="px-0">
                 {isAuthenticated &&
                     <Sidebar 

@@ -5,7 +5,7 @@ import Footer from '../navigation/Footer'
 
 const BasicPage = props => {
     return(
-        <div className="container-fluid px-0 py-0 tall bgColor">
+        <div className="container-fluid px-0 py-0 tall bgColor position-relative">
             <Navbar/>
             {props.children}
             <Footer/>

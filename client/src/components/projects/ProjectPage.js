@@ -43,7 +43,7 @@ const ProjectPage = ({
                 </p>
                 {link && <p>
                     Project Link:
-                    <a href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
+                    <a className="wordWrap" href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
                 </p>}
                 <p id="languageIcons">
                     {languages.map((lang, i) => <span key={i} className="badge badge-primary">{lang}</span>)}
