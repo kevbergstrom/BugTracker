@@ -1,27 +1,27 @@
 [{
     "stage": 0,
-    "favorited": false,
+    "favorited": true,
     "_id": "0",
     "author": {
         "username": "username"
     },
-    "title": "Validation test",
-    "desc": "I hope this works!\nedit",
+    "title": "Search not indexing bug number",
+    "desc": "You can't search the identifying bug number, you can only search the title and description of the bugs. Its wierd because I added an index field in the Mongoose Schema for it. Does it only index over text instead of numbers? Should the bug number be stored as a string in the Schema?",
     "number": 7,
-    "project": "5f2fa33078da5b46a6b007a1",
+    "project": {"_id":"1","title":"BugTracker"},
     "created": "2020-08-18T23:12:46.315Z",
     "progress": [],
     "__v": 1
 },
 {
     "stage": 2,
-    "favorited": false,
+    "favorited": true,
     "_id": "5f2fa499b8b50647f12da4c0",
     "author": {
         "username": "username"
     },
-    "title": "anotha one first",
-    "desc": "here goes [edited]",
+    "title": "Footer doesn't reach bottom of page on large screens",
+    "desc": "On screens larger than 1000px the footer doesn't go to the bottom of the screen. I think its a problem with Bootstrap",
     "number": 6,
     "project": "5f2fa33078da5b46a6b007a1",
     "created": "2020-08-09T07:24:09.410Z",
@@ -30,13 +30,13 @@
 },
 {
     "stage": 1,
-    "favorited": false,
+    "favorited": true,
     "_id": "2",
     "author": {
         "username": "username"
     },
-    "title": "badda bing",
-    "desc": "badda boom\nedit",
+    "title": "Sidebar animation not working",
+    "desc": "For some reason the sidebar animation does not play when opened. Maybe its a problem with my browser?",
     "number": 5,
     "project": "5f2fa33078da5b46a6b007a1",
     "created": "2020-08-09T07:22:39.050Z",
@@ -50,8 +50,8 @@
     "author": {
         "username": "username"
     },
-    "title": "new 4",
-    "desc": "",
+    "title": "Removing bugs does not update the bug count",
+    "desc": "All removing a bug does is delete it, it doesn't change the number of bugs shown on the project page.",
     "number": 4,
     "project": "5f2fa33078da5b46a6b007a1",
     "created": "2020-08-09T07:20:43.171Z",
@@ -65,8 +65,8 @@
     "author": {
         "username": "username"
     },
-    "title": "new 2",
-    "desc": "edit",
+    "title": "",
+    "desc": "You can't search the identifying bug number, you can only search the title and description of the bugs.",
     "number": 3,
     "project": "5f2fa33078da5b46a6b007a1",
     "created": "2020-08-09T07:20:34.923Z",

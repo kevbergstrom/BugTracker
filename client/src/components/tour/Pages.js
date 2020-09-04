@@ -6,6 +6,7 @@ import Bugs from './facades/Bugs'
 import Bug from './facades/Bug'
 import Profile from './facades/Profile'
 import Dashboard from './facades/Dashboard'
+import CreateProject from './facades/CreateProject'
 
 const pages = {
     'projects': <ProjectResults/>,
@@ -13,7 +14,8 @@ const pages = {
     'bugs': <Bugs/>,
     'bug': <Bug/>,
     'profile': <Profile/>,
-    'dashboard': <Dashboard/>
+    'dashboard': <Dashboard/>,
+    'createProject': <CreateProject/>
 }
 
 const generatePage = page => {

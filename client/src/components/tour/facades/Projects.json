@@ -30,23 +30,6 @@
                 "username": "user6"
             }
         ],
-        "bugs":[
-            {
-                "stage": 0,
-                "favorited": false,
-                "_id": "1",
-                "author": {
-                    "username": "username"
-                },
-                "title": "Validation test",
-                "desc": "I hope this works!\nedit",
-                "number": 7,
-                "project": "1",
-                "created": "2020-08-18T23:12:46.315Z",
-                "progress": [],
-                "__v": 1
-            }
-        ],
         "created":"2020-08-09T07:18:08.109Z",
         "__v":7
     },

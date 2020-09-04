@@ -4,7 +4,7 @@ import { createPopper } from '@popperjs/core';
 import Navbar from '../navigation/Navbar'
 import Footer from '../navigation/Footer'
 import Sidebar from '../navigation/Sidebar'
-import Tooltip from '../layout/Tooltip'
+import Tooltip from './Tooltip'
 import SlideButtons from './SlideButtons'
 import ScreenMessage from './ScreenMessage'
 import tourCommands from './tour.json'
@@ -24,6 +24,7 @@ const Tour = ({ history, ...props }) => {
     const exit = () => {
         history.push('/')
     }
+
     const prev = () => {
         if(pos<=0){
             return
@@ -31,6 +32,7 @@ const Tour = ({ history, ...props }) => {
         updateState(tourCommands[pos-1])
         setPos(pos-1)
     }
+
     const next = () => {
         if(pos>=maxPosition){
             return
@@ -38,20 +40,21 @@ const Tour = ({ history, ...props }) => {
         updateState(tourCommands[pos+1])
         setPos(pos+1)
     }
-    const updateTooltip = (selected, tool) => {
+
+    const updateTooltip = (select, tool) => {
         // Update hooks
-        setSelected(selected)
+        setSelected(select)
         setTooltip({...tool})
         // Create tooltip
-        const icon = document.querySelector(`#${selected}`);
+        const icon = document.querySelector(`#${select}`);
         const tooltip = document.querySelector('#tooltip');
-        if(icon && tooltip){
-            createPopper(icon, tooltip, {
-            placement: 'bottom',
-            });
-        }
         if(icon){
             icon.scrollIntoView({block: 'center'})
+            if(tooltip){
+                createPopper(icon, tooltip, {
+                    placement: 'bottom',
+                    });
+            }
         }
     }
     const updateState = directions => {
@@ -70,6 +73,7 @@ const Tour = ({ history, ...props }) => {
 
         if(message){
             setMessage({...message})
+            window.scrollTo(0,0)
         }else{
             setMessage(null)
         }

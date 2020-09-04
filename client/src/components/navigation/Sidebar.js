@@ -23,7 +23,8 @@ const Sidebar = ({ username, userId , logout, open, close, fake, hidden }) => {
                             <h6>
                                 <span id='userIcon'>
                                     <UserIcon/>
-                                    <Link className="lightText" to={`/user/${userId}`}>{username}</Link>
+                                    {!fake ? <Link className="lightText" to={`/user/${userId}`}>{username}</Link>
+                                    : <a className="lightText">{username}</a> }
                                 </span>
                                 <button className="close lightText" onClick={close}>
                                     <span>&times;</span>
@@ -33,34 +34,58 @@ const Sidebar = ({ username, userId , logout, open, close, fake, hidden }) => {
 
                         <ul className="nav flex-column">
                             <li id='dashboardIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/dashboard">
                                     <h6 id='calenderIcon'><CalenderIcon/>&nbsp;Dashboard</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='calenderIcon'><CalenderIcon/>&nbsp;Dashboard</h6>
+                                </a>}
                             </li>
                             <li id='projectsIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/joined/1">
                                     <h6 id='binocularsIcon'><BinocularsIcon/>&nbsp;Projects</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='binocularsIcon'><BinocularsIcon/>&nbsp;Projects</h6>
+                                </a> }
                             </li>
                             <li id='newProjectIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/create-project">
                                     <h6 id='newIcon'><NewIcon/>&nbsp;New Project</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='newIcon'><NewIcon/>&nbsp;New Project</h6>
+                                </a>}
                             </li>
                             <li id='bugsIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/favorites/1">
                                     <h6 id='bugIcon'><BugIcon/>&nbsp;Bugs</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='bugIcon'><BugIcon/>&nbsp;Bugs</h6>
+                                </a>}
                             </li>
                             <li id='invitesIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/invites/1">
                                     <h6 id='mailIcon'><MailIcon/>&nbsp;Invites</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='mailIcon'><MailIcon/>&nbsp;Invites</h6>
+                                </a>}
                             </li>
                             <li id='usersIcon' className="nav-item">
+                                {!fake ?
                                 <Link className="nav-link lightText sidebarColor" to="/users/1">
                                     <h6 id='newUserIcon'><NewUserIcon/>&nbsp;Users</h6>
                                 </Link>
+                                : <a className="nav-link lightText sidebarColor" href="#!">
+                                    <h6 id='newUserIcon'><NewUserIcon/>&nbsp;Users</h6>
+                                </a>}
                             </li>
                         </ul>
                             <a className="nav-link lightText container-fluid sidebarAlt bottom" onClick={logout} href="#!">

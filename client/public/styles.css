@@ -46,6 +46,11 @@ div#tooltip {
     z-index: 2100;
 }
 
+.smallImage {
+    height: 32px;
+    width: 32px;
+}
+
 .screenMessage {
     z-index: 1950;
     position: fixed;

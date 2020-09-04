@@ -5,7 +5,7 @@ import Moment from 'react-moment'
 import FavoriteBug from './FavoriteBug'
 import BugHeader from './BugHeader'
 
-const DESC_LENGTH = 20
+const DESC_LENGTH = 100
 
 const BugPreview = ({
     _id,
@@ -30,7 +30,7 @@ const BugPreview = ({
                         : <a href="#!">&nbsp;{author.username}</a>}
                     <span className="float-right"><Moment format="MMM Do, YYYY LT">{created}</Moment></span>
                     </p>
-                    <p>{desc.slice(0,DESC_LENGTH)}</p>
+                    <p>{`${desc.slice(0,DESC_LENGTH)}${desc.length>0 && desc.length>DESC_LENGTH ? '...' : ''}`}</p>
         
                     <div className="d-flex justify-content-between">
                         {!fake ? <Link className={`btn favBtn-${stage} text-white`} to={`/project/${project}/bug/${_id}`}>View</Link>

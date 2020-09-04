@@ -1,32 +1,32 @@
 [
     {
         "created": "2020-08-18T23:12:46.315Z",
-        "desc": "comment desc",
-        "name": "username",
+        "desc": "Myabe you could just secretly append the number to the end of the description so it gets picked up by the index?",
+        "name": "user2",
         "_id": "0"
     },
     {
         "created": "2020-08-18T23:12:46.315Z",
-        "desc": "comment desc",
-        "name": "username",
+        "desc": "That could work but its more of a workaround than anything.",
+        "name": "user1",
         "_id": "1"
     },
     {
         "created": "2020-08-18T23:12:46.315Z",
-        "desc": "comment desc",
-        "name": "username",
+        "desc": "Ah, I see, well in that case why not just change it from number to string?",
+        "name": "user2",
         "_id": "2"
     },
     {
         "created": "2020-08-18T23:12:46.315Z",
-        "desc": "comment desc",
-        "name": "username",
+        "desc": "In that case I'll also have to edit residual code that is related to the Schema changing.",
+        "name": "user1",
         "_id": "3"
     },
     {
         "created": "2020-08-18T23:12:46.315Z",
-        "desc": "comment desc",
-        "name": "username",
+        "desc": "Can mongoose only index text or is there an option you can pass in when indexing to include numbers?",
+        "name": "user3",
         "_id": "4"
     }
 ]

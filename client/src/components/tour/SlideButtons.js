@@ -4,7 +4,7 @@ import { PrevIcon, NextIcon } from './Icons'
 
 const SlideButtons = ({ exit, prev, next, prevDisabled, nextDisabled }) => {
     return (
-        <div className="slideButtons">
+        <div className="slideButtons border shadow rounded">
             <div className="close float-left p-2" onClick={exit}>
                 <span>&times;</span>
             </div>

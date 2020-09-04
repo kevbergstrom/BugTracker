@@ -34,7 +34,8 @@ const BugPage = ({
                     </p>
                     <p>
                         Project:
-                        <Link to={`/project/${project._id}`}>&nbsp;{project.title}</Link>
+                        {!fake ? <Link to={`/project/${project._id}`}>&nbsp;{project.title}</Link>
+                        : <a href="#!">&nbsp;{project.title}</a>}
                     </p>
                     <p>{desc}</p>
 

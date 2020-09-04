@@ -1,13 +1,13 @@
 [   
     {
         "message":{
-            "title":"Welcome to the virtual tour",
+            "title":"Welcome to the BugTracker virtual tour",
             "text":"Use ICON_NEXT to go forward and ICON_PREV to visit previous slides. You can exit this tour anytime by pressing ICON_EXIT"
         }
     },
     {
         "message":{
-            "title":"BugTracker",
+            "title":"LOGO_SMALL BugTracker",
             "text":"Explanation"
         }
     },
@@ -26,7 +26,11 @@
         }
     },
     {
-        "page": "projects"
+        "page": "projects",
+        "message":{
+            "title":"ICON_BIN Many Projects",
+            "text":"explanation"
+        }
     },
     {
         "page": "projects",
@@ -45,7 +49,11 @@
         }
     },
     {
-        "page": "project"
+        "page": "project",
+        "message":{
+            "title":"Project Page",
+            "text":"explanation"
+        }
     },
     {
         "page": "project",
@@ -67,7 +75,7 @@
         "page": "project",
         "selected": "membersButton",
         "tooltip": {
-            "title":"Members",
+            "title":"ICON_USER Members",
             "text":"tooltip text"
         }
     },
@@ -75,12 +83,16 @@
         "page": "project",
         "selected": "bugsButton",
         "tooltip": {
-            "title":"Bugs",
+            "title":"ICON_BUG Bugs",
             "text":"tooltip text"
         }
     },
     {
-        "page": "bugs"
+        "page": "bugs",
+        "message":{
+            "title":"ICON_BIN Bugs Page",
+            "text":"explanation"
+        }
     },
     {
         "page": "bugs",
@@ -100,7 +112,11 @@
     },
     {
         "page": "bug",
-        "stage": 0
+        "stage": 0,
+        "message":{
+            "title":"Bug Page",
+            "text":"explanation"
+        }
     },
     {
         "page": "bug",
@@ -116,7 +132,7 @@
         "stage": 0,
         "selected": "stageButton",
         "tooltip": {
-            "title":"Fix Bugs",
+            "title":"ICON_DANGER Fix Bugs",
             "text":"tooltip text"
         }
     },
@@ -125,7 +141,7 @@
         "stage": 1,
         "selected": "stageButton",
         "tooltip": {
-            "title":"Review Stage",
+            "title":"ICON_WARNING Review Stage",
             "text":"tooltip text"
         }
     },
@@ -134,7 +150,7 @@
         "stage": 2,
         "selected": "stageButton",
         "tooltip": {
-            "title":"Fixed Stage",
+            "title":"ICON_SUCCESS Fixed Stage",
             "text":"tooltip text"
         }
     },
@@ -152,7 +168,7 @@
         "stage": 2,
         "selected": "comment0",
         "tooltip": {
-            "title":"Collaborate",
+            "title":"ICON_USER Collaborate",
             "text":"tooltip text"
         }
     },
@@ -176,12 +192,16 @@
         "sidebar": true,
         "selected": "userIcon",
         "tooltip": {
-            "title":"Visit Your Profile",
+            "title":"ICON_USER Visit Your Profile",
             "text":"tooltip text"
         }
     },
     {
-        "page": "profile"
+        "page": "profile",
+        "message":{
+            "title":"Your Profile",
+            "text":"explanation"
+        }
     },
     {
         "page": "profile",
@@ -196,12 +216,16 @@
         "selected": "dashboardIcon",
         "sidebar": true,
         "tooltip": {
-            "title":"Visit Your Dashboard",
+            "title":"ICON_CAL Visit Your Dashboard",
             "text":"tooltip text"
         }
     },
     {
-        "page": "dashboard"
+        "page": "dashboard",
+        "message":{
+            "title":"Your Dashboard",
+            "text":"explanation"
+        }
     },
     {
         "page": "dashboard",
@@ -224,8 +248,65 @@
         "sidebar": "true",
         "selected": "projectsIcon",
         "tooltip": {
-            "title":"Joined Projects",
+            "title":"ICON_BIN Joined Projects",
             "text":"tooltip text"
+        }
+    },
+    {
+        "page": "dashboard",
+        "sidebar": "true",
+        "selected": "newProjectIcon",
+        "tooltip": {
+            "title":"ICON_NEW New Project",
+            "text":"tooltip text"
+        }
+    },
+    {
+        "page": "createProject",
+        "message": {
+            "title":"Creating Projects",
+            "text":"Desc"
+        }
+    },
+    {
+        "page": "createProject",
+        "selected": "privateButton",
+        "tooltip": {
+            "title":"Private Project Support",
+            "text":"tooltip text"
+        }
+    },
+    {
+        "page": "dashboard",
+        "sidebar": "true",
+        "selected": "bugIcon",
+        "tooltip": {
+            "title":"ICON_BUG Favorited Bugs",
+            "text":"tooltip text"
+        }
+    },
+    {
+        "page": "dashboard",
+        "sidebar": "true",
+        "selected": "invitesIcon",
+        "tooltip": {
+            "title":"ICON_MAIL Project Invites",
+            "text":"tooltip text"
+        }
+    },
+    {
+        "page": "dashboard",
+        "sidebar": "true",
+        "selected": "usersIcon",
+        "tooltip": {
+            "title":"ICON_NEW_USER View other Users",
+            "text":"tooltip text"
+        }
+    },
+    {
+        "message":{
+            "title":"That concludes the BugTracker virtual tour",
+            "text":"Thank you for touring this project. Press BUTTON_HOME to return to the main page"
         }
     }
 ]
