@@ -56,7 +56,7 @@ const EditBug = ({ match, history }) => {
             <Loader loading={loading}>
                 <div className="container-fluid">
                     <div className="container-fluid  contentColor shadow rounded border">
-                        <h4><Link to={`/project/${match.params.projectId}`}>Project Name</Link> - Create Bug</h4>
+                        <h4>Create Bug</h4>
                         <hr/>
                         <form onSubmit={e => submitBug(e)}>
                             <div className="form-group">

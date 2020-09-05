@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
 import ProfilePage from './ProfilePage'
 import InviteModal from '../modals/InviteUser'
+import ErrorPage from '../errors/ErrorPage'
 
 const options = (ownerId, auth, setModal) => {
     if(!auth.user){
@@ -13,7 +15,7 @@ const options = (ownerId, auth, setModal) => {
     }
     // Check if the user is also the owner of the profile
     if(auth.user.userId === ownerId){
-        return <a className="btn btn-primary text-white">Edit</a>
+        return <Link className="btn btn-primary text-white" to={`/user/${auth.user.userId}/edit`}>Edit</Link>
     }else{
         return <a className="btn btn-success text-white" onClick={() => setModal(true)}>Invite</a>
     }
@@ -48,7 +50,8 @@ const Profile = ({ match, auth }) => {
                             {...user} 
                             options={options(user._id, auth, setModal)}
                             userId={match.params.id}/>
-                    : <p>couldnt load this user</p>}
+                    : <ErrorPage>Couldn't load profile</ErrorPage>
+                    }
                 </Loader>
             </SidebarPage>
         </>

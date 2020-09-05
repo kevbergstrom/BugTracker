@@ -9,6 +9,7 @@ const { SESSION_NAME } = require('../config')
 
 const User = require('../models/User')
 const Bug = require('../models/Bug')
+const Profile = require('../models/Profile')
 
 const USERS_PER_PAGE = 20
 const INVITES_PER_PAGE = 20
@@ -175,6 +176,35 @@ router.get('/:id', async (req, res) => {
         res.send(foundUser)
     } catch (err) {
         res.status(400)
+    }
+})
+
+// Edit user profile
+router.put('/profile', async (req, res) => {
+    try {
+        const userId = req.session.user.userId
+        const foundUser = await User.findById(userId)
+        const { desc } = req.body
+        // user does not have a profile
+        if(!foundUser.profile){
+            const newProfile = new Profile({ desc })
+            // Save user to db
+            await newProfile.save()
+            await User.updateOne(
+                {_id: userId}, 
+                { profile: newProfile.id}
+            )
+        }else{
+            const profileId = foundUser.profile
+            await Profile.updateOne(
+                {_id: profileId}, 
+                { desc: desc}
+            )
+        }
+        res.send(desc)
+    } catch (err) {
+        res.status(400).send(err.message)
+        console.log(err)
     }
 })
 
