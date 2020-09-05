@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { createPopper } from '@popperjs/core';
 
 import Navbar from '../navigation/Navbar'
@@ -15,7 +15,6 @@ const maxPosition = tourCommands.length-1
 const Tour = ({ history, ...props }) => {
     const [page, setPage] = useState('dashboard')
     const [pos, setPos] = useState(0)
-    const [selected, setSelected] = useState('logoutIcon')
     const [sidebar, setSidebar] = useState(false)
     const [tooltip, setTooltip] = useState()
     const [message, setMessage] = useState()
@@ -43,7 +42,6 @@ const Tour = ({ history, ...props }) => {
 
     const updateTooltip = (select, tool) => {
         // Update hooks
-        setSelected(select)
         setTooltip({...tool})
         // Search for the correct html elements
         const icon = document.querySelector(`#${select}`);
@@ -59,7 +57,7 @@ const Tour = ({ history, ...props }) => {
         }
     }
 
-    const updateState = directions => {
+    const updateState = useCallback( directions => {
         if(!directions){
             return
         }
@@ -79,7 +77,6 @@ const Tour = ({ history, ...props }) => {
         }else{
             setMessage(null)
         }
-        setSelected(selected)
         if(tooltip){
             setTooltip({...tooltip})
             updateTooltip(selected, tooltip)
@@ -89,12 +86,12 @@ const Tour = ({ history, ...props }) => {
         setSidebar(sidebar || false)
         setStage(stage)
         setPage(page)
-    }
+    },[])
 
     useEffect(() => {
         // Start the first part of the tour
         updateState(tourCommands[0])
-    },[])
+    },[updateState])
 
     return (
         <>

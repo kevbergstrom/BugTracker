@@ -30,7 +30,7 @@ const CreateProject = props => {
                                 <button className="btn btn-primary">Add</button>
                             </div>
                             {technologies.map((t, i) => 
-                                <a  key={i} className="badge badge-primary text-white">{t}</a>
+                                <a href="#!" key={i} className="badge badge-primary text-white">{t}</a>
                             )}
                         </div>
                         <div className="form-group">

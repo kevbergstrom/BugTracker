@@ -25,7 +25,7 @@ const joinProject = async (projectId, history) => {
 const removeInvite = async (projectId, invites, setInvites) => {
     try {
         await axios.delete(`/api/user/invites/${projectId}`)
-        setInvites(invites.filter(inv => inv._id != projectId))
+        setInvites(invites.filter(inv => inv._id !== projectId))
     } catch (err) {
         console.log(err)
     }
@@ -34,8 +34,8 @@ const removeInvite = async (projectId, invites, setInvites) => {
 const generateOptions = (projectId, history, invites, setInvites) => {
     return (
         <>
-            <a className="btn btn-primary text-white" onClick={() => joinProject(projectId, history)}>Join</a>
-            <a className="btn btn-danger text-white float-right" onClick={() => removeInvite(projectId, invites, setInvites)}>Remove</a>
+            <button className="btn btn-primary text-white" onClick={() => joinProject(projectId, history)}>Join</button>
+            <button className="btn btn-danger text-white float-right" onClick={() => removeInvite(projectId, invites, setInvites)}>Remove</button>
         </>
     )
 }

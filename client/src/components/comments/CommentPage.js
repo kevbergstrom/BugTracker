@@ -64,7 +64,7 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
                         {error ? <ErrorBar>{error}</ErrorBar> : null}
                         <div className="text-center">
                             {!fake ? <button className="btn btn-success text-white">Submit</button>
-                            : <a className="btn btn-success text-white">Submit</a>}
+                            : <a href="#!" className="btn btn-success text-white">Submit</a>}
                         </div>
                     </form>
                 </>

@@ -55,7 +55,7 @@ const BugSearch = ({ match, history, location }) => {
             }
             setLoading(false)
         })()
-    },[location.search])
+    },[location.search, match.params.id])
 
     return (
         <SidebarPage>

@@ -11,6 +11,7 @@ import ErrorPage from '../errors/ErrorPage'
 
 
 const options = (auth, ownerId, projectId, setModal) => {
+    console.log(auth.user, ownerId)
     if(!auth.user){
         return
     }
@@ -40,7 +41,7 @@ const leaveProject = async (auth, projectId, setJoined, project, setProject) => 
         setJoined(false)
         setProject({
             ...project,
-            members: project.members.filter(user => user._id != auth.user.userId)
+            members: project.members.filter(user => user._id !== auth.user.userId)
             })
     } catch (err) {
         console.log(err)
@@ -51,13 +52,14 @@ const membershipOptions = (auth, ownerId, projectId, joined, setJoined, project,
     if(!auth.user){
         return
     }
+    // The owner cannot leave the project
     if(auth.user.userId === ownerId){
         return
     }
     if(joined){
-        return <a className="btn btn-danger text-white" onClick={() => leaveProject(auth, projectId, setJoined, project, setProject)}>Leave</a>
+        return <button className="btn btn-danger text-white" onClick={() => leaveProject(auth, projectId, setJoined, project, setProject)}>Leave</button>
     }else{
-        return <a className="btn btn-primary text-white" onClick={() => joinProject(projectId, setJoined)}>Join</a>
+        return <button className="btn btn-primary text-white" onClick={() => joinProject(projectId, setJoined)}>Join</button>
     }
 }
 

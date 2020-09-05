@@ -42,7 +42,7 @@ const ProjectPreview = ({
                 </p>
                 <p>{`${desc.slice(0,DESC_LENGTH)}${desc.length>0 && desc.length>DESC_LENGTH ? '...' : ''}`}</p>
                 {!fake ? <Link className="btn btn-primary text-white" to={`/project/${_id}`}>View</Link>
-                : <a className="btn btn-primary text-white">View</a>}
+                : <button className="btn btn-primary text-white">View</button>}
             </div>
         </div>
     )

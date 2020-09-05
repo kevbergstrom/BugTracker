@@ -17,7 +17,7 @@ const options = (ownerId, auth, setModal) => {
     if(auth.user.userId === ownerId){
         return <Link className="btn btn-primary text-white" to={`/user/${auth.user.userId}/edit`}>Edit</Link>
     }else{
-        return <a className="btn btn-success text-white" onClick={() => setModal(true)}>Invite</a>
+        return <button className="btn btn-success text-white" onClick={() => setModal(true)}>Invite</button>
     }
 }
 

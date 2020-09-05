@@ -42,7 +42,7 @@ const EditProject = ({ match, history }) => {
                 desc,
                 languages: technologies
             })
-            const res = await axios.put(`/api/project/${match.params.id}`, body, config)
+            await axios.put(`/api/project/${match.params.id}`, body, config)
             history.push(`/project/${match.params.id}`)
         } catch (err) {
             setError(err.response.data)
@@ -94,7 +94,7 @@ const EditProject = ({ match, history }) => {
                                     <button onClick={addTech} className="btn btn-primary">Add</button>
                                 </div>
                                 {technologies.map((t, i) => 
-                                    <a onClick={() => removeTech(t)} key={i} className="badge badge-primary text-white">{t}</a>
+                                    <a href="#!" onClick={() => removeTech(t)} key={i} className="badge badge-primary text-white">{t}</a>
                                 )}
                             </div>
                             <div className="form-group">

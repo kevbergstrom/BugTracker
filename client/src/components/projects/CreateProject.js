@@ -77,7 +77,7 @@ const CreateProject = ({ history }) => {
                                 <button onClick={addTech} className="btn btn-primary">Add</button>
                             </div>
                             {technologies.map((t, i) => 
-                                <a onClick={() => removeTech(t)} key={i} className="badge badge-primary text-white">{t}</a>
+                                <button onClick={() => removeTech(t)} key={i} className="badge badge-primary text-white">{t}</button>
                             )}
                         </div>
                         <div className="form-group">

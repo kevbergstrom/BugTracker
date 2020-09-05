@@ -7,8 +7,7 @@ const user = {
 }
 
 const options = () => {
-    return <a id="inviteButton" className="btn btn-success text-white" >Invite</a>
-
+    return <a id="inviteButton" className="btn btn-success text-white" href="#!">Invite</a>
 }
 
 const Profile = props => {

@@ -47,7 +47,7 @@ const Dashboard = props => {
                         : null}
                         <div className="d-flex justify-content-between">
                             <h4>View profile</h4>
-                            <a className='btn btn-primary text-white'>View</a>
+                            <button className='btn btn-primary text-white'>View</button>
                         </div>
                     </div>
                 </div>

@@ -41,11 +41,11 @@ const Bug = ({ match, history, auth }) => {
     const controls = () => {
         switch(stage){
             case 0:
-                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to testing</a>
+                return <button className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to testing</button>
             case 1:
-                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to fixed</a>
+                return <button className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to fixed</button>
             case 2:
-                return <a className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(0)}>Reopen</a>
+                return <button className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(0)}>Reopen</button>
             default:
                 return <p></p>
         }

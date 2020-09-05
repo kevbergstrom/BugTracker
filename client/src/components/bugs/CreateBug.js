@@ -37,7 +37,7 @@ const CreateBug = ({ match, history }) => {
         <SidebarPage>
                 <div className="container-fluid">
                     <div className="container-fluid  contentColor shadow rounded border">
-                        <h4><a href="#">Project Name</a> - Create Bug</h4>
+                        <h4>Create Bug</h4>
                         <hr/>
                         <form onSubmit={e => submitBug(e)}>
                             <div className="form-group">

@@ -15,13 +15,13 @@ const Bug = ({ stage }) => {
     const controls = () => {
         switch(stage){
             case 0:
-                return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to testing</a>
+                return <a href="#!" id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to testing</a>
             case 1:
-                return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to fixed</a>
+                return <a href="#!" id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to fixed</a>
             case 2:
-                return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Reopen</a>
+                return <a href="#!" id='stageButton' className={`btn favBtn-${stage} text-white`}>Reopen</a>
             default:
-                return <a id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to testing</a>
+                return <a href="#!" id='stageButton' className={`btn favBtn-${stage} text-white`}>Move to testing</a>
         }
     }
 

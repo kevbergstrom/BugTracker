@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { logout } from '../../actions/auth'
 
 import {     
     UserIcon,
@@ -24,7 +23,7 @@ const Sidebar = ({ username, userId , logout, open, close, fake, hidden }) => {
                                 <span id='userIcon'>
                                     <UserIcon/>
                                     {!fake ? <Link className="lightText" to={`/user/${userId}`}>{username}</Link>
-                                    : <a className="lightText">{username}</a> }
+                                    : <a href="#!" className="lightText">{username}</a> }
                                 </span>
                                 <button className="close lightText" onClick={close}>
                                     <span>&times;</span>

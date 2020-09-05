@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
 
 import SidebarPage from '../layout/SidebarPage'
 import Loader from '../layout/Loader'
 import ErrorBar from '../errors/ErrorBar'
-import auth from '../../reducers/auth'
 
 const EditProfile = ({ match, history }) => {
     const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState()
     const [desc, setDesc] = useState('')
     const [error, setError] = useState()
 
@@ -39,7 +36,6 @@ const EditProfile = ({ match, history }) => {
         (async ()=>{
             try {
                 const res = await axios.get(`/api/user/${match.params.id}`)
-                setUser(res.data)
                 const { profile } = res.data
                 if(profile){
                     setDesc(profile.desc)
