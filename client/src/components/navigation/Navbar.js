@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 
-const options = (isAuthenticated, fake) =>{
+const options = (isAuthenticated, logout, fake) =>{
     if(fake){
         return (
             <>
@@ -19,7 +19,7 @@ const options = (isAuthenticated, fake) =>{
     let output = []
 
     if(isAuthenticated){
-        output.push(<a className="nav-link darkText" onClick={logout} href="#!"><h6>Logout</h6></a>)
+        output.push(<a href="#!" className="nav-link darkText" onClick={logout} ><h6>Logout</h6></a>)
         output.push(<Link className="nav-link darkText" to="/dashboard"><h6>Dashboard</h6></Link>)
     }else{
         output.push(<Link className="nav-link darkText" to="/signup"><h6>Sign up</h6></Link>)
@@ -44,7 +44,7 @@ const Navbar = ({ isAuthenticated, logout, openSidebar, fake }) => {
             <Link className="nav-link darkText" to="/"><h6>BugTracker</h6></Link>
             <ul className="navbar-nav mr-auto">
             </ul>
-            {options(isAuthenticated, fake)}
+            {options(isAuthenticated, logout, fake)}
           </nav>
     )
 }

@@ -83,6 +83,7 @@ export const signup = (username, email, password) => async dispatch => {
 }
 
 export const logout = () => async dispatch => {
+    console.log('yeah')
     dispatch({
         type: LOGOUT
     })
