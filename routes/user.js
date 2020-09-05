@@ -4,6 +4,7 @@ const { checkAuth, noAuth } = require('../middleware/auth')
 const { setSession, destroySession } = require('../session')
 const { validateUser } = require('../validation/account')
 const { paginateList } = require('../database/utils')
+const { validateProfile } = require('../validation/profile')
 
 const { SESSION_NAME } = require('../config')
 
@@ -182,9 +183,12 @@ router.get('/:id', async (req, res) => {
 // Edit user profile
 router.put('/profile', async (req, res) => {
     try {
+        // Find user
         const userId = req.session.user.userId
         const foundUser = await User.findById(userId)
+        // Validate profile
         const { desc } = req.body
+        validateProfile(desc)
         // user does not have a profile
         if(!foundUser.profile){
             const newProfile = new Profile({ desc })
