@@ -14,6 +14,7 @@ import {
 } from '../navigation/Icons'
 import { DangerIcon, WarningIcon, SuccessIcon } from '../bugs/Icons'
 
+// Icon mappings from JSON to components
 const IconMap = {
     'ICON_PREV': <PrevIcon/>,
     'ICON_NEXT': <NextIcon/>,

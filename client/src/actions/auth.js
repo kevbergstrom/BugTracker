@@ -79,7 +79,6 @@ export const signup = (username, email, password) => async dispatch => {
             type: SIGNUP_FAIL,
             payload: err.response.data
         })
-        console.log(err.response.data)
     }
 }
 

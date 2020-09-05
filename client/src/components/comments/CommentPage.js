@@ -13,6 +13,7 @@ const options = (auth, ownerId, commentId, setModal, setCommentId) => {
     if(auth.user.userId !== ownerId){
         return
     }
+    //Check if the user is also the owner of the comment
     return(
         <div className="text-right">
             <button tabIndex='-1' className="btn btn-danger text-white" onClick={() => {setCommentId(commentId);setModal(true)}}>Delete</button>

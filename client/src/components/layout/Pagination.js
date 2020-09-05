@@ -24,6 +24,7 @@ const Pagination = ({ currentPage, pageOptions, totalPages, generateURL }) => {
     const prevLink = (currentPage) =>{
         let linkClass = "page-item"
         let linkClick = ""
+        // Set disabled
         if(parseInt(currentPage) === 1){
             linkClass += " disabled"
         } else {
@@ -45,6 +46,7 @@ const Pagination = ({ currentPage, pageOptions, totalPages, generateURL }) => {
     const nextLink = (currentPage, totalPages) =>{
         let linkClass = "page-item"
         let linkClick = ""
+        // Set disabled
         if(parseInt(currentPage) === parseInt(totalPages)){
             linkClass += " disabled"
         } else {

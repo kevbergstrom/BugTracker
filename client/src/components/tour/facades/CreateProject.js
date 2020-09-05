@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-
-import ErrorBar from '../../errors/ErrorBar'
+import React from 'react'
 
 const technologies=['C++','Java','SQL']
 

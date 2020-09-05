@@ -16,7 +16,6 @@ const initialState = {
 export default function(state = initialState, action) {
     const { type, payload } = action
 
-    // case USER_LOADED
     switch(type) {
         case LOGIN_SUCCESS:
         case SIGNUP_SUCCESS:

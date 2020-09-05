@@ -15,7 +15,7 @@ const EditBug = ({ match, history }) => {
     const submitBug = async e => {
         e.preventDefault()
         try {
-
+            // Construct request parameters
             const config = {
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,10 +25,11 @@ const EditBug = ({ match, history }) => {
                 title,
                 desc
             })
-
             const projectId = match.params.projectId
             const bugId = match.params.bugId
+             // Send request
             await axios.put(`/api/project/${projectId}/bug/${bugId}`, body, config)
+            // Visit the edited bug
             history.push(`/project/${projectId}/bug/${bugId}`)
         } catch (err) {
             setError(err.response.data)

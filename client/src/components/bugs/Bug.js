@@ -19,6 +19,7 @@ const options = (auth, ownerId, projectId, bugId, setModal) => {
     if(auth.user.userId !== ownerId){
         return
     }
+    // Check if the user is also the owner of the project
     return(
         <div className="d-flex justify-content-between">
             <Link className="btn btn-primary text-white" to={`/project/${projectId}/bug/${bugId}/edit`}>Edit</Link>
@@ -78,10 +79,12 @@ const Bug = ({ match, history, auth }) => {
     useEffect(()=>{
         (async () => {
             try {
+                // Get arguments
                 const projectId = match.params.projectId
                 const bugId = match.params.bugId
-                // get bug data
+                // Get bug data
                 const res = await axios.get(`/api/project/${projectId}/bug/${bugId}`)
+                // Set bug data
                 setBug(res.data)
                 setStage(res.data.stage)
             } catch (err) {
@@ -90,15 +93,18 @@ const Bug = ({ match, history, auth }) => {
             setLoading(false)
         })()
     },[match.params.projectId, match.params.bugId])
+
     // Comments loading
     useEffect(()=>{
         (async () => {
             try {
+                // Get arguments
                 const projectId = match.params.projectId
                 const bugId = match.params.bugId
-                //get comment data
+                // Get comment data
                 const commentPage = match.params.page || 1
                 const cres = await axios.get(`/api/project/${projectId}/bug/${bugId}/comment/results/${commentPage}`)
+                // Set comment data
                 setComments(cres.data.comments)
                 setTotalPages(cres.data.totalPages)
             } catch (err) {

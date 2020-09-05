@@ -45,9 +45,10 @@ const Tour = ({ history, ...props }) => {
         // Update hooks
         setSelected(select)
         setTooltip({...tool})
-        // Create tooltip
+        // Search for the correct html elements
         const icon = document.querySelector(`#${select}`);
         const tooltip = document.querySelector('#tooltip');
+        // Create tooltip
         if(icon){
             icon.scrollIntoView({block: 'center'})
             if(tooltip){
@@ -57,6 +58,7 @@ const Tour = ({ history, ...props }) => {
             }
         }
     }
+
     const updateState = directions => {
         if(!directions){
             return
@@ -70,7 +72,7 @@ const Tour = ({ history, ...props }) => {
             page,
             stage
         } = directions
-
+        // Set hooks
         if(message){
             setMessage({...message})
             window.scrollTo(0,0)
@@ -90,6 +92,7 @@ const Tour = ({ history, ...props }) => {
     }
 
     useEffect(() => {
+        // Start the first part of the tour
         updateState(tourCommands[0])
     },[])
 

@@ -38,11 +38,15 @@ const BugSearch = ({ match, history, location }) => {
     useEffect(()=>{
         (async () => {
             try {
+                // Set query data
                 const params = new URLSearchParams(location.search)
                 setQuery(params.get('q'))
                 setPage(params.get('page'))
+                // Get arguments
                 const projectId = match.params.id
+                // Send search
                 const res = await axios.get(`/api/project/${projectId}/bug/bugs/search${location.search}`)
+                // Set search results data
                 setBugs(res.data.bugs)
                 setTotalPages(res.data.totalPages)
                 setTitle(res.data.title)

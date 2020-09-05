@@ -25,6 +25,7 @@ const generatePage = page => {
 const Pages = ({ page, ...props }) => {
     let newPage = generatePage(page)
     if(newPage){
+        // Insert the props into the new cloned element
         return React.cloneElement(newPage, {...props})
     }
     return newPage

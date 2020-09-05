@@ -11,6 +11,7 @@ const options = (ownerId, auth, setModal) => {
     if(!auth.user){
         return
     }
+    // Check if the user is also the owner of the profile
     if(auth.user.userId === ownerId){
         return <a className="btn btn-primary text-white">Edit</a>
     }else{

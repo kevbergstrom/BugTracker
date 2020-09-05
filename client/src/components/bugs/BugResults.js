@@ -32,9 +32,12 @@ const BugResults = ({ match, history }) => {
     useEffect(()=>{
         (async () => {
             try {
+                // Get arguments
                 const projectId = match.params.id
                 const page = match.params.page
+                // Get bug data
                 const res = await axios.get(`/api/project/${projectId}/bug/results/${page}`)
+                // Set bug data
                 setBugs(res.data.bugs)
                 setTotalPages(res.data.totalPages)
                 setTitle(res.data.title)

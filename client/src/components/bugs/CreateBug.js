@@ -12,6 +12,7 @@ const CreateBug = ({ match, history }) => {
     const submitBug = async e => {
         e.preventDefault()
         try {
+            // Construct request parameters
             const config = {
                 headers: {
                     'Content-Type': 'application/json'
@@ -22,6 +23,7 @@ const CreateBug = ({ match, history }) => {
                 desc
             })
             const id = match.params.id
+            // Send request
             const res = await axios.post(`/api/project/${id}/bug`, body, config)
             // Visit the newly created bug
             const newBugId = res.data._id

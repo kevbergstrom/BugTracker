@@ -17,6 +17,7 @@ const options = (auth, ownerId, projectId, setModal) => {
     if(auth.user.userId !== ownerId){
         return
     }
+    // Check if the user is also the owner of the project
     return(
         <div className="d-flex justify-content-between">
             <Link className="btn btn-primary text-white" to={`/project/${projectId}/edit`}>Edit</Link>
