@@ -31,14 +31,15 @@ const About = props => {
                         </div>
                         <hr/>
                         <p>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium maxime libero dolore. Repudiandae ullam provident nulla facere, similique ut ea!
-                        </p>
-                        <div className="d-flex justify-content-between">
-                            <h4>Features</h4>
-                        </div>
-                        <hr/>
-                        <p>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut placeat illum nulla nemo laudantium corporis labore iure voluptas tempore ipsum!
+                            I made this app to help keep track of bugs in my programming projects.
+                            This is more of a proof of concept than a fully fledged app.
+                            The goal was to have a more simplified approach to bug tracking.
+                            It uses a project focused model where projects work as groups with users as the members.
+                            The members then have access to the project's bugs and can discuss and fix them through individual comment boards.
+                            There was always supposed to be a social element to it, a way for group projects to be possible.
+                            Features like inviting and searching hopefully allow for a better group project experience.
+                            The backend was built using Nodejs and Express. The frontend was built using
+                            React and a few npm packages. All data from the app is stored in a MongoDB database.
                         </p>
                     </div>
                 </div>
