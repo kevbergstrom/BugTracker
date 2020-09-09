@@ -25,9 +25,11 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
     const [modal, setModal] = useState(false)
     const [commentId, setCommentId] = useState()
     const [error, setError] = useState()
+    const [waiting, setWaiting] = useState(false)
 
     const submit = async e => {
         e.preventDefault()
+        setWaiting(true)
         try {
             const config = {
                 headers: {
@@ -41,6 +43,7 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
         } catch (err) {
             setError(err.response.data)
         }
+        setWaiting(false)
     } 
 
     return(
@@ -63,7 +66,7 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
                         </div>
                         {error ? <ErrorBar>{error}</ErrorBar> : null}
                         <div className="text-center">
-                            {!fake ? <button className="btn btn-success text-white">Submit</button>
+                            {!fake ? <button className={`btn btn-success text-white`} disabled={waiting}>Submit</button>
                             : <a href="#!" className="btn btn-success text-white">Submit</a>}
                         </div>
                     </form>

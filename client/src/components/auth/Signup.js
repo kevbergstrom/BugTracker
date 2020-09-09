@@ -10,10 +10,13 @@ const Signup = ({ isAuthenticated, signup, error }) => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [waiting, setWaiting] = useState(false)
 
     const onSubmit = async e =>{
         e.preventDefault()
+        setWaiting(true)
         signup(username, email, password)
+        setWaiting(false)
     }
 
     if(isAuthenticated){
@@ -46,7 +49,7 @@ const Signup = ({ isAuthenticated, signup, error }) => {
                                 </div>
                                 {error ? <ErrorBar>{error}</ErrorBar> : null}
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-primary">Sign up</button>
+                                    <button type="submit" className={`btn btn-primary`} disabled={waiting}>Sign up</button>
                                 </div>
                             </form>
                         </div>

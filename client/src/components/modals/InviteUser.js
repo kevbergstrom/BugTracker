@@ -4,26 +4,29 @@ import Modal from './Modal'
 
 import Loader from '../layout/Loader'
 
-const inviteUser = async (userId, projectId) => {
+const inviteButton = (userId, projectId, title, closeModal, waiting, setWaiting) => {
+    return (
+            <div key={projectId} className="container-fluid d-flex justify-content-between">
+                <p>{title}</p>
+                <button className={`btn btn-success `} disabled={waiting} onClick={() => {inviteUser(userId, projectId);closeModal()}}>Invite</button>
+            </div>
+    )
+}
+
+const inviteUser = async (userId, projectId, setWaiting) => {
+    setWaiting(true)
     try {
         await axios.post(`/api/project/${projectId}/invite/${userId}`)
     } catch (err) {
         console.log(err)
     }
-}
-
-const inviteButton = (userId, projectId, title, closeModal) => {
-    return (
-            <div key={projectId} className="container-fluid d-flex justify-content-between">
-                <p>{title}</p>
-                <button className='btn btn-success' onClick={() => {inviteUser(userId, projectId);closeModal()}}>Invite</button>
-            </div>
-    )
+    setWaiting(false)
 }
 
 const InviteUser = ({ userId, closeModal }) => {
     const [loading, setLoading] = useState(true)
     const [projects, setProjects] = useState()
+    const [waiting, setWaiting] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -46,7 +49,7 @@ const InviteUser = ({ userId, closeModal }) => {
             <Loader loading={loading}>
                 {projects ?
                     <div className="container-fluid modalScrollBox">
-                        {projects.map(proj => inviteButton(userId, proj._id, proj.title, closeModal))}
+                        {projects.map(proj => inviteButton(userId, proj._id, proj.title, closeModal, waiting, setWaiting))}
                     </div>
                 : null }
             </Loader>

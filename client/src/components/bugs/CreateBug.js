@@ -8,9 +8,11 @@ const CreateBug = ({ match, history }) => {
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
     const [error, setError] = useState()
+    const [waiting, setWaiting] = useState(false)
 
     const submitBug = async e => {
         e.preventDefault()
+        setWaiting(true)
         try {
             // Construct request parameters
             const config = {
@@ -31,6 +33,7 @@ const CreateBug = ({ match, history }) => {
         } catch (err) {
             setError(err.response.data)
         }
+        setWaiting(false)
     }
 
     return(
@@ -49,7 +52,7 @@ const CreateBug = ({ match, history }) => {
                                 <textarea value={desc} onChange={e => setDesc(e.target.value)} className="form-control inputColor" rows="3"></textarea>
                             </div>
                             {error ? <ErrorBar>{error}</ErrorBar> : null}
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button type="submit" className={`btn btn-primary`} disabled={waiting}>Submit</button>
                         </form>
                     </div>
                 </div>

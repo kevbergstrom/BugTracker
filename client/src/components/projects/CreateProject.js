@@ -12,6 +12,7 @@ const CreateProject = ({ history }) => {
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
     const [error, setError] = useState()
+    const [waiting, setWaiting] = useState(false)
 
     const addTech = e => {
         e.preventDefault()
@@ -27,6 +28,7 @@ const CreateProject = ({ history }) => {
 
     const submitProject = async e => {
         e.preventDefault()
+        setWaiting(true)
         try {
             const config = {
                 headers: {
@@ -47,6 +49,7 @@ const CreateProject = ({ history }) => {
         } catch (err) {
             setError(err.response.data)
         }
+        setWaiting(false)
     }
 
     return(
@@ -77,7 +80,7 @@ const CreateProject = ({ history }) => {
                                 <button onClick={addTech} className="btn btn-primary">Add</button>
                             </div>
                             {technologies.map((t, i) => 
-                                <button onClick={() => removeTech(t)} key={i} className="badge badge-primary text-white">{t}</button>
+                                <button onClick={() => removeTech(t)} key={i} className="btn badge badge-primary text-white">{t}</button>
                             )}
                         </div>
                         <div className="form-group">
@@ -85,7 +88,7 @@ const CreateProject = ({ history }) => {
                             <textarea value={desc} onChange={e => setDesc(e.target.value)} name="desc" className="form-control inputColor" rows="3"></textarea>
                         </div>
                         {error ? <ErrorBar>{error}</ErrorBar> : null}
-                        <button type="submit" className="btn btn-primary">Create Project</button>
+                        <button type="submit" className={`btn btn-primary`} disabled={waiting}>Create Project</button>
                     </form>
                 </div>
             </div>

@@ -14,6 +14,7 @@ const EditProject = ({ match, history }) => {
     const [technologies, setTechnologies] = useState([])
     const [desc, setDesc] = useState('')
     const [error, setError] = useState()
+    const [waiting, setWaiting] = useState(false)
 
     const addTech = e => {
         e.preventDefault()
@@ -29,6 +30,7 @@ const EditProject = ({ match, history }) => {
 
     const submitProject = async e => {
         e.preventDefault()
+        setWaiting(true)
         try {
             const config = {
                 headers: {
@@ -47,6 +49,7 @@ const EditProject = ({ match, history }) => {
         } catch (err) {
             setError(err.response.data)
         }
+        setWaiting(false)
     }
 
     useEffect(() => {
@@ -102,7 +105,7 @@ const EditProject = ({ match, history }) => {
                                 <textarea value={desc} onChange={e => setDesc(e.target.value)} name="desc" className="form-control inputColor" rows="3"></textarea>
                             </div>
                             {error ? <ErrorBar>{error}</ErrorBar> : null}
-                            <button type="submit" className="btn btn-primary">Update Project</button>
+                            <button type="submit" className={`btn btn-success`} disabled={waiting}>Update Project</button>
                         </form>
                     </div>
                 </div>

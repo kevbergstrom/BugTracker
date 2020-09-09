@@ -10,10 +10,13 @@ import ErrorBar from '../errors/ErrorBar'
 const Login = ({ login, isAuthenticated, error }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [waiting, setWaiting] = useState(false)
 
     const onSubmit = async e => {
         e.preventDefault()
+        setWaiting(true)
         login(email, password)
+        setWaiting(false)
     }
 
     if(isAuthenticated){
@@ -41,7 +44,7 @@ const Login = ({ login, isAuthenticated, error }) => {
                                 </div>
                                 {error ? <ErrorBar>{error}</ErrorBar> : null}
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-primary">Login</button>
+                                    <button type="submit" className={`btn btn-primary`} disabled={waiting}>Login</button>
                                 </div>
                             </form>
                         </div>
