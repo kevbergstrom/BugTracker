@@ -39,6 +39,10 @@ const Bug = ({ match, history, auth }) => {
     const bugId = match.params.bugId
 
     const controls = () => {
+        if(!auth.user){
+            return <p></p>
+        }
+
         switch(stage){
             case 0:
                 return <button className={`btn favBtn-${stage} text-white`} onClick={() => upgradeStage(stage+1)}>Move to testing</button>
