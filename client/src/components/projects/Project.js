@@ -11,7 +11,6 @@ import ErrorPage from '../errors/ErrorPage'
 
 
 const options = (auth, ownerId, projectId, setModal) => {
-    console.log(auth.user, ownerId)
     if(!auth.user){
         return
     }

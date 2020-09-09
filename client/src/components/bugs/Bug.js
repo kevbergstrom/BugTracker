@@ -35,11 +35,12 @@ const Bug = ({ match, history, auth }) => {
     const [stage, setStage] = useState(0)
     const [ready, setReady] = useState(true)
     const [modal, setModal] = useState(false)
+    const [joined, setJoined] = useState(false)
     const projectId = match.params.projectId
     const bugId = match.params.bugId
 
     const controls = () => {
-        if(!auth.user){
+        if(!auth.user || !joined){
             return <p></p>
         }
 
@@ -91,6 +92,7 @@ const Bug = ({ match, history, auth }) => {
                 // Set bug data
                 setBug(res.data)
                 setStage(res.data.stage)
+                setJoined(res.data.joined)
             } catch (err) {
                 console.log(err)
             }
@@ -151,6 +153,7 @@ const Bug = ({ match, history, auth }) => {
                                     bugId={match.params.bugId}
                                     match={match}
                                     auth={auth}
+                                    joined={joined}
                                 />
                             </>
                         }

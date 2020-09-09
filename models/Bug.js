@@ -27,6 +27,7 @@ let bugSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Project'
     },
+    joined: { type: Boolean, default: false },
     comments: [
         {
             author: {

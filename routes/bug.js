@@ -5,7 +5,8 @@ const {
     getProjectById, 
     getBugById,
     checkUserPermission,
-    paginateList } = require('../database/utils')
+    paginateList,
+    checkMembership } = require('../database/utils')
 const { validateBug } = require('../validation/bug')
 
 const Project = require('../models/Project')
@@ -152,7 +153,7 @@ router.get('/:bugId', async (req, res) => {
         // Find the Bug
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
         // checkUserPermission(foundProject, req.session.user && req.session.user.userId)
-        
+
         // Remove comments
         foundBug.comments = []
 
@@ -160,6 +161,10 @@ router.get('/:bugId', async (req, res) => {
         if(req.session.user){
             let foundUser = await User.findById(req.session.user.userId)
             foundBug.favorited = foundUser.hasFavorite(req.params.bugId)
+            // Check if a member
+            if(checkMembership(foundProject, req.session.user.userId)){
+                foundBug.joined = true
+            }
         }
 
         res.send(foundBug)
@@ -240,7 +245,10 @@ router.put('/:bugId', checkAuth , async (req, res) => {
 router.put('/:bugId/stage', checkAuth, async (req, res) => {
     try {
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
-        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        if(!req.session.user){
+            throw new Error('You have to be logged in to do this')
+        }
+        checkUserPermission(foundProject, req.session.user.userId)
         foundBug.stage = req.body.stage
         foundBug.progress[req.body.stage] = {user: req.session.user.userId}
         await foundBug.save()
@@ -255,7 +263,10 @@ router.put('/:bugId/stage', checkAuth, async (req, res) => {
 router.delete('/:bugId', checkAuth, async (req, res) => {
     try {
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
-        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        if(!req.session.user){
+            throw new Error('You have to be logged in to do this')
+        }
+        checkUserPermission(foundProject, req.session.user.userId)
         // check user permission
         if(foundBug.author.id != req.session.user.userId){
             throw new Error('You dont have permission to edit this post')

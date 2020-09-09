@@ -20,7 +20,18 @@ const options = (auth, ownerId, commentId, setModal, setCommentId) => {
         </div>)
 }
 
-const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateURL, projectId, bugId, auth, match, fake }) => {
+const CommentPage = ({ 
+    comments, 
+    currentPage, 
+    pageOptions, 
+    totalPages, 
+    generateURL, 
+    projectId, 
+    bugId, 
+    auth, 
+    match, 
+    joined,
+    fake }) => {
     const [comment, setComment] = useState('') 
     const [modal, setModal] = useState(false)
     const [commentId, setCommentId] = useState()
@@ -57,7 +68,7 @@ const CommentPage = ({ comments, currentPage, pageOptions, totalPages, generateU
                 />
                 : null
             }
-            {auth.user &&
+            {(auth.user && joined) &&
                 <>
                     <h4>Add Comment</h4>
                     <form id="commentForm" onSubmit={e => submit(e)}>

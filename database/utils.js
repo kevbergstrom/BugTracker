@@ -33,6 +33,10 @@ const checkUserPermission = function(project, userId){
     }
 }
 
+const checkMembership = function(project, userId){
+    return project.members.indexOf(`${userId}`)>=0
+}
+
 const checkOwner = function(project, userId){
     if(project.owner.id != userId){
         throw new Error('You do not have permission to edit this project')
@@ -64,5 +68,6 @@ module.exports = {
     getCommentById,
     checkUserPermission,
     checkOwner,
-    paginateList
+    paginateList,
+    checkMembership
 }

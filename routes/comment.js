@@ -40,7 +40,10 @@ router.post('', checkAuth, async (req, res) => {
     try {
         // Find the Bug and Project
         let { foundBug, foundProject } = await getBugById(req.params.projectId, req.params.bugId)
-        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        if(!req.session.user){
+            throw new Error('You have to be logged in to do this')
+        }
+        checkUserPermission(foundProject, req.session.user.userId)
         // Get variables
         const { desc } = req.body
         const author = req.session.user.userId
@@ -67,7 +70,10 @@ router.post('', checkAuth, async (req, res) => {
 router.delete('/:commentId', checkAuth, async (req, res) => {
     try {
         let { foundComment, foundBug, foundProject } = await getCommentById(req.params.projectId, req.params.bugId, req.params.commentId)
-        checkUserPermission(foundProject, req.session.user && req.session.user.userId)
+        if(!req.session.user){
+            throw new Error('You have to be logged in to do this')
+        }
+        checkUserPermission(foundProject, req.session.user.userId)
         // check user permission
         if(foundComment.author != req.session.user.userId){
             throw new Error('You dont have permission to delete this comment')
