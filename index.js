@@ -28,6 +28,8 @@ console.log('Connected to database')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.set('trust proxy', 1)
+
 // session
 app.use(session({
     name: SESSION_NAME,
