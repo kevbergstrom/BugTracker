@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const path = require('path')
 
 const { userRoute, projectRoute, bugRoute, commentRoute } = require('./routes')
 
