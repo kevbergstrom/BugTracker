@@ -16,8 +16,8 @@ BugTracker is a React app for tracking bugs in projects. It is more of a proof o
 * Project and Bug Searching
 * Virtual Tour Mode
   
-To view a live demo, [click here](https://github.com)  
-To take a virtual tour, [click here](https://github.com)
+To view a live demo, [click here](https://nameless-harbor-79292.herokuapp.com)  
+To take a virtual tour, [click here](https://nameless-harbor-79292.herokuapp.com/tour)
 ## How To Use
 
 Install the frontend and backend directories using npm
