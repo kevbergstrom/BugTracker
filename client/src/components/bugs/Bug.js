@@ -28,7 +28,7 @@ const options = (auth, ownerId, projectId, bugId, setModal) => {
 }
 
 const Bug = ({ match, history, auth }) => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [bug, setBug] = useState()
     const [comments, setComments] = useState()
     const [totalPages, setTotalPages] = useState()
@@ -112,8 +112,6 @@ const Bug = ({ match, history, auth }) => {
             }
         })()
     },[match.params.projectId, match.params.bugId, match.params.page])
-
-    
 
     return(
         <>
