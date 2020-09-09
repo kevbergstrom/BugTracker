@@ -1,5 +1,8 @@
 # BugTracker
-![logo](logoFinal.png)
+<p align="center">
+  <img src="https://github.com/kevbergstrom/BugTracker/blob/master/logoFinal.png" alt="BugTracker" width="407px" height="277px" />
+</p>
+
 ## Description
 BugTracker is a React app for tracking bugs in projects. It is more of a proof of concept than a fully fledged app. BugTracker offers a more simplified approach to bug tracking. It uses a project focused model where projects work as groups with users as the members. The members then have access to the project's bugs and can discuss and fix them through individual comment boards.
 ## Features
