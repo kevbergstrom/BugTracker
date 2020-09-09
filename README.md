@@ -1,6 +1,6 @@
 # BugTracker
 <p align="center">
-  <img src="https://github.com/kevbergstrom/BugTracker/blob/master/logoFinal.png" alt="BugTracker" width="407px" height="277px" />
+  <img src="https://github.com/kevbergstrom/BugTracker/blob/master/logoFinal.png" alt="BugTracker" height="407px" width="277px" />
 </p>
 
 ## Description
