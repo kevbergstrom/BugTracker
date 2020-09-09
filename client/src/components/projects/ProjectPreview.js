@@ -35,7 +35,7 @@ const ProjectPreview = ({
                 </p>
                 {link && <p>
                     Project Link:
-                    <a href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
+                    <a className="wordWrap" href={confirmLink(link)}>&nbsp;{confirmLink(link)}</a>
                 </p>}
                 <p>
                 {languages.map((lang, i) => <span key={i} className="badge badge-primary">{lang}</span>)}
